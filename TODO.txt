@@ -1,0 +1,9 @@
+Hit above collision resolution
+Non starting sprite spawn
+tile collision for sprites
+Modified Colliders for states
+
+
+VBO Implementation
+
+For uneven frame size scale size: requires a second frame array for size
