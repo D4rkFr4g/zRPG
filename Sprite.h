@@ -41,6 +41,7 @@ public:
 	AABB prevCollider;
 	float prevPosX, prevPosY;
 	int type;
+   bool isColliderDrawn;
 
 private:
 	void initialize(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);

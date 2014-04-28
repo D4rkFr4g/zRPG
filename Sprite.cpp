@@ -63,6 +63,7 @@ void Sprite::initialize(GLuint texture, int x, int y, int width, int height, GLf
 	prevPosY = 0;
 	colliderXOffset = 0;
 	colliderYOffset = 0;
+   isColliderDrawn = false;
 }
 /*-----------------------------------------------*/
 void Sprite::draw(void)
@@ -86,6 +87,9 @@ void Sprite::draw(int camX, int camY)
 	*/
 
 	glDrawSprite(texture, x - camX, y - camY, width, height);
+   
+   if (isColliderDrawn)
+      drawCollider(camX, camY);
 }
 /*-----------------------------------------------*/
 void Sprite::drawUV(int camX, int camY)
@@ -114,6 +118,9 @@ void Sprite::drawUV(int camX, int camY)
 	}
 
 	glDrawSprite(texture, x - camX, y - camY, width, height, u, v, uSize, vSize);
+   
+   if (isColliderDrawn)
+      drawCollider(camX, camY);
 }
 /*-----------------------------------------------*/
 void Sprite::update(int ms)

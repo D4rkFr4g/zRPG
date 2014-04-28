@@ -38,7 +38,7 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	player.colliderXOffset = xOffset;
 	player.colliderYOffset = yOffset;
 	player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
-
+   player.isColliderDrawn = false;
 
 	int numFrames = 1;
 	int timeToNextFrame = 200;
