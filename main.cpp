@@ -461,7 +461,7 @@ static void loadLevel()
 			level->startY = level->tileArray[index].y;
 		}
 	}
-   
+  
    Event ev = Event(Event::ET_LEVEL_BEGIN, "level", 0);
    eventQueue.queueEvent(ev);
 }

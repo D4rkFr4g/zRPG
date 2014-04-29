@@ -40,6 +40,8 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
    player.isColliderDrawn = false;
 
+
+   // Animations
 	int numFrames = 1;
 	int timeToNextFrame = 200;
 
