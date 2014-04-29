@@ -6,7 +6,7 @@ class PlayerSprite :
 {
 public:
 	PlayerSprite(void);
-	PlayerSprite(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY, int health);
+	PlayerSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY, int health);
 	~PlayerSprite(void);
 
 	// Functions

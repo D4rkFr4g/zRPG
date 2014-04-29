@@ -25,6 +25,8 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerSprite.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="textureLoader.cpp" />
     <ClCompile Include="TileLevel.cpp" />
     <ClCompile Include="tileLoader.cpp" />
   </ItemGroup>
@@ -53,6 +55,8 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerSprite.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="textureLoader.h" />
     <ClInclude Include="TileLevel.h" />
     <ClInclude Include="tileLoader.h" />
   </ItemGroup>

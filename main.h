@@ -22,6 +22,8 @@
 #include "player.h"
 #include "Audio.h"
 #include "EventQueue.h"
+#include "Texture.h"
+#include "textureLoader.h"
 
 // Forward Declarations
 static void keyboard();
@@ -52,11 +54,9 @@ int g_windowMaxHeight = 0;
 Camera g_cam;
 TileLevel* g_currentLevel;
 std::unordered_map<std::string, TileLevel> g_level;
-//TileLevel g_level[g_numOfLevels];
 std::vector<std::vector<AnimatedSprite>> g_spriteBuckets;
 int* g_checkBuckets;
-GLuint spriteTexture;
-GLuint playerTexture;
+std::unordered_map<std::string, Texture> g_textures;
 unsigned char kbPrevState[SDL_NUM_SCANCODES] = {0};
 bool shouldExit = false;
 PlayerSprite g_player;

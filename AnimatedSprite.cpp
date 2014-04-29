@@ -5,7 +5,7 @@ AnimatedSprite::AnimatedSprite(void) : Sprite()
 {
 }
 /*-----------------------------------------------*/
-AnimatedSprite::AnimatedSprite(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
+AnimatedSprite::AnimatedSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
 	: Sprite(texture, x, y, width, height, tu, tv, tSizeX, tSizeY)
 {
 	this->curAnimation = AnimationData();

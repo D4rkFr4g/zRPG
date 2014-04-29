@@ -9,7 +9,7 @@ class AnimatedSprite :
 public:
 	// Constructors
 	AnimatedSprite(void);
-	AnimatedSprite(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
+	AnimatedSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
 	~AnimatedSprite(void);
 	
 	// Functions
