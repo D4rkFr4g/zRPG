@@ -12,6 +12,9 @@ public:
    DialogBox(int x, int y, int width, int height, std::string text, bool isBorderVisible);
    ~DialogBox(void);
    
+   // Functions
+   void display(void);
+
    // Variables
    static Texture* texture;
    int width;

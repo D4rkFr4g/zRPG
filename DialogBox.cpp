@@ -30,3 +30,14 @@ DialogBox::DialogBox(int x, int y, int width, int height, std::string text, bool
    this->text = text;
    isBorderVisible = isBorderVisible;
 }
+/*-----------------------------------------------*/
+void DialogBox::display(void)
+{
+
+   for (int i = 0; i < borderSprites.size(); i++)
+      borderSprites[i].drawUV(0,0);
+
+   for (int i = 0; i < fontSprites.size(); i++)
+      fontSprites[i].drawUV(0,0);
+}
+/*-----------------------------------------------*/
