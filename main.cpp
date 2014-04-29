@@ -193,23 +193,23 @@ static void initBuckets()
 /*-----------------------------------------------*/
 static void loadSprites()
 {
-	/* PURPOSE:		Loads images into textures for sprites to use 
-		RECEIVES:	 
-		RETURNS:		 
-		REMARKS:		Also creates and places sprites on map
+	/* PURPOSE:                Loads images into textures for sprites to use
+	RECEIVES:
+	RETURNS:
+	REMARKS:                Also creates and places sprites on map
 	*/
 
-	spriteTexture = glTexImageTGAFile("./Sprites/spriteSheet_chicken.tga", NULL, NULL);
-	int* width = new int;
-	int* height = new int;
-	playerTexture = glTexImageTGAFile("./Sprites/link_Sprites.tga", width, height);
+
+
+	textureLoader::loadTextures(&g_textures);
 
 	// Load the Initial chickens
 	for (int i = 0; i < initialChickens; i++)
 		makeChicken();
 
 	// Create and place player on map
-	g_player = player::makePlayer(playerTexture, *width, *height, &eventQueue);
+	Texture* tex = &g_textures["link"];
+	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &eventQueue);
 	int startX = g_currentLevel->startX;
 	int startY = g_currentLevel->startY - g_player.height;
 
@@ -227,7 +227,8 @@ static void makeChicken()
 	int x = rand() % (g_windowMaxWidth - spriteSize);
 	int y = rand() % (g_windowMaxHeight - spriteSize);
 
-	AnimatedSprite sprite_chicken = AnimatedSprite(spriteTexture, x, y, spriteSize, spriteSize, 0, 0, 0.5, 1); 
+	Texture* tex = &g_textures["chicken"];
+	AnimatedSprite sprite_chicken = AnimatedSprite(&tex->texture, x, y, tex->width, tex->height, 0, 0, 0.5, 1);
 	sprite_chicken.type = 2;
 
 	//Setup Collider
