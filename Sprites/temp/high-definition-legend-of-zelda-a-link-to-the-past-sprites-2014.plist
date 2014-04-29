@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>high-definition-legend-of-zelda-a-link-to-the-past-sprites-2014.gif</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{902,393}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{902,393}}</string>
+                <key>sourceSize</key>
+                <string>{902,393}</string>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>2</integer>
+            <key>realTextureFileName</key>
+            <string>high-definition-legend-of-zelda-a-link-to-the-past-sprites-2014.png</string>
+            <key>size</key>
+            <string>{906,397}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:f59d243b98341c8d5ee9c9f5742f1fae:093c1723522c2b633e02fcd48fb79205:306038c09337d3b7a067578dca73daee$</string>
+            <key>textureFileName</key>
+            <string>high-definition-legend-of-zelda-a-link-to-the-past-sprites-2014.png</string>
+        </dict>
+    </dict>
+</plist>

@@ -7,7 +7,7 @@ enum {LEFT, RIGHT, TOP, BOTTOM};
 
 EventQueue* player::eventQueue;
 
-PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHeight, EventQueue* evQueue)
+PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue)
 {
 	/* PURPOSE:		Sets up player sprite for this game 
 		RECEIVES:	texture - OpenGl texture to use when drawing player
@@ -42,6 +42,8 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
    player.isColliderDrawn = false;
 
+
+   // Animations
 	int numFrames = 1;
 	int timeToNextFrame = 200;
 

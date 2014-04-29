@@ -161,7 +161,9 @@ void tileLoader::loadTiles(const char* filename, TileLevel *level)
 	// Load Tileset Texture
 	int *tileMapWidth = new int;
 	int *tileMapHeight = new int;
-	GLuint tileSet = glTexImageTGAFile(tileFile.c_str(), tileMapWidth, tileMapHeight);
+   GLuint* tileSet = new GLuint;
+	//GLuint tileSet = glTexImageTGAFile(tileFile.c_str(), tileMapWidth, tileMapHeight);
+   *tileSet = glTexImageTGAFile(tileFile.c_str(), tileMapWidth, tileMapHeight);
 
 	// Load tiles to level
 	tileIndex = 0;

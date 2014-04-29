@@ -9,9 +9,9 @@ class Sprite
 public:
 	// Constructors
 	Sprite(void);
-	Sprite(GLuint texture, int width, int height);
-	Sprite(GLuint texture, int x, int y, int width, int height);
-	Sprite(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
+	Sprite(GLuint* texture, int width, int height);
+	Sprite(GLuint* texture, int x, int y, int width, int height);
+	Sprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
 	~Sprite(void);
 
 	//Functions
@@ -27,7 +27,7 @@ public:
 	void setCollider(AABB *box);
 
 	// Variables
-	GLuint texture;
+	GLuint* texture;
 	int width, height;
 	int x, y;
 	int colliderXOffset, colliderYOffset;
@@ -44,6 +44,6 @@ public:
    bool isColliderDrawn;
 
 private:
-	void initialize(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
+	void initialize(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
 };
 

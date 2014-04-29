@@ -6,17 +6,17 @@ Sprite::Sprite(void)
 	initialize(0, 0, 0, 0, 0, 0, 0, 1, 1);
 }
 /*-----------------------------------------------*/
-Sprite::Sprite(GLuint texture, int width, int height)
+Sprite::Sprite(GLuint* texture, int width, int height)
 {
 	initialize(texture, 0, 0, width, height, 0, 0, 1, 1);
 }
 /*-----------------------------------------------*/
-Sprite::Sprite(GLuint texture, int x, int y, int width, int height)
+Sprite::Sprite(GLuint* texture, int x, int y, int width, int height)
 {
 	initialize(texture, x, y, width, height, 0, 0, 1, 1);
 }
 /*-----------------------------------------------*/
-Sprite::Sprite(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
+Sprite::Sprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
 {
 	initialize(texture, x, y, width, height, tu, tv, tSizeX, tSizeY);
 }
@@ -25,7 +25,7 @@ Sprite::~Sprite(void)
 {
 }
 /*-----------------------------------------------*/
-void Sprite::initialize(GLuint texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
+void Sprite::initialize(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
 {
 	/* PURPOSE:		Initalizes variables for constructor 
 		RECEIVES:	texture - OpenGL texture to use for drawing
@@ -74,7 +74,7 @@ void Sprite::draw(void)
 		REMARKS:		 
 	*/
 
-	glDrawSprite(texture, x, y, width, height);
+	glDrawSprite(*texture, x, y, width, height);
 }
 /*-----------------------------------------------*/
 void Sprite::draw(int camX, int camY)
@@ -86,7 +86,7 @@ void Sprite::draw(int camX, int camY)
 		REMARKS:		 
 	*/
 
-	glDrawSprite(texture, x - camX, y - camY, width, height);
+	glDrawSprite(*texture, x - camX, y - camY, width, height);
    
    if (isColliderDrawn)
       drawCollider(camX, camY);
@@ -117,7 +117,7 @@ void Sprite::drawUV(int camX, int camY)
 		vSize *= -1;
 	}
 
-	glDrawSprite(texture, x - camX, y - camY, width, height, u, v, uSize, vSize);
+	glDrawSprite(*texture, x - camX, y - camY, width, height, u, v, uSize, vSize);
    
    if (isColliderDrawn)
       drawCollider(camX, camY);
