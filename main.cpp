@@ -208,7 +208,6 @@ static void loadSprites()
 		makeChicken();
 
 	// Create and place player on map
-	//g_player = player::makePlayer(playerTexture, *width, *height, &eventQueue);
    Texture* tex = &g_textures["contra"];
    g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &eventQueue);
 	int startX = g_currentLevel->startX;
