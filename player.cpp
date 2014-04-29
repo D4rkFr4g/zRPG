@@ -1,7 +1,8 @@
 #include "player.h"
 
 //enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
-enum {IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT, DEATH};
+enum {IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT, WALKING_UP_LEFT, WALKING_UP_RIGHT, WALKING_DOWN_LEFT,
+	WALKING_DOWN_RIGHT, DEATH};
 enum {COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END};
 enum {LEFT, RIGHT, TOP, BOTTOM};
 
@@ -33,10 +34,10 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	//player.jumpTicks = 200;
 
 	//Setup Collider
-	int xOffset = 35;
-	int yOffset = 25;
-	int width = 30;
-	int height = 75;
+	int xOffset = 27;
+	int yOffset = 40;
+	int width = 25;
+	int height = 25;
 	player.colliderXOffset = xOffset;
 	player.colliderYOffset = yOffset;
 	player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
@@ -312,6 +313,7 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		// Check for new Transition
 		if (isIdle)
 			player->state = IDLE;
+
 	}
 
 	// WALKING_UP State
