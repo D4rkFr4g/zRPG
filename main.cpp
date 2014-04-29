@@ -202,7 +202,7 @@ static void loadSprites()
 	spriteTexture = glTexImageTGAFile("./Sprites/spriteSheet_chicken.tga", NULL, NULL);
 	int* width = new int;
 	int* height = new int;
-	playerTexture = glTexImageTGAFile("./Sprites/contra_sheet.tga", width, height);
+	playerTexture = glTexImageTGAFile("./Sprites/link_Sprites.tga", width, height);
 
 	// Load the Initial chickens
 	for (int i = 0; i < initialChickens; i++)

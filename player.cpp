@@ -1,6 +1,7 @@
 #include "player.h"
 
-enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
+//enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
+enum {IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT, DEATH};
 enum {COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END};
 enum {LEFT, RIGHT, TOP, BOTTOM};
 
@@ -19,16 +20,17 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
    player::eventQueue = evQueue;
 
 	PlayerSprite player;
-	float cellSize = 16;
+	float cellSize = 32;
 	float uSize = 1 / (textureWidth / cellSize);
 	float vSize = 1 / (textureHeight / cellSize);
 	int health = 100;
 
-	player = PlayerSprite(texture, 0, 0, 100, 100, 
+	player = PlayerSprite(texture, 0, 0, 80, 80, 
 		0, 8 * vSize, 2 * uSize , 3 * vSize, health);
-	player.maxSpeedX = 200;
-	player.jumpSpeed = -300;
-	player.jumpTicks = 200;
+	player.maxSpeedX = 100;
+	player.maxSpeedY = 100;
+	//player.jumpSpeed = -300;
+	//player.jumpTicks = 200;
 
 	//Setup Collider
 	int xOffset = 35;
@@ -45,11 +47,53 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 
 	// Idle Animation
 	AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-	frames_idle[0] = AnimationFrame(0 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
+	frames_idle[0] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
 	Animation animation_idle = Animation("Idle", frames_idle, numFrames);
 	player.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 
+	// Walking Down Animation
+	numFrames = 8;
+	AnimationFrame* frames_walkingDown = new AnimationFrame[numFrames];
+	frames_walkingDown[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingDown[1] = AnimationFrame(1 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingDown[2] = AnimationFrame(2 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingDown[3] = AnimationFrame(3 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingDown[4] = AnimationFrame(4 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingDown[5] = AnimationFrame(5 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingDown[6] = AnimationFrame(6 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingDown[7] = AnimationFrame(7 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+	Animation animation_walkingDown = Animation("Walking Down", frames_walkingDown, numFrames);
+	player.animations[animation_walkingDown.name] = AnimationData(animation_walkingDown, timeToNextFrame, true);
+
+	// Walking Up Animation
+	numFrames = 6;
+	AnimationFrame* frames_walkingUp = new AnimationFrame[numFrames];
+	frames_walkingUp[0] = AnimationFrame(0 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingUp[1] = AnimationFrame(1 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingUp[2] = AnimationFrame(2 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingUp[3] = AnimationFrame(3 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingUp[4] = AnimationFrame(4 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingUp[5] = AnimationFrame(5 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+	Animation animation_walkingUp = Animation("Walking Up", frames_walkingUp, numFrames);
+	player.animations[animation_walkingUp.name] = AnimationData(animation_walkingUp, timeToNextFrame, true);
+
+	// Walking Left & Right Animation
+	numFrames = 6;
+	AnimationFrame* frames_walkingLR = new AnimationFrame[numFrames];
+	frames_walkingLR[0] = AnimationFrame(0 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingLR[1] = AnimationFrame(1 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingLR[2] = AnimationFrame(2 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingLR[3] = AnimationFrame(3 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingLR[4] = AnimationFrame(4 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+	frames_walkingLR[5] = AnimationFrame(5 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+
+	Animation animation_walkingLeft = Animation("Walking Left", frames_walkingLR, numFrames);
+	player.animations[animation_walkingLeft.name] = AnimationData(animation_walkingLeft, timeToNextFrame, true);
+	Animation animation_walkingRight = Animation("Walking Right", frames_walkingLR, numFrames);
+	player.animations[animation_walkingRight.name] = AnimationData(animation_walkingRight, timeToNextFrame, true);
+
 	// Walking Animation
+	/*
 	numFrames = 4;
 	AnimationFrame* frames_walking = new AnimationFrame[numFrames];
 	frames_walking[0] = AnimationFrame(0 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
@@ -58,8 +102,10 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	frames_walking[3] = AnimationFrame(9 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_walking = Animation("Walking", frames_walking, numFrames);
 	player.animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
+	*/
 
 	// WalkingGunUp Animation
+	/*
 	numFrames = 4;
 	AnimationFrame* frames_walkingGunUp = new AnimationFrame[numFrames];
 	frames_walkingGunUp[0] = AnimationFrame(0 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
@@ -68,8 +114,10 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	frames_walkingGunUp[3] = AnimationFrame(9 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_walkingGunUp = Animation("WalkingGunUp", frames_walkingGunUp, numFrames);
 	player.animations[animation_walkingGunUp.name] = AnimationData(animation_walkingGunUp, timeToNextFrame, true);
+	*/
 
 	// WalkingGunDown Animation
+	/*
 	numFrames = 4;
 	AnimationFrame* frames_walkingGunDown = new AnimationFrame[numFrames];
 	frames_walkingGunDown[0] = AnimationFrame(12 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
@@ -78,8 +126,10 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	frames_walkingGunDown[3] = AnimationFrame(21 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_walkingGunDown = Animation("WalkingGunDown", frames_walkingGunDown, numFrames);
 	player.animations[animation_walkingGunDown.name] = AnimationData(animation_walkingGunDown, timeToNextFrame, true);
+	*/
 
 	// Jumping Animation
+	/*
 	numFrames = 4;
 	AnimationFrame* frames_jumping = new AnimationFrame[numFrames];
 	frames_jumping[0] = AnimationFrame(9 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
@@ -88,13 +138,16 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	frames_jumping[3] = AnimationFrame(18 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_jumping = Animation("Jumping", frames_jumping, numFrames);
 	player.animations[animation_jumping.name] = AnimationData(animation_jumping, timeToNextFrame, true);
+	*/
 	
 	// Prone Animation
+	/*
 	numFrames = 1;
 	AnimationFrame* frames_prone = new AnimationFrame[numFrames];
 	frames_prone[0] = AnimationFrame(0 * uSize, 0 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_prone = Animation("Prone", frames_prone, numFrames);
 	player.animations[animation_prone.name] = AnimationData(animation_prone, timeToNextFrame, true);
+	*/
 
 	// Death Animation
 	numFrames = 2;
@@ -106,6 +159,7 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	player.animations[animation_death.name] = AnimationData(animation_death, timeToNextFrame, false);
 
 	// IdleShooting Animation
+	/*
 	numFrames = 4;
 	timeToNextFrame = 40;
 	AnimationFrame* frames_shooting = new AnimationFrame[numFrames];
@@ -115,8 +169,10 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	frames_shooting[3] = AnimationFrame(3 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_shooting = Animation("Shooting", frames_shooting, numFrames);
 	player.animations[animation_shooting.name] = AnimationData(animation_shooting, timeToNextFrame, true);
+	*/
 
 	// RunShooting Animation
+	/*
 	numFrames = 8;
 	timeToNextFrame = 100;
 	AnimationFrame* frames_runShooting = new AnimationFrame[numFrames];
@@ -130,8 +186,10 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	frames_runShooting[7] = AnimationFrame(9 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_runShooting = Animation("RunShooting", frames_runShooting, numFrames);
 	player.animations[animation_runShooting.name] = AnimationData(animation_runShooting, timeToNextFrame, true);
+	*/
 
 	// ProneShooting Animation
+	/*
 	numFrames = 3;
 	timeToNextFrame = 40;
 	AnimationFrame* frames_proneShooting = new AnimationFrame[numFrames];
@@ -140,14 +198,17 @@ PlayerSprite player::makePlayer(GLuint texture, int textureWidth, int textureHei
 	frames_proneShooting[2] = AnimationFrame(3 * uSize, 0 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_proneShooting = Animation("ProneShooting", frames_proneShooting, numFrames);
 	player.animations[animation_proneShooting.name] = AnimationData(animation_proneShooting, timeToNextFrame, true);
+	*/
 
 	// LookUp Animation
+	/*
 	numFrames = 1;
 	timeToNextFrame = 200;
 	AnimationFrame* frames_lookUp = new AnimationFrame[numFrames];
 	frames_lookUp[0] = AnimationFrame(24 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_lookUp = Animation("LookUp", frames_lookUp, numFrames);
 	player.animations[animation_lookUp.name] = AnimationData(animation_lookUp, timeToNextFrame, true);
+	*/
 
 	// Initialize animation and return
 	player.setAnimation("Idle");
@@ -178,16 +239,29 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 			player->speedX = player->maxSpeedX;
 			player->isFlippedX = false;
 		}
+		else if (kbState[SDL_SCANCODE_W])
+		{
+			player->speedY = player->maxSpeedY;
+			player->speedY *= -1;
+		}
+		else if (kbState[SDL_SCANCODE_S])
+		{
+			player->speedY = player->maxSpeedY;
+		}
 	}
 
 	bool isIdle = (kbState[SDL_SCANCODE_W] | kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_S] | 
 		kbState[SDL_SCANCODE_D] | kbState[SDL_SCANCODE_J] | kbState[SDL_SCANCODE_SPACE]) != 1;
-	bool isWalking = (kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_D]) == 1;
-	bool isRunShooting = ((kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_D]) & kbState[SDL_SCANCODE_J]) == 1;
-	bool isJumping = kbState[SDL_SCANCODE_K] == 1;
-	bool isProne = kbState[SDL_SCANCODE_S] == 1;
-	bool isShooting = kbState[SDL_SCANCODE_J] == 1;
-	bool isProneShooting = (kbState[SDL_SCANCODE_S] & kbState[SDL_SCANCODE_J]) == 1;
+	bool isWalkingLeft = (kbState[SDL_SCANCODE_A]) == 1;
+	bool isWalkingRight = (kbState[SDL_SCANCODE_D]) == 1;
+	bool isWalkingUp = (kbState[SDL_SCANCODE_W]) == 1;
+	bool isWalkingDown = (kbState[SDL_SCANCODE_S]) == 1;
+
+	//bool isRunShooting = ((kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_D]) & kbState[SDL_SCANCODE_J]) == 1;
+	//bool isJumping = kbState[SDL_SCANCODE_K] == 1;
+	//bool isProne = kbState[SDL_SCANCODE_S] == 1;
+	//bool isShooting = kbState[SDL_SCANCODE_J] == 1;
+	//bool isProneShooting = (kbState[SDL_SCANCODE_S] & kbState[SDL_SCANCODE_J]) == 1;
 
 	// Player States
 	// IDLE State
@@ -200,38 +274,90 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 			player->prevState = player->state;
 
 			player->speedX = 0;
+			player->speedY = 0;
 		}
 
 		// Check for new Transition
-		if (isWalking)
-			player->state = WALKING;
+		if (isWalkingLeft)
+			player->state = WALKING_LEFT;
+		else if (isWalkingRight)
+			player->state = WALKING_RIGHT;
+		else if (isWalkingDown)
+			player->state = WALKING_DOWN;
+		else if (isWalkingUp)
+			player->state = WALKING_UP;
+
+		/*
 		else if (isShooting)
 			player->state = IDLE_SHOOT;
 		else if (isProne)
 			player->state = PRONE;
 		else if (isJumping)
 			player->state = JUMPING;
+		*/
 	}
-	// WALKING State
-	else if (player->state == WALKING)	
+
+	// WALKING_DOWN State
+	else if (player->state == WALKING_DOWN)	
 	{
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
-			player->setAnimation("Walking");
+			player->setAnimation("Walking Down");
 			player->prevState = player->state;
 		}
 
 		// Check for new Transition
 		if (isIdle)
 			player->state = IDLE;
-		else if (isShooting)
-			player->state = RUN_SHOOTING;
-		else if (isProne)
-			player->state = PRONE;
-		else if (isJumping)
-			player->state = JUMPING;
 	}
+
+	// WALKING_UP State
+	else if (player->state == WALKING_UP)
+	{
+		// Handle State Transition
+		if (player->state != player->prevState)
+		{
+			player->setAnimation("Walking Up");
+			player->prevState = player->state;
+		}
+
+		// Check for new Transition
+		if (isIdle)
+			player->state = IDLE;
+	}
+
+	// WALKING_LEFT State
+	else if (player->state == WALKING_LEFT)
+	{
+		// Handle State Transition
+		if (player->state != player->prevState)
+		{
+			player->setAnimation("Walking Left");
+			player->prevState = player->state;
+		}
+
+		// Check for new Transition
+		if (isIdle)
+			player->state = IDLE;
+	}
+
+	// WALKING_RIGHT State
+	else if (player->state == WALKING_RIGHT)
+	{
+		// Handle State Transition
+		if (player->state != player->prevState)
+		{
+			player->setAnimation("Walking Right");
+			player->prevState = player->state;
+		}
+
+		// Check for new Transition
+		if (isIdle)
+			player->state = IDLE;
+	}
+
+	/*
 	// RUN SHOOTING State
 	else if (player->state == RUN_SHOOTING)
 	{
@@ -264,6 +390,9 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		else if (isJumping)
 			player->state = JUMPING;
 	}
+	*/
+
+	/*
 	// JUMPING State
 	else if (player->state == JUMPING)
 	{
@@ -312,6 +441,9 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 			}
 		}
 	}
+	*/
+
+	/*
 	// PRONE State
 	else if (player->state == PRONE)
 	{
@@ -347,6 +479,9 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		else if (isJumping)
 			player->state = JUMPING;
 	}
+	*/
+
+	/*
 	// PRONE SHOOTING State
 	else if (player->state == PRONE_SHOOTING)
 	{
@@ -381,6 +516,9 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		else if (isJumping)
 			player->state = JUMPING;
 	}
+	*/
+
+	/*
 	// IDLE SHOOT State
 	else if (player->state == IDLE_SHOOT)
 	{
@@ -415,6 +553,8 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		else if (isJumping)
 			player->state = JUMPING;
 	}
+	*/
+
 	else if (player->state == DEATH)
 	{
 		// Handle State Transition
@@ -457,14 +597,14 @@ void player::updatePhysics(PlayerSprite* player, int diff_time)
 		REMARKS:		 
 	*/
 
-	float gravity = (float) 9.8;
+	//float gravity = (float) 0;
 
 	// Gravity effect
-	player->speedY = player->speedY + gravity;
+	//player->speedY = player->speedY + gravity;
 
 	// JumpingTicks Adjustment
-	if (player->state == JUMPING && player->jumpTicksRemaining > 0)
-		player->jumpTicksRemaining -= diff_time;
+	//if (player->state == JUMPING && player->jumpTicksRemaining > 0)
+		//player->jumpTicksRemaining -= diff_time;
 }
 /*-----------------------------------------------*/
 void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
