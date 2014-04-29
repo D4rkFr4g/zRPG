@@ -4,12 +4,11 @@
 textureLoader::textureLoader(void)
 {
 }
-
-
+/*-----------------------------------------------*/
 textureLoader::~textureLoader(void)
 {
 }
-
+/*-----------------------------------------------*/
 void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_textures)
 {
    int* width = new int;
@@ -27,3 +26,4 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    texture = glTexImageTGAFile("./Sprites/lttp_font2x2.tga", width, height);
    (*g_textures)["font"] = Texture(texture, *width, *height);
 }
+/*-----------------------------------------------*/
