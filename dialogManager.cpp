@@ -24,7 +24,7 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
       if (!isPaused)
       {
          int rows = 10;
-         int cols = 20;
+         int cols = 30;
          int x = 0;
          int y = 10;
 

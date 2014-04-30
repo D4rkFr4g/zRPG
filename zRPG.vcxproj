@@ -23,6 +23,7 @@
     <ClCompile Include="DrawUtils.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventQueue.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerSprite.cpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="EventListener.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerSprite.h" />

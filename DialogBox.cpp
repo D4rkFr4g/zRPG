@@ -24,6 +24,7 @@ DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool is
 		RETURNS:		Object of DialogBox
 		REMARKS:		
 	*/
+
    this->x = x;
    this->y = y;
    this->rows = rows;
