@@ -395,8 +395,8 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		}
 
 		// Check for new Transition
-		if (isIdle)
-			player->state = IDLE;
+      if (isIdle)
+         player->state = IDLE;
 		else if (isWalkingLeft)
 			player->state = WALKING_LEFT;
 		else if (isWalkingRight)
