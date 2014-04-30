@@ -329,8 +329,6 @@ void chickenAI(int diff_time)
 			}
 		}
 	}
-
-	//return interval;
 }
 /*-----------------------------------------------*/
 void updateSprites(int diff_time)

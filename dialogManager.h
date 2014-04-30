@@ -22,6 +22,5 @@ public:
 
 protected:
    dialogManager();
-
 };
 
