@@ -126,7 +126,7 @@ static void initAudio()
    fmodSystem->createChannelGroup(NULL, &channelEffects);
 
    g_audio = Audio(fmodSystem, channelMusic, channelEffects);
-   g_audio.registerListeners(&eventQueue);
+   //g_audio.registerListeners(&eventQueue);  //TODO Uncomment
 }
 /*-----------------------------------------------*/
 static int whichBucket(int x, int y)
@@ -199,8 +199,6 @@ static void loadSprites()
 	REMARKS:                Also creates and places sprites on map
 	*/
 
-
-
 	textureLoader::loadTextures(&g_textures);
 
 	// Load the Initial chickens
@@ -213,7 +211,10 @@ static void loadSprites()
 	int startX = g_currentLevel->startX;
 	int startY = g_currentLevel->startY - g_player.height;
 
-	g_player.updatePosition(startX, startY);
+	g_player.updatePosition((float) startX, (float) startY);
+
+   // Setup DialogBox texture to be used
+   DialogBox::texture = &g_textures["dialog"];
 }
 /*-----------------------------------------------*/
 static void makeChicken()
@@ -421,6 +422,13 @@ static void drawSprites()
 	//g_player.drawCollider(g_cam.x, g_cam.y);
 }
 /*-----------------------------------------------*/
+static void drawDialogBoxes()
+{
+   int size = g_dialogBoxes.size();
+   for (int i = 0; i < (int)g_dialogBoxes.size(); i++)
+      g_dialogBoxes[i].display();
+}
+/*-----------------------------------------------*/
 static float getSpeed()
 {
 	/* PURPOSE:		Randomly selects a set speed that is positive or negative 
@@ -492,7 +500,9 @@ static void keyboard()
 	*/
 
 	player::playerKeyboard(&g_player, kbState, kbPrevState);
+   dialogManager::dialogKeyboard(kbState, kbPrevState);
 
+   // Reset camera to following if it has been moved around
 	if (g_cam.isFollowing && (kbState[SDL_SCANCODE_UP] | kbState[SDL_SCANCODE_DOWN] | kbState[SDL_SCANCODE_LEFT] | kbState[SDL_SCANCODE_RIGHT]))
 		g_cam.isFollowing = false;
 	else if (!g_cam.isFollowing)
@@ -552,7 +562,7 @@ static void reshape(const int w, const int h)
 	g_windowWidth = w;
 	g_windowHeight = h;
 	glViewport(0, 0, w, h);
-	g_cam.updateResolution(w, h);
+	//g_cam.updateResolution(w, h); // Updating the camera causes following issues
 }
 /*-----------------------------------------------*/
 void onRender(int* tick, int* prevTick, int ticksPerFrame)
@@ -569,6 +579,7 @@ void onRender(int* tick, int* prevTick, int ticksPerFrame)
 		clearBackground();
 		g_currentLevel->drawLevel(g_cam.x, g_cam.y, g_windowOriginalWidth, g_windowOriginalHeight);
 		drawSprites();
+      drawDialogBoxes();
 
 		// Timer updates
 		SDL_Delay( max( 0, ticksPerFrame - (*tick - *prevTick) ));
@@ -590,7 +601,6 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
 	while( tick > *prevPhysicsTick + ticksPerPhysics ) 
 	{
 		// Update physics
-		keyboard();
 		chickenAI(ticksPerPhysics);
 		updateSprites(ticksPerPhysics);
 		player::updatePhysics(&g_player, ticksPerPhysics);
@@ -626,6 +636,8 @@ static void onInit()
    initAudio();
 	initBuckets();
 	loadSprites();
+
+   dialogManager::dialogQueue = &g_dialogBoxes;
 }
 /*-----------------------------------------------*/
 int main( void )
@@ -668,6 +680,7 @@ int main( void )
 
 		int tick = SDL_GetTicks();
 
+      keyboard();
 		onRender(&tick, &prevTick, ticksPerFrame);
 		onPhysics(tick, &prevPhysicsTick, ticksPerPhysics);
       onLoop();

@@ -19,6 +19,7 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DialogBox.cpp" />
+    <ClCompile Include="dialogManager.cpp" />
     <ClCompile Include="DrawUtils.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventQueue.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DialogBox.h" />
+    <ClInclude Include="dialogManager.h" />
     <ClInclude Include="DrawUtils.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />

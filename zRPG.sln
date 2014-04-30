@@ -1,18 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zRPG", "zRPG.vcxproj", "{7434C529-15C3-6ED2-BACF-90A75FF48DDE}"
+EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject1", "..\ModelingProject1\ModelingProject1.modelproj", "{E75701F5-0BD1-42FB-86E7-00E6A29BE168}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|Win32 = Debug|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Debug|Win32.Build.0 = Debug|Win32
+		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Release|Any CPU.ActiveCfg = Release|Win32
+		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Release|Win32.ActiveCfg = Release|Win32
 		{7434C529-15C3-6ED2-BACF-90A75FF48DDE}.Release|Win32.Build.0 = Release|Win32
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E75701F5-0BD1-42FB-86E7-00E6A29BE168}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

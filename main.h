@@ -18,11 +18,13 @@
 #include "PlayerSprite.h"
 #include "Camera.h"
 #include "TileLevel.h"
-#include "tileLoader.h"
-#include "player.h"
 #include "Audio.h"
 #include "EventQueue.h"
 #include "Texture.h"
+#include "DialogBox.h"
+#include "player.h"
+#include "tileLoader.h"
+#include "dialogManager.h"
 #include "textureLoader.h"
 
 // Forward Declarations
@@ -64,3 +66,4 @@ FMOD_RESULT result;
 FMOD::System* fmodSystem;
 Audio g_audio;
 static EventQueue eventQueue;
+std::vector<DialogBox> g_dialogBoxes;

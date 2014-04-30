@@ -14,11 +14,15 @@ public:
    
    // Functions
    void display(void);
+   void loadBorderSprites(void);
+   void loadFontSprites(void);
 
    // Variables
    static Texture* texture;
-   int width;
-   int height;
+   int x;
+   int y;
+   int rows;
+   int cols;
    std::string text;
    bool isBorderVisible;
 
