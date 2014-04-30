@@ -28,8 +28,8 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 
 	player = PlayerSprite(texture, 0, 0, 80, 80, 
 		0, 8 * vSize, 2 * uSize , 3 * vSize, health);
-	player.maxSpeedX = 100;
-	player.maxSpeedY = 100;
+	player.maxSpeedX = 150;
+	player.maxSpeedY = 150;
 	//player.jumpSpeed = -300;
 	//player.jumpTicks = 200;
 
@@ -46,7 +46,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 
    // Animations
 	int numFrames = 1;
-	int timeToNextFrame = 200;
+	int timeToNextFrame = 100;
 
 	// Idle Animation
 	AnimationFrame* frames_idle = new AnimationFrame[numFrames];
@@ -237,17 +237,17 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 			player->isFlippedX = true;
 			player->speedX *= -1;
 		}
-		else if (kbState[SDL_SCANCODE_D])
+		if (kbState[SDL_SCANCODE_D])
 		{
 			player->speedX = player->maxSpeedX;
 			player->isFlippedX = false;
 		}
-		else if (kbState[SDL_SCANCODE_W])
+		if (kbState[SDL_SCANCODE_W])
 		{
 			player->speedY = player->maxSpeedY;
 			player->speedY *= -1;
 		}
-		else if (kbState[SDL_SCANCODE_S])
+		if (kbState[SDL_SCANCODE_S])
 		{
 			player->speedY = player->maxSpeedY;
 		}
@@ -259,6 +259,11 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 	bool isWalkingRight = (kbState[SDL_SCANCODE_D]) == 1;
 	bool isWalkingUp = (kbState[SDL_SCANCODE_W]) == 1;
 	bool isWalkingDown = (kbState[SDL_SCANCODE_S]) == 1;
+
+	bool isWalkingUpLeft = (kbState[SDL_SCANCODE_W] & kbState[SDL_SCANCODE_A]) == 1;
+	bool isWalkingUpRight = (kbState[SDL_SCANCODE_W] & kbState[SDL_SCANCODE_D]) == 1;
+	bool isWalkingDownLeft = (kbState[SDL_SCANCODE_S] & kbState[SDL_SCANCODE_A]) == 1;
+	bool isWalkingDownRight = (kbState[SDL_SCANCODE_S] & kbState[SDL_SCANCODE_D]) == 1;
 
 	//bool isRunShooting = ((kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_D]) & kbState[SDL_SCANCODE_J]) == 1;
 	//bool isJumping = kbState[SDL_SCANCODE_K] == 1;
@@ -313,7 +318,12 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		// Check for new Transition
 		if (isIdle)
 			player->state = IDLE;
-
+		else if (isWalkingLeft)
+			player->state = WALKING_LEFT;
+		else if (isWalkingRight)
+			player->state = WALKING_RIGHT;
+		else if (isWalkingUp)
+			player->state = WALKING_UP;
 	}
 
 	// WALKING_UP State
@@ -329,6 +339,12 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		// Check for new Transition
 		if (isIdle)
 			player->state = IDLE;
+		else if (isWalkingLeft)
+			player->state = WALKING_LEFT;
+		else if (isWalkingRight)
+			player->state = WALKING_RIGHT;
+		else if (isWalkingDown)
+			player->state = WALKING_DOWN;
 	}
 
 	// WALKING_LEFT State
@@ -344,6 +360,12 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		// Check for new Transition
 		if (isIdle)
 			player->state = IDLE;
+		else if (isWalkingDown)
+			player->state = WALKING_DOWN;
+		else if (isWalkingRight)
+			player->state = WALKING_RIGHT;
+		else if (isWalkingUp)
+			player->state = WALKING_UP;
 	}
 
 	// WALKING_RIGHT State
@@ -359,7 +381,61 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		// Check for new Transition
 		if (isIdle)
 			player->state = IDLE;
+		else if (isWalkingLeft)
+			player->state = WALKING_LEFT;
+		else if (isWalkingDown)
+			player->state = WALKING_DOWN;
+		else if (isWalkingUp)
+			player->state = WALKING_UP;
 	}
+
+	// WALKING_UP_RIGHT State
+	/*else if (player->state == WALKING_UP_RIGHT)
+	{
+		// Handle State Transition
+		if (player->state != player->prevState)
+		{
+			player->setAnimation("Walking Right");
+			player->prevState = player->state;
+		}
+	}
+	*/
+
+	// WALKING_UP_LEFT State
+	/*else if (player->state == WALKING_UP_LEFT)
+	{
+	// Handle State Transition
+	if (player->state != player->prevState)
+	{
+	player->setAnimation("Walking Left");
+	player->prevState = player->state;
+	}
+	}
+	*/
+
+	// WALKING_DOWN_RIGHT State
+	/*else if (player->state == WALKING_DOWN_RIGHT)
+	{
+	// Handle State Transition
+	if (player->state != player->prevState)
+	{
+	player->setAnimation("Walking Right");
+	player->prevState = player->state;
+	}
+	}
+	*/
+
+	// WALKING_DOWN_LEFT State
+	/*else if (player->state == WALKING_DOWN_LEFT)
+	{
+	// Handle State Transition
+	if (player->state != player->prevState)
+	{
+	player->setAnimation("Walking Left");
+	player->prevState = player->state;
+	}
+	}
+	*/
 
 	/*
 	// RUN SHOOTING State
