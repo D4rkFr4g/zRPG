@@ -638,6 +638,8 @@ static void onInit()
 	loadSprites();
 
    dialogManager::dialogQueue = &g_dialogBoxes;
+   dialogManager::screenWidth = &g_windowWidth;
+   dialogManager::screenHeight = &g_windowHeight;
 }
 /*-----------------------------------------------*/
 int main( void )

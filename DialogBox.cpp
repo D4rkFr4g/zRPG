@@ -37,6 +37,12 @@ DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool is
 /*-----------------------------------------------*/
 void DialogBox::display(void)
 {
+   /* PURPOSE:		Displays dialog box to the screen
+      RECEIVES:	
+      RETURNS:		
+      REMARKS:
+   */
+
    if (isBorderVisible)
    {
       for (int i = 0; i < (int) borderSprites.size(); i++)
@@ -49,6 +55,13 @@ void DialogBox::display(void)
 /*-----------------------------------------------*/
 void DialogBox::loadBorderSprites(void)
 {
+   /* PURPOSE:		Creates sprites to make up the dialog box
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+
+   // Default to minimum size if too small
    if (this->rows < 2)
       this->rows = 2;
    if (this->cols < 2)
@@ -151,6 +164,6 @@ void DialogBox::loadBorderSprites(void)
 /*-----------------------------------------------*/
 void DialogBox::loadFontSprites(void)
 {
-
+   // TODO
 }
 /*-----------------------------------------------*/
