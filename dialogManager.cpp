@@ -28,7 +28,7 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
          int x = 0;
          int y = 10;
 
-         centerY(&y, rows, cols);
+         center(&x, &y, rows, cols);
          dialogQueue->push_back(DialogBox(x, y, rows, cols, "Pause", true));
          isPaused = true;
       }
