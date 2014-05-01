@@ -50,6 +50,8 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
 
    ////////////////////////////////////////////////////////////////////////////////
    // Debug font Sprites
+   //    Won't  show up because of the order of printing the screen
+   //    You would need to call this function after other draws.
    ////////////////////////////////////////////////////////////////////////////////
    if (0)
    {
@@ -59,11 +61,15 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
       int x = 0;
       int y = 0;
       center(&x, &y, 0, 0);
+      static Sprite r = Font::fontMap['I'];
+      r.x = x - r.width;
+      r.y = y-100;
       static std::unordered_map<char, Sprite>::iterator itr = Font::fontMap.begin();
       if (kbState[SDL_SCANCODE_KP_5] && !kbPrevState[SDL_SCANCODE_KP_5])
       {
          //if (!isDisplayed)
          //{
+         char a = itr->first;
             s = itr->second;
             s.x = x;
             s.y = y - 100;
@@ -73,6 +79,7 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
                itr = Font::fontMap.begin();
          //}
       }
+      r.drawUV(0, 0);
       s.drawUV(0, 0);
    }
    ////////////////////////////////////////////////////////////////////////////////

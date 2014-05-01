@@ -874,6 +874,6 @@ void player::restartPlayer(PlayerSprite* player, int x, int y)
 	player->health = 100;
 	player->isJumping = false;
 	player->setSpeed(0,0);
-	player->updatePosition(x, y - player->height);
+	player->updatePosition((float) x, (float) y - player->height);
 }
 /*-----------------------------------------------*/

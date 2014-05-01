@@ -3,29 +3,34 @@
 
 Sprite::Sprite(void)
 {
-	initialize(0, 0, 0, 0, 0, 0, 0, 1, 1);
+	initialize(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1);
 }
 /*-----------------------------------------------*/
 Sprite::Sprite(GLuint* texture, int width, int height)
 {
-	initialize(texture, 0, 0, width, height, 0, 0, 1, 1);
+	initialize(texture, 0, 0, 0, 0, width, height, 0, 0, 1, 1);
 }
 /*-----------------------------------------------*/
 Sprite::Sprite(GLuint* texture, int x, int y, int width, int height)
 {
-	initialize(texture, x, y, width, height, 0, 0, 1, 1);
+	initialize(texture, x, y, 0, 0, width, height, 0, 0, 1, 1);
 }
 /*-----------------------------------------------*/
 Sprite::Sprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
 {
-	initialize(texture, x, y, width, height, tu, tv, tSizeX, tSizeY);
+	initialize(texture, x, y, 0, 0, width, height, tu, tv, tSizeX, tSizeY);
+}
+/*-----------------------------------------------*/
+Sprite::Sprite(GLuint* texture, int x, int y, int offsetX, int offsetY, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
+{
+   initialize(texture, x, y, offsetX, offsetY, width, height, tu, tv, tSizeX, tSizeY);
 }
 /*-----------------------------------------------*/
 Sprite::~Sprite(void)
 {
 }
 /*-----------------------------------------------*/
-void Sprite::initialize(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
+void Sprite::initialize(GLuint* texture, int x, int y, int offsetX, int offsetY, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
 {
 	/* PURPOSE:		Initalizes variables for constructor 
 		RECEIVES:	texture - OpenGL texture to use for drawing
@@ -46,7 +51,9 @@ void Sprite::initialize(GLuint* texture, int x, int y, int width, int height, GL
 	this->height = height;
 	this->x = x;
 	this->y = y;
-	this->tu = tu;
+   this->offsetX = offsetX;
+   this->offsetY = offsetY; 
+   this->tu = tu;
 	this->tv = tv;
 	this->tSizeX = tSizeX;
 	this->tSizeY = tSizeY;
@@ -86,7 +93,7 @@ void Sprite::draw(int camX, int camY)
 		REMARKS:		 
 	*/
 
-	glDrawSprite(*texture, x - camX, y - camY, width, height);
+	glDrawSprite(*texture, x + offsetX - camX, y + offsetY - camY, width, height);
    
    if (isColliderDrawn)
       drawCollider(camX, camY);
@@ -117,7 +124,7 @@ void Sprite::drawUV(int camX, int camY)
 		vSize *= -1;
 	}
 
-	glDrawSprite(*texture, x - camX, y - camY, width, height, u, v, uSize, vSize);
+	glDrawSprite(*texture, x + offsetX - camX, y + offsetY - camY, width, height, u, v, uSize, vSize);
    
    if (isColliderDrawn)
       drawCollider(camX, camY);

@@ -12,6 +12,7 @@ public:
 	Sprite(GLuint* texture, int width, int height);
 	Sprite(GLuint* texture, int x, int y, int width, int height);
 	Sprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
+   Sprite(GLuint* texture, int x, int y, int offsetX, int offsetY, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
 	~Sprite(void);
 
 	//Functions
@@ -30,6 +31,7 @@ public:
 	GLuint* texture;
 	int width, height;
 	int x, y;
+   int offsetX, offsetY;
 	int colliderXOffset, colliderYOffset;
 	GLfloat tu, tv;
 	GLfloat tSizeX, tSizeY;
@@ -44,6 +46,6 @@ public:
    bool isColliderDrawn;
 
 private:
-	void initialize(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
+	void initialize(GLuint* texture, int x, int y, int offsetX, int offsetY, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
 };
 

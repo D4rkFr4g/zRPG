@@ -4,8 +4,11 @@
 #include "PlayerSprite.h"
 #include "EventQueue.h"
 
-static class player
+class player
 {
+protected:
+   player();
+
 public:
 
 	// Functions
