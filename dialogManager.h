@@ -2,6 +2,7 @@
 #include <vector>
 #include <SDL.h>
 #include "DialogBox.h"
+#include "Font.h"
 
 
 class dialogManager

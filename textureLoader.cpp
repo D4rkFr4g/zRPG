@@ -24,6 +24,6 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    (*g_textures)["dialog"] = Texture(texture, *width, *height, 16, 16);
 
    texture = glTexImageTGAFile("./Sprites/lttp_font2x2.tga", width, height);
-   (*g_textures)["font"] = Texture(texture, *width, *height);
+   (*g_textures)["font"] = Texture(texture, *width, *height, 2, 2);
 }
 /*-----------------------------------------------*/

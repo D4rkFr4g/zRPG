@@ -32,7 +32,7 @@ static int initSDL()
 	SDL_GL_SetAttribute( SDL_GL_BUFFER_SIZE, 32 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 	g_window = SDL_CreateWindow(
-	"Invincible Chickens",
+	"The Legend of Zelda: A Link to the RPG",
 	SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	g_windowWidth, g_windowHeight,
 	SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);// | SDL_WINDOW_FULLSCREEN );
@@ -215,6 +215,8 @@ static void loadSprites()
 
    // Setup DialogBox texture to be used
    DialogBox::texture = &g_textures["dialog"];
+   Font::texture = &g_textures["font"];
+   Font::buildFontMap();
 }
 /*-----------------------------------------------*/
 static void makeChicken()

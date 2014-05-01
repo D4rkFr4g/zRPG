@@ -1,5 +1,6 @@
 #pragma once
 #include <unordered_map>
+#include <GL/glew.h>
 #include "Sprite.h"
 #include "Texture.h"
 

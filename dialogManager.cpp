@@ -16,6 +16,13 @@ dialogManager::~dialogManager()
 /*-----------------------------------------------*/
 void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState)
 {
+   /* PURPOSE:		Process keyboard commands as they relate to dialog boxes
+      RECEIVES:	kbState - current state of the keyboard
+                  kbPrevState - Previous frame state of the keyboard
+      RETURNS:
+      REMARKS:
+   */
+
    static bool isPaused = false;
 
    // Pause DialogBox
@@ -38,6 +45,37 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
          isPaused = false;
       }
    }
+
+
+
+   ////////////////////////////////////////////////////////////////////////////////
+   // Debug font Sprites
+   ////////////////////////////////////////////////////////////////////////////////
+   if (0)
+   {
+      static std::vector<Sprite> sprites;
+      //static bool isDisplayed = false;
+      static Sprite s = Font::fontMap[' '];
+      int x = 0;
+      int y = 0;
+      center(&x, &y, 0, 0);
+      static std::unordered_map<char, Sprite>::iterator itr = Font::fontMap.begin();
+      if (kbState[SDL_SCANCODE_KP_5] && !kbPrevState[SDL_SCANCODE_KP_5])
+      {
+         //if (!isDisplayed)
+         //{
+            s = itr->second;
+            s.x = x;
+            s.y = y - 100;
+            //isDisplayed = true;
+            itr++;
+            if (itr == Font::fontMap.end())
+               itr = Font::fontMap.begin();
+         //}
+      }
+      s.drawUV(0, 0);
+   }
+   ////////////////////////////////////////////////////////////////////////////////
 }
 /*-----------------------------------------------*/
 void dialogManager::center(int* x, int* y, int rows, int cols)
@@ -54,11 +92,11 @@ void dialogManager::center(int* x, int* y, int rows, int cols)
    int cellWidth = DialogBox::texture->cellWidth;
    int cellHeight = DialogBox::texture->cellHeight;
 
-   int screenCenterX = floor(*screenWidth / 2.0);
-   int screenCenterY = floor(*screenHeight / 2.0);
+   int screenCenterX = (int) floor(*screenWidth / 2.0);
+   int screenCenterY = (int) floor(*screenHeight / 2.0);
 
-   int halfTexWidth = floor((cols * cellWidth) / 2.0);
-   int halfTexHeight = floor((rows * cellHeight) / 2.0);
+   int halfTexWidth = (int) floor((cols * cellWidth) / 2.0);
+   int halfTexHeight = (int) floor((rows * cellHeight) / 2.0);
 
    *x = screenCenterX - halfTexWidth;
    *y = screenCenterY - halfTexHeight;
