@@ -25,7 +25,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	float vSize = 1 / (textureHeight / cellSize);
 	int health = 100;
 
-	player = PlayerSprite(texture, 0, 0, 80, 80, 
+	player = PlayerSprite(texture, 0, 0, 65, 65, 
 		0, 8 * vSize, 2 * uSize , 3 * vSize, health);
 	player.maxSpeedX = 175;
 	player.maxSpeedY = 175;
