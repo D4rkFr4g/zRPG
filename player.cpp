@@ -1,7 +1,7 @@
 #include "player.h"
 
 //enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
-enum {IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT, WALKING_RIGHT, WALKING_DIAG_UP, WALKING_DIAG_DOWN, DEATH};
+enum {IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT_RIGHT, WALKING_DIAG_UP, WALKING_DIAG_DOWN, DEATH};
 enum {COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END};
 enum {LEFT, RIGHT, TOP, BOTTOM};
 
@@ -27,8 +27,8 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 
 	player = PlayerSprite(texture, 0, 0, 80, 80, 
 		0, 8 * vSize, 2 * uSize , 3 * vSize, health);
-	player.maxSpeedX = 150;
-	player.maxSpeedY = 150;
+	player.maxSpeedX = 175;
+	player.maxSpeedY = 175;
 	//player.jumpSpeed = -300;
 	//player.jumpTicks = 200;
 
@@ -40,7 +40,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	player.colliderXOffset = xOffset;
 	player.colliderYOffset = yOffset;
 	player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
-   player.isColliderDrawn = true;
+   player.isColliderDrawn = false;
 
 
    // Animations
@@ -54,7 +54,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	player.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 
 	// Walking Down Animation
-	numFrames = 8;
+	numFrames = 7;
 	AnimationFrame* frames_walkingDown = new AnimationFrame[numFrames];
 	frames_walkingDown[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 	frames_walkingDown[1] = AnimationFrame(1 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
@@ -63,7 +63,6 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	frames_walkingDown[4] = AnimationFrame(4 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 	frames_walkingDown[5] = AnimationFrame(5 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 	frames_walkingDown[6] = AnimationFrame(6 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-	frames_walkingDown[7] = AnimationFrame(7 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 	Animation animation_walkingDown = Animation("Walking Down", frames_walkingDown, numFrames);
 	player.animations[animation_walkingDown.name] = AnimationData(animation_walkingDown, timeToNextFrame, true);
 
@@ -89,10 +88,8 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	frames_walkingLR[4] = AnimationFrame(4 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
 	frames_walkingLR[5] = AnimationFrame(5 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
 
-	Animation animation_walkingLeft = Animation("Walking Left", frames_walkingLR, numFrames);
-	player.animations[animation_walkingLeft.name] = AnimationData(animation_walkingLeft, timeToNextFrame, true);
-	Animation animation_walkingRight = Animation("Walking Right", frames_walkingLR, numFrames);
-	player.animations[animation_walkingRight.name] = AnimationData(animation_walkingRight, timeToNextFrame, true);
+	Animation animation_walkingLR = Animation("Walking LR", frames_walkingLR, numFrames);
+	player.animations[animation_walkingLR.name] = AnimationData(animation_walkingLR, timeToNextFrame, true);
 	
 	// Walking Diag facing down animation
 	numFrames = 5;
@@ -316,6 +313,8 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 	// IDLE State
 	if (player->state == IDLE)
 	{
+		player->isAnimated = false;
+
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
@@ -328,9 +327,9 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 
 		// Check for new Transition
 		if (isWalkingLeft)
-			player->state = WALKING_LEFT;
+			player->state = WALKING_LEFT_RIGHT;
 		if (isWalkingRight)
-			player->state = WALKING_RIGHT;
+			player->state = WALKING_LEFT_RIGHT;
 		if (isWalkingDown)
 			player->state = WALKING_DOWN;
 		if (isWalkingUp)
@@ -357,6 +356,8 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 	// WALKING_DOWN State
 	else if (player->state == WALKING_DOWN)	
 	{
+		player->isAnimated = true;
+
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
@@ -368,13 +369,13 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		if (isIdle)
 			player->state = IDLE;
 		else if (isWalkingLeft)
-			player->state = WALKING_LEFT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingDown)
 			player->state = WALKING_DOWN;
 		else if (isWalkingUp)
 			player->state = WALKING_UP;
 		else if (isWalkingRight)
-			player->state = WALKING_RIGHT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingUpRight)
 			player->state = WALKING_DIAG_UP;
 		else if (isWalkingUpLeft)
@@ -388,6 +389,7 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 	// WALKING_UP State
 	else if (player->state == WALKING_UP)
 	{
+		player->isAnimated = true;
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
@@ -396,16 +398,18 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		}
 
 		// Check for new Transition
-		if (isIdle)
-			player->state = IDLE;
+		if (isIdle) {
+			player->curAnimation.currentFrame = 1;
+			player->isAnimated = false;
+		}
 		else if (isWalkingLeft)
-			player->state = WALKING_LEFT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingDown)
 			player->state = WALKING_DOWN;
 		else if (isWalkingUp)
 			player->state = WALKING_UP;
 		else if (isWalkingRight)
-			player->state = WALKING_RIGHT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingUpRight)
 			player->state = WALKING_DIAG_UP;
 		else if (isWalkingUpLeft)
@@ -416,58 +420,31 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 			player->state = WALKING_DIAG_DOWN;
 	}
 
-	// WALKING_LEFT State
-	else if (player->state == WALKING_LEFT)
+	// WALKING_LEFT_RIGHT State
+	else if (player->state == WALKING_LEFT_RIGHT)
 	{
+		player->isAnimated = true;
+
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
-			player->setAnimation("Walking Left");
+			player->setAnimation("Walking LR");
 			player->prevState = player->state;
 		}
 
 		// Check for new Transition
-		if (isIdle)
-			player->state = IDLE;
+		if (isIdle) {
+			player->curAnimation.currentFrame = 1;
+			player->isAnimated = false;
+		}
 		else if (isWalkingLeft)
-			player->state = WALKING_LEFT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingDown)
 			player->state = WALKING_DOWN;
 		else if (isWalkingUp)
 			player->state = WALKING_UP;
 		else if (isWalkingRight)
-			player->state = WALKING_RIGHT;
-		else if (isWalkingUpRight)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingUpLeft)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingDownRight)
-			player->state = WALKING_DIAG_DOWN;
-		else if (isWalkingDownLeft)
-			player->state = WALKING_DIAG_DOWN;
-	}
-
-	// WALKING_RIGHT State
-	else if (player->state == WALKING_RIGHT)
-	{
-		// Handle State Transition
-		if (player->state != player->prevState)
-		{
-			player->setAnimation("Walking Right");
-			player->prevState = player->state;
-		}
-
-		// Check for new Transition
-		if (isIdle)
-			player->state = IDLE;
-		else if (isWalkingLeft)
-			player->state = WALKING_LEFT;
-		else if (isWalkingDown)
-			player->state = WALKING_DOWN;
-		else if (isWalkingUp)
-			player->state = WALKING_UP;
-		else if (isWalkingRight)
-			player->state = WALKING_RIGHT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingUpRight)
 			player->state = WALKING_DIAG_UP;
 		else if (isWalkingUpLeft)
@@ -481,6 +458,8 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 	// WALKING_DIAG_UP State
 	else if (player->state == WALKING_DIAG_UP)
 	{
+		player->isAnimated = true;
+
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
@@ -489,16 +468,18 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		}
 
 		// Check for new Transition
-		if (isIdle)
-			player->state = IDLE;
+		if (isIdle) {
+			player->curAnimation.currentFrame = 1;
+			player->isAnimated = false;
+		}
 		else if (isWalkingLeft)
-			player->state = WALKING_LEFT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingDown)
 			player->state = WALKING_DOWN;
 		else if (isWalkingUp)
 			player->state = WALKING_UP;
 		else if (isWalkingRight)
-			player->state = WALKING_RIGHT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingUpRight)
 			player->state = WALKING_DIAG_UP;
 		else if (isWalkingUpLeft)
@@ -512,6 +493,8 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 	// WALKING_DIAG_DOWN State
 	else if (player->state == WALKING_DIAG_DOWN)
 	{
+		player->isAnimated = true;
+
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
@@ -520,16 +503,18 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		}
 
 		// Check for new Transition
-		if (isIdle)
-			player->state = IDLE;
+		if (isIdle) {
+			player->curAnimation.currentFrame = 0;
+			player->isAnimated = false;
+		}
 		else if (isWalkingLeft)
-			player->state = WALKING_LEFT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingDown)
 			player->state = WALKING_DOWN;
 		else if (isWalkingUp)
 			player->state = WALKING_UP;
 		else if (isWalkingRight)
-			player->state = WALKING_RIGHT;
+			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingUpRight)
 			player->state = WALKING_DIAG_UP;
 		else if (isWalkingUpLeft)
