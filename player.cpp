@@ -116,63 +116,6 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	Animation animation_walkingDiagUp = Animation("Walking DiagUp", frames_walkingDiagUp, numFrames);
 	player.animations[animation_walkingDiagUp.name] = AnimationData(animation_walkingDiagUp, timeToNextFrame, true);
 
-	// Walking Animation
-	/*
-	numFrames = 4;
-	AnimationFrame* frames_walking = new AnimationFrame[numFrames];
-	frames_walking[0] = AnimationFrame(0 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_walking[1] = AnimationFrame(3 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_walking[2] = AnimationFrame(6 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_walking[3] = AnimationFrame(9 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_walking = Animation("Walking", frames_walking, numFrames);
-	player.animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
-	*/
-
-	// WalkingGunUp Animation
-	/*
-	numFrames = 4;
-	AnimationFrame* frames_walkingGunUp = new AnimationFrame[numFrames];
-	frames_walkingGunUp[0] = AnimationFrame(0 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	frames_walkingGunUp[1] = AnimationFrame(3 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	frames_walkingGunUp[2] = AnimationFrame(6 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	frames_walkingGunUp[3] = AnimationFrame(9 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_walkingGunUp = Animation("WalkingGunUp", frames_walkingGunUp, numFrames);
-	player.animations[animation_walkingGunUp.name] = AnimationData(animation_walkingGunUp, timeToNextFrame, true);
-	*/
-
-	// WalkingGunDown Animation
-	/*
-	numFrames = 4;
-	AnimationFrame* frames_walkingGunDown = new AnimationFrame[numFrames];
-	frames_walkingGunDown[0] = AnimationFrame(12 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	frames_walkingGunDown[1] = AnimationFrame(15 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	frames_walkingGunDown[2] = AnimationFrame(18 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	frames_walkingGunDown[3] = AnimationFrame(21 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_walkingGunDown = Animation("WalkingGunDown", frames_walkingGunDown, numFrames);
-	player.animations[animation_walkingGunDown.name] = AnimationData(animation_walkingGunDown, timeToNextFrame, true);
-	*/
-
-	// Jumping Animation
-	/*
-	numFrames = 4;
-	AnimationFrame* frames_jumping = new AnimationFrame[numFrames];
-	frames_jumping[0] = AnimationFrame(9 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	frames_jumping[1] = AnimationFrame(12 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	frames_jumping[2] = AnimationFrame(15 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	frames_jumping[3] = AnimationFrame(18 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_jumping = Animation("Jumping", frames_jumping, numFrames);
-	player.animations[animation_jumping.name] = AnimationData(animation_jumping, timeToNextFrame, true);
-	*/
-	
-	// Prone Animation
-	/*
-	numFrames = 1;
-	AnimationFrame* frames_prone = new AnimationFrame[numFrames];
-	frames_prone[0] = AnimationFrame(0 * uSize, 0 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_prone = Animation("Prone", frames_prone, numFrames);
-	player.animations[animation_prone.name] = AnimationData(animation_prone, timeToNextFrame, true);
-	*/
-
 	// Death Animation
 	numFrames = 2;
 	timeToNextFrame = 150;
@@ -181,58 +124,6 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	frames_death[1] = AnimationFrame(24 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
 	Animation animation_death = Animation("Death", frames_death, numFrames);
 	player.animations[animation_death.name] = AnimationData(animation_death, timeToNextFrame, false);
-
-	// IdleShooting Animation
-	/*
-	numFrames = 4;
-	timeToNextFrame = 40;
-	AnimationFrame* frames_shooting = new AnimationFrame[numFrames];
-	frames_shooting[0] = AnimationFrame(6 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	frames_shooting[1] = AnimationFrame(3 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	frames_shooting[2] = AnimationFrame(0 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	frames_shooting[3] = AnimationFrame(3 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_shooting = Animation("Shooting", frames_shooting, numFrames);
-	player.animations[animation_shooting.name] = AnimationData(animation_shooting, timeToNextFrame, true);
-	*/
-
-	// RunShooting Animation
-	/*
-	numFrames = 8;
-	timeToNextFrame = 100;
-	AnimationFrame* frames_runShooting = new AnimationFrame[numFrames];
-	frames_runShooting[0] = AnimationFrame(12 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_runShooting[1] = AnimationFrame(0 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_runShooting[2] = AnimationFrame(15 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_runShooting[3] = AnimationFrame(3 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_runShooting[4] = AnimationFrame(18 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_runShooting[5] = AnimationFrame(6 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_runShooting[6] = AnimationFrame(21 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	frames_runShooting[7] = AnimationFrame(9 * uSize, 7 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_runShooting = Animation("RunShooting", frames_runShooting, numFrames);
-	player.animations[animation_runShooting.name] = AnimationData(animation_runShooting, timeToNextFrame, true);
-	*/
-
-	// ProneShooting Animation
-	/*
-	numFrames = 3;
-	timeToNextFrame = 40;
-	AnimationFrame* frames_proneShooting = new AnimationFrame[numFrames];
-	frames_proneShooting[0] = AnimationFrame(6 * uSize, 0 * vSize, 3 * uSize, 3 * vSize);
-	frames_proneShooting[1] = AnimationFrame(0 * uSize, 0 * vSize, 3 * uSize, 3 * vSize);
-	frames_proneShooting[2] = AnimationFrame(3 * uSize, 0 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_proneShooting = Animation("ProneShooting", frames_proneShooting, numFrames);
-	player.animations[animation_proneShooting.name] = AnimationData(animation_proneShooting, timeToNextFrame, true);
-	*/
-
-	// LookUp Animation
-	/*
-	numFrames = 1;
-	timeToNextFrame = 200;
-	AnimationFrame* frames_lookUp = new AnimationFrame[numFrames];
-	frames_lookUp[0] = AnimationFrame(24 * uSize, 3 * vSize, 3 * uSize, 3 * vSize);
-	Animation animation_lookUp = Animation("LookUp", frames_lookUp, numFrames);
-	player.animations[animation_lookUp.name] = AnimationData(animation_lookUp, timeToNextFrame, true);
-	*/
 
 	// Initialize animation and return
 	player.setAnimation("Idle");
@@ -296,12 +187,6 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
    bool isWalkingDownLeft = (kbState[SDL_SCANCODE_S] & kbState[SDL_SCANCODE_A] & !kbState[SDL_SCANCODE_W] & !kbState[SDL_SCANCODE_D]) == 1;
    bool isWalkingDownRight = (kbState[SDL_SCANCODE_S] & kbState[SDL_SCANCODE_D] & !kbState[SDL_SCANCODE_W] & !kbState[SDL_SCANCODE_A]) == 1;
 
-	//bool isRunShooting = ((kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_D]) & kbState[SDL_SCANCODE_J]) == 1;
-	//bool isJumping = kbState[SDL_SCANCODE_K] == 1;
-	//bool isProne = kbState[SDL_SCANCODE_S] == 1;
-	//bool isShooting = kbState[SDL_SCANCODE_J] == 1;
-	//bool isProneShooting = (kbState[SDL_SCANCODE_S] & kbState[SDL_SCANCODE_J]) == 1;
-
    if (isWalkingUpLeft || isWalkingUpRight || isWalkingDownLeft || isWalkingDownRight)
    {
       player->speedX *= .75;
@@ -313,12 +198,12 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 	// IDLE State
 	if (player->state == IDLE)
 	{
-		player->isAnimated = false;
-
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
-			player->setAnimation("Idle");
+         player->isAnimated = false;
+
+			//player->setAnimation("Idle");
 			player->prevState = player->state;
 
 			player->speedX = 0;
@@ -326,403 +211,159 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 		}
 
 		// Check for new Transition
-		if (isWalkingLeft)
-			player->state = WALKING_LEFT_RIGHT;
-		if (isWalkingRight)
-			player->state = WALKING_LEFT_RIGHT;
-		if (isWalkingDown)
-			player->state = WALKING_DOWN;
-		if (isWalkingUp)
-			player->state = WALKING_UP;
-		if (isWalkingDownLeft)
-			player->state = WALKING_DIAG_DOWN;
-		if (isWalkingDownRight)
-			player->state = WALKING_DIAG_DOWN;
-		if (isWalkingUpLeft)
-			player->state = WALKING_DIAG_UP;
-		if (isWalkingUpRight)
-			player->state = WALKING_DIAG_UP;
-
-		/*
-		else if (isShooting)
-			player->state = IDLE_SHOOT;
-		else if (isProne)
-			player->state = PRONE;
-		else if (isJumping)
-			player->state = JUMPING;
-		*/
+      if (isWalkingLeft || isWalkingRight)
+         player->state = WALKING_LEFT_RIGHT;
+      else if (isWalkingUp)
+         player->state = WALKING_UP;
+      else if (isWalkingDown)
+         player->state = WALKING_DOWN;
+      else if (isWalkingUpRight || isWalkingUpLeft)
+         player->state = WALKING_DIAG_UP;
+      else if (isWalkingDownRight || isWalkingDownLeft)
+         player->state = WALKING_DIAG_DOWN;
 	}
 
 	// WALKING_DOWN State
 	else if (player->state == WALKING_DOWN)	
 	{
-		player->isAnimated = true;
-
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
+         player->isAnimated = true;
 			player->setAnimation("Walking Down");
 			player->prevState = player->state;
 		}
 
 		// Check for new Transition
-		if (isIdle)
-			player->state = IDLE;
-		else if (isWalkingLeft)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingDown)
-			player->state = WALKING_DOWN;
-		else if (isWalkingUp)
-			player->state = WALKING_UP;
-		else if (isWalkingRight)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingUpRight)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingUpLeft)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingDownRight)
-			player->state = WALKING_DIAG_DOWN;
-		else if (isWalkingDownLeft)
-			player->state = WALKING_DIAG_DOWN;
+      if (isIdle)
+      {
+         player->setCurrentFrame(0);
+         player->isAnimated = false;
+         player->state = IDLE;
+      }
+      else if (isWalkingLeft || isWalkingRight)
+         player->state = WALKING_LEFT_RIGHT;
+      else if (isWalkingUp)
+         player->state = WALKING_UP;
+      else if (isWalkingUpRight || isWalkingUpLeft)
+         player->state = WALKING_DIAG_UP;
+      else if (isWalkingDownRight || isWalkingDownLeft)
+         player->state = WALKING_DIAG_DOWN;
 	}
 
 	// WALKING_UP State
 	else if (player->state == WALKING_UP)
 	{
-		player->isAnimated = true;
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
+         player->isAnimated = true;
 			player->setAnimation("Walking Up");
 			player->prevState = player->state;
 		}
 
 		// Check for new Transition
-		if (isIdle) {
-			player->curAnimation.currentFrame = 1;
+		if (isIdle) 
+      {
+         player->setCurrentFrame(1);
 			player->isAnimated = false;
+         player->state = IDLE;
 		}
-		else if (isWalkingLeft)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingDown)
-			player->state = WALKING_DOWN;
-		else if (isWalkingUp)
-			player->state = WALKING_UP;
-		else if (isWalkingRight)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingUpRight)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingUpLeft)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingDownRight)
-			player->state = WALKING_DIAG_DOWN;
-		else if (isWalkingDownLeft)
-			player->state = WALKING_DIAG_DOWN;
+      else if (isWalkingLeft || isWalkingRight)
+         player->state = WALKING_LEFT_RIGHT;
+      else if (isWalkingDown)
+         player->state = WALKING_DOWN;
+      else if (isWalkingUpRight || isWalkingUpLeft)
+         player->state = WALKING_DIAG_UP;
+      else if (isWalkingDownRight || isWalkingDownLeft)
+         player->state = WALKING_DIAG_DOWN;
 	}
 
 	// WALKING_LEFT_RIGHT State
 	else if (player->state == WALKING_LEFT_RIGHT)
-	{
-		player->isAnimated = true;
-
+	{		
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
+         player->isAnimated = true;
 			player->setAnimation("Walking LR");
 			player->prevState = player->state;
 		}
 
 		// Check for new Transition
-		if (isIdle) {
-			player->curAnimation.currentFrame = 1;
+		if (isIdle) 
+      {
+         player->setCurrentFrame(1);
 			player->isAnimated = false;
+         player->state = IDLE;
 		}
-		else if (isWalkingLeft)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingDown)
-			player->state = WALKING_DOWN;
-		else if (isWalkingUp)
-			player->state = WALKING_UP;
-		else if (isWalkingRight)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingUpRight)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingUpLeft)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingDownRight)
-			player->state = WALKING_DIAG_DOWN;
-		else if (isWalkingDownLeft)
-			player->state = WALKING_DIAG_DOWN;
+      else if (isWalkingDown)
+         player->state = WALKING_DOWN;
+      else if (isWalkingUp)
+         player->state = WALKING_UP;
+      else if (isWalkingUpRight || isWalkingUpLeft)
+         player->state = WALKING_DIAG_UP;
+      else if (isWalkingDownRight || isWalkingDownLeft)
+         player->state = WALKING_DIAG_DOWN;
 	}
 
 	// WALKING_DIAG_UP State
 	else if (player->state == WALKING_DIAG_UP)
 	{
-		player->isAnimated = true;
-
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
+         player->isAnimated = true;
 			player->setAnimation("Walking DiagUp");
 			player->prevState = player->state;
 		}
 
 		// Check for new Transition
-		if (isIdle) {
-			player->curAnimation.currentFrame = 1;
+		if (isIdle) 
+      {
+         player->setCurrentFrame(2);
 			player->isAnimated = false;
+         player->state = IDLE;
 		}
-		else if (isWalkingLeft)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingDown)
-			player->state = WALKING_DOWN;
-		else if (isWalkingUp)
-			player->state = WALKING_UP;
-		else if (isWalkingRight)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingUpRight)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingUpLeft)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingDownRight)
-			player->state = WALKING_DIAG_DOWN;
-		else if (isWalkingDownLeft)
-			player->state = WALKING_DIAG_DOWN;
+      else if (isWalkingLeft || isWalkingRight)
+         player->state = WALKING_LEFT_RIGHT;
+      else if (isWalkingDown)
+         player->state = WALKING_DOWN;
+      else if (isWalkingUp)
+         player->state = WALKING_UP;
+      else if (isWalkingDownRight || isWalkingDownLeft)
+         player->state = WALKING_DIAG_DOWN;
 	}
 
 	// WALKING_DIAG_DOWN State
 	else if (player->state == WALKING_DIAG_DOWN)
 	{
-		player->isAnimated = true;
-
 		// Handle State Transition
 		if (player->state != player->prevState)
 		{
-		player->setAnimation("Walking DiagDown");
-		player->prevState = player->state;
+         player->isAnimated = true;
+		   player->setAnimation("Walking DiagDown");
+		   player->prevState = player->state;
 		}
 
 		// Check for new Transition
-		if (isIdle) {
-			player->curAnimation.currentFrame = 0;
+		if (isIdle) 
+      {
+			player->setCurrentFrame(0);
 			player->isAnimated = false;
+         player->state = IDLE;
 		}
-		else if (isWalkingLeft)
+		else if (isWalkingLeft || isWalkingRight)
 			player->state = WALKING_LEFT_RIGHT;
 		else if (isWalkingDown)
 			player->state = WALKING_DOWN;
 		else if (isWalkingUp)
 			player->state = WALKING_UP;
-		else if (isWalkingRight)
-			player->state = WALKING_LEFT_RIGHT;
-		else if (isWalkingUpRight)
+		else if (isWalkingUpRight || isWalkingUpLeft)
 			player->state = WALKING_DIAG_UP;
-		else if (isWalkingUpLeft)
-			player->state = WALKING_DIAG_UP;
-		else if (isWalkingDownRight)
-			player->state = WALKING_DIAG_DOWN;
-		else if (isWalkingDownLeft)
-			player->state = WALKING_DIAG_DOWN;
 	}
 
-	/*
-	// RUN SHOOTING State
-	else if (player->state == RUN_SHOOTING)
-	{
-		// Handle State Transition
-		if (player->state != player->prevState)
-		{
-			player->setAnimation("RunShooting");
-			player->prevState = player->state;
-		}
-
-		// Check for new Transition
-		if (!isWalking)
-		{
-			if (isShooting && !isProne)
-				player->state = IDLE_SHOOT;
-			else if (isProneShooting)
-				player->state = PRONE_SHOOTING;
-			else
-				player->state = IDLE;
-		}
-		else if (isWalking && !isShooting)
-			player->state = WALKING;
-		else if (isProne)
-		{
-			if (isShooting)
-				player->state = PRONE_SHOOTING;
-			else
-				player->state = PRONE;
-		}
-		else if (isJumping)
-			player->state = JUMPING;
-	}
-	*/
-
-	/*
-	// JUMPING State
-	else if (player->state == JUMPING)
-	{
-		// Handle State Transition
-		if (player->state != player->prevState)
-		{
-			player->setAnimation("Jumping");
-			player->prevState = player->state;
-
-			player->isJumping = true;
-			if (player->jumpTicksRemaining <= 0)
-				player->jumpTicksRemaining = player->jumpTicks;
-		}
-
-		if (isJumping)
-		{
-			if (player->jumpTicksRemaining > 0)
-				player->speedY = player->jumpSpeed;
-		}
-		else
-			player->jumpTicksRemaining = 0;
-
-		// Check for new Transition
-		if (!player->isJumping)
-		{
-			if (!isWalking)
-			{
-				if (isShooting)
-					player->state = IDLE_SHOOT;
-				else
-					player->state = IDLE;
-			}
-			else if (isWalking)
-			{
-				if(isShooting)
-					player->state = RUN_SHOOTING;
-				else
-					player->state = WALKING;
-			}
-			else if (isProne)
-			{
-				if (isShooting)
-					player->state = PRONE_SHOOTING;
-				else
-					player->state = PRONE;
-			}
-		}
-	}
-	*/
-
-	/*
-	// PRONE State
-	else if (player->state == PRONE)
-	{
-		player->speedX = 0;
-
-		// Handle State Transition
-		if (player->state != player->prevState)
-		{
-			player->setAnimation("Prone");
-			player->prevState = player->state;
-		}
-
-		// Check for new Transition
-		if (!isProne && !isWalking && !isJumping)
-		{
-			if (isShooting)
-				player->state = IDLE_SHOOT;
-			else
-				player->state = IDLE;
-		}
-		else if (isWalking && !isProne)
-		{
-			// Fix for Gun Up / Gun Down
-			if(isShooting)
-				player->state = RUN_SHOOTING;
-			else
-				player->state = WALKING;
-		}
-		else if (isShooting)
-		{
-			player->state = PRONE_SHOOTING;
-		}
-		else if (isJumping)
-			player->state = JUMPING;
-	}
-	*/
-
-	/*
-	// PRONE SHOOTING State
-	else if (player->state == PRONE_SHOOTING)
-	{
-		player->speedX = 0;
-
-		// Handle State Transition
-		if (player->state != player->prevState)
-		{
-			player->setAnimation("ProneShooting");
-			player->prevState = player->state;
-		}
-
-		// Check for new Transition
-		if (!isWalking && !isJumping && !isProne)
-		{
-			if (isShooting)
-				player->state = IDLE_SHOOT;
-			else
-				player->state = IDLE;
-		}
-		else if (isWalking && !isProne)
-		{
-			if(isShooting)
-				player->state = RUN_SHOOTING;
-			else
-				player->state = WALKING;
-		}
-		else if (isProne && !isShooting)
-		{
-			player->state = PRONE;
-		}
-		else if (isJumping)
-			player->state = JUMPING;
-	}
-	*/
-
-	/*
-	// IDLE SHOOT State
-	else if (player->state == IDLE_SHOOT)
-	{
-		// Handle State Transition
-		if (player->state != player->prevState)
-		{
-			player->setAnimation("Shooting");
-			player->prevState = player->state;
-
-			player->speedX = 0;
-		}
-
-		// Check for new Transition
-		if (isIdle)
-		{
-			player->state = IDLE;
-		}
-		else if (isWalking)
-		{
-			if(isShooting)
-				player->state = RUN_SHOOTING;
-			else
-				player->state = WALKING;
-		}
-		else if (isProne)
-		{
-			if (isShooting)
-				player->state = PRONE_SHOOTING;
-			else
-				player->state = PRONE;
-		}
-		else if (isJumping)
-			player->state = JUMPING;
-	}
-	*/
-
+   // Death State
 	else if (player->state == DEATH)
 	{
 		// Handle State Transition
@@ -733,16 +374,16 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 
          eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
 
-			player->isJumping = true;
+			/*player->isJumping = true;
 			if (player->speedX >= 0)
 				player->speedX = -200;
 			else
 				player->speedX = 200;
-			player->speedY = -300;
+			player->speedY = -300;*/
 		}
 		
-		if (!player->isJumping)
-			player->speedX = 0;
+		/*if (!player->isJumping)
+			player->speedX = 0;*/
 	}
 
 	// Debug for State

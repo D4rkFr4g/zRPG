@@ -16,6 +16,7 @@ public:
 	void update(int ms);
 	void setAnimation(std::string animation);
 	void updatePosition(float x , float y);
+   void setCurrentFrame(int index);
 
 	// Variables
 	bool isAnimated;

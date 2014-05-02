@@ -42,14 +42,8 @@ void AnimatedSprite::update(int ms)
 	// Update Animation
 	curAnimation.updateTime(ms);
 	int currentFrame = curAnimation.currentFrame;
-	AnimationFrame frame = curAnimation.def.frames[currentFrame];
-	if (isAnimated)
-	{
-		tu = frame.tu;
-		tv = frame.tv;
-		tSizeX = frame.tWidth;
-		tSizeY = frame.tHeight;
-	}
+   if (isAnimated)
+      setCurrentFrame(currentFrame);
 
 	// Update Colliders
 	prevCollider.x = collider.x;
@@ -93,4 +87,20 @@ void AnimatedSprite::updatePosition(float x , float y)
 	// Update Colliders
 	collider.x = this->x + colliderXOffset;
 	collider.y = this->y + colliderYOffset;
+}
+/*-----------------------------------------------*/
+void AnimatedSprite::setCurrentFrame(int index)
+{
+   /* PURPOSE:		Sets the animations current frame to the specified frame
+      RECEIVES:	index - the frame number to be set
+      RETURNS:
+      REMARKS:
+   */
+
+   AnimationFrame frame = curAnimation.def.frames[index];
+
+   tu = frame.tu;
+   tv = frame.tv;
+   tSizeX = frame.tWidth;
+   tSizeY = frame.tHeight;
 }
