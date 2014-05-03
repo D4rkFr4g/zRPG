@@ -142,12 +142,6 @@ static int whichBucket(int x, int y)
 	int row = (int) floor((float) y / g_windowHeight);
 	int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
 
-	/*if (column < 0 || column >= bucketWidth)
-      return bucketWidth;*/
-
-   // In case screen is too small
-   //if ()
-
 	return (row * bucketWidth) + column;
 }
 /*-----------------------------------------------*/
