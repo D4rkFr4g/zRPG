@@ -142,8 +142,11 @@ static int whichBucket(int x, int y)
 	int row = (int) floor((float) y / g_windowHeight);
 	int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
 
-	if (column < 0 || column >= bucketWidth)
-		return -1;
+	/*if (column < 0 || column >= bucketWidth)
+      return bucketWidth;*/
+
+   // In case screen is too small
+   //if ()
 
 	return (row * bucketWidth) + column;
 }
@@ -181,7 +184,12 @@ static void initBuckets()
 	// Initialize spriteBuckets
 	int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
 	int bucketHeight = (int) floor((float) g_windowMaxHeight / g_windowHeight);
-	int numOfBuckets = bucketWidth * bucketHeight;
+   int numOfBuckets = bucketWidth * bucketHeight;
+   
+   // In case screen is too small
+   if (numOfBuckets < 1)
+      numOfBuckets = 1;
+
 	g_spriteBuckets.reserve(numOfBuckets);
 	
 	for (int i = 0; i < numOfBuckets; i++)

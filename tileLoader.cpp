@@ -181,8 +181,17 @@ void tileLoader::loadTiles(const char* filename, TileLevel *level)
 		{
 			// Find Row / Column texture coords
 			int tilePos = tilesRead[tileIndex];
-			int row = (tileMapRows-1) - ((tilePos-1) / tileMapCols); // Flip Y for UV coords
+         int row = (tileMapRows-1) - ((tilePos-1) / tileMapCols); // Flip Y for UV coords
 			int column = (tilePos-1) % tileMapCols;
+         
+         // offset for blank tile 0
+         if (tilePos == 0)
+         {
+            column = 2;
+            row = 11;
+         }
+
+         // Set texture coords
 			tu = column * tSizeX;
 			tv = row * tSizeY;
 
@@ -192,7 +201,9 @@ void tileLoader::loadTiles(const char* filename, TileLevel *level)
 
 
 			Sprite* sprite = &Sprite(tileSet, x, y, tileWidth, tileHeight, tu, tv, tSizeX, tSizeY);
-			if (tileTypes != NULL)
+			
+         // Load collidable tiles index
+         if (tileTypes != NULL)
 			{
 				int type = tileTypes[tileIndex];
 				if (type != 0)
