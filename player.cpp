@@ -2,7 +2,8 @@
 
 //enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
 enum {IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT_RIGHT, WALKING_DIAG_UP, WALKING_DIAG_DOWN, DEATH};
-enum {COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END};
+enum {COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END, BATTLE_EASY,
+		BATTLE_MEDIUM, BATTLE_HARD};
 enum {LEFT, RIGHT, TOP, BOTTOM};
 
 EventQueue* player::eventQueue;
@@ -33,10 +34,10 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	//player.jumpTicks = 200;
 
 	//Setup Collider
-	int xOffset = 30;
-	int yOffset = 60;
-	int width = 20;
-	int height = 10;
+	int xOffset = 20;
+	int yOffset = 45;
+	int width = 25;
+	int height = 8;
 	player.colliderXOffset = xOffset;
 	player.colliderYOffset = yOffset;
 	player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
