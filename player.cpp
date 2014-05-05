@@ -435,13 +435,22 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
 	// Ground Collision
 	if (sprite->type == COLLISION_GROUND || sprite->type == COLLISION_PLATFORM)
 	{
+		
 		if (sides[TOP]) 
 		{
 			player->isJumping = false;
 			player->speedY = 0;
-			int newY = (sprite->collider.y - 1) - player->height;
-			player->updatePosition(player->posX,(float) newY);
+			int newY = (sprite->collider.y - 1) - (player->collider.h + player->colliderYOffset);
+			player->updatePosition(player->posX, (float) newY);
 		}
+		else if (sides[BOTTOM])
+		{
+			player->isJumping = false;
+			player->speedY = 0;
+			int newY = (sprite->collider.y + 1) + sprite->collider.h - player->colliderYOffset;
+			player->updatePosition(player->posX, (float) newY);
+		}
+		
 
 		if (sprite->type == COLLISION_GROUND)
 		{
@@ -457,6 +466,15 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
 				int newX = (sprite->collider.x + 1) + sprite->collider.w - player->colliderXOffset;
 				player->updatePosition((float) newX , player->posY);
 			}
+			/*
+			else if (sides[TOP])
+			{
+				player->isJumping = false;
+				player->speedY = 0;
+				int newY = (sprite->colliderYOffset - 1) - player->height;
+				player->updatePosition(player->posX, (float) newY);
+			}
+			*/
 		}
 	}
 	if (sprite->type == COLLISION_END)
