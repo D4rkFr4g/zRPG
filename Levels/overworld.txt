@@ -7,6 +7,7 @@ tileheight=16
 [tilesets]
 tileset=../Sprites/zeldaTileset16.gif,16,16,0,0
 tileset=../Sprites/tileType16.png,16,16,0,0
+tileset=../../../../Desktop/28894.gif,16,16,0,0
 
 [layer]
 type=Tile Layer 1
