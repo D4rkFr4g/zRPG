@@ -15,7 +15,8 @@ public:
       ET_HEALTH_UP,
       ET_LEVEL_END,
       ET_LEVEL_BEGIN,
-      ET_DEATH
+      ET_DEATH,
+      ET_RESTART
    };
 
    // Constructors

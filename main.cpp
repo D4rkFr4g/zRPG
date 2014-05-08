@@ -569,6 +569,7 @@ static void keyboard()
 	else if (kbState[SDL_SCANCODE_R] && !kbPrevState[SDL_SCANCODE_R])
 	{
 		player::restartPlayer(&g_player, g_currentLevel->startX, g_currentLevel->startY);
+      g_eventQueue.queueEvent(Event(Event::ET_RESTART));
 	}
 }
 /*-----------------------------------------------*/

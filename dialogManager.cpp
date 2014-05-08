@@ -22,13 +22,14 @@ void DialogManager::initDialogs()
       REMARKS:
    */
 
-   int cols = (int) floor(*screenWidth / DialogBox::texture->cellWidth);
-   int rows = 12;
-   int x = 0;
-   int y = *screenHeight - (rows * DialogBox::texture->cellHeight);
-   int linesOfText = 0;
-   int rowOffset = 2;
-   int colOffset = 5;
+   int stdCols = (int)floor(*screenWidth / DialogBox::texture->cellWidth);
+   int stdRows = 12;
+   int cols = stdCols;
+   int rows = stdRows;
+   int stdX = 0;
+   int stdY = *screenHeight - (rows * DialogBox::texture->cellHeight);
+   int x = stdX;
+   int y = stdY;
    
    DialogBox dBox;
    std::vector<DialogBox> dBoxes;
@@ -55,9 +56,8 @@ void DialogManager::initDialogs()
    dialogs["intro"] = dBoxes;
    /*-----------------------------------------------*/
    dBoxes.clear();
-   linesOfText = 2;
-   cols = (int) (floor(Font::stringWidth("\bRETURN OF GANON") / DialogBox::texture->cellWidth) + colOffset);
-   rows = (int) (floor(((Font::maxFontHeight + Font::padding) * linesOfText) / DialogBox::texture->cellHeight) + rowOffset);
+   
+   sizeDialogBox(&rows, &cols, 2, "\bRETURN OF GANON");
    center(&x, &y, rows, cols);
 
    text = "\t\bGAME OVER \n\bRETURN OF GANON";
@@ -70,6 +70,10 @@ void DialogManager::initDialogs()
 
 
    /*dBoxes.clear();
+   rows = stdRows;
+   cols = stdCols;
+   x = stdX;
+   y = stdY;
 
    text = "";
    text += "";
@@ -196,6 +200,24 @@ void DialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
    }
 }
 /*-----------------------------------------------*/
+void DialogManager::sizeDialogBox(int* rows, int* cols, int linesOfText, std::string maxRowOfText)
+{
+   /* PURPOSE:    Sets the row and col sizes needed for the given input
+      RECEIVES:   rows - number of rows in the dialog box to be set
+                  cols - number of cols in the dialog box to be set
+                  linesOfText - number of lines needed for all text in dialog box
+                  maxRowOfText - One line of text that will be the widest line in dialog box
+      RETURNS:
+      REMARKS:
+   */
+
+   int rowOffset = 2;
+   int colOffset = 5;
+
+   *cols = (int)(floor(Font::stringWidth(maxRowOfText) / DialogBox::texture->cellWidth) + colOffset);
+   *rows = (int)(floor(((Font::maxFontHeight + Font::padding) * linesOfText) / DialogBox::texture->cellHeight) + rowOffset);
+}
+/*-----------------------------------------------*/
 void DialogManager::notify(Event* event)
 {
    /* PURPOSE: EventListener callback function
@@ -212,6 +234,8 @@ void DialogManager::notify(Event* event)
    
    if (event->type == Event::ET_DEATH)
       loadDialogQueue(dialogs["death"]);
+   if (event->type == Event::ET_RESTART)
+      dialogQueue->clear();
 }
 /*-----------------------------------------------*/
 void DialogManager::registerListeners(EventQueue* eventQueue)
@@ -224,5 +248,6 @@ void DialogManager::registerListeners(EventQueue* eventQueue)
 
    eventQueue->addEventListener(Event::ET_LEVEL_BEGIN, this);
    eventQueue->addEventListener(Event::ET_DEATH, this);
+   eventQueue->addEventListener(Event::ET_RESTART, this);
 }
 /*-----------------------------------------------*/

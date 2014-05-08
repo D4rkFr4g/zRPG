@@ -19,6 +19,7 @@ private:
    void center(int* x, int* y, int rows, int cols);
    void centerX(int* x, int rows, int cols);
    void centerY(int* y, int rows, int cols);
+   void sizeDialogBox(int* rows, int* cols, int linesOfText, std::string maxRowOfText);
 
 public:
    DialogManager();
