@@ -36,8 +36,10 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
          int y = 10;
 
          center(&x, &y, rows, cols);
-         dialogQueue->push_back(DialogBox(x, y, rows, cols, "Pause", true));
+         dialogQueue->push_back(DialogBox(x, y, rows, cols, "Pause this Game\n Yo!", true));
          isPaused = true;
+
+         //std::cout << "String Width = " << Font::stringWidth("Pause this Game Yo!") << std::endl;
       }
       else
       {

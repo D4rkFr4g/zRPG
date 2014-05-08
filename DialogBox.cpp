@@ -166,5 +166,12 @@ void DialogBox::loadBorderSprites(void)
 void DialogBox::loadFontSprites(void)
 {
    // TODO
+   int cellWidth = texture->cellWidth;
+   int cellHeight = texture->cellHeight;
+   
+   int startX = x + cellWidth;
+   int startY = y + cellHeight;
+
+   Font::loadSprites(&fontSprites, text, startX, startY, (cols-2) * cellWidth, (rows-2)*cellHeight);
 }
 /*-----------------------------------------------*/

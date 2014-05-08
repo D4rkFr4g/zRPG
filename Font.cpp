@@ -2,6 +2,8 @@
 
 Texture* Font::texture;
 std::unordered_map<char, Sprite> Font::fontMap;
+int Font::maxFontHeight;
+int Font::padding;
 /*-----------------------------------------------*/
 Font::Font()
 {
@@ -113,5 +115,109 @@ void Font::buildFontMap(void)
    fontMap['?'] = Sprite(tex, x, y, 0, 0 * cellW, 7 * cellW, 13 * cellH, 167 * uSize, 35 * vSize, 7 * uSize, 13 * vSize); // ?
    fontMap['@'] = Sprite(tex, x, y, 0, -1 * cellW, 16 * cellW, 14 * cellH, 175 * uSize, 34 * vSize, 16 * uSize, 14 * vSize); // @
    fontMap[' '] = Sprite(tex, x, y, 0, 0 * cellW, 5 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 5 * uSize, 1 * vSize); // space
+
+   // Set max font height
+   for (int i = 0; i < fontMap.size(); i++)
+   {
+      if (fontMap[i].height > maxFontHeight)
+         maxFontHeight = fontMap[i].height;
+   }
+   padding = 8;
 }
 /*-----------------------------------------------*/
+int Font::stringWidth(std::string s)
+{
+   /* PURPOSE:		Process keyboard commands as they relate to dialog boxes
+      RECEIVES:	s - string to check font width
+      RETURNS:    pixel size of total string width
+      REMARKS:    This ignores characters not in the fontMap
+   */
+
+   int totalWidth = 0;
+
+   for (int i = 0; i < s.length(); i++)
+   {
+      if (fontMap[s[i]].width != NULL)
+         totalWidth += fontMap[s[i]].width;
+   }
+
+   return totalWidth;
+}
+/*-----------------------------------------------*/
+void Font::loadSprites(std::vector<Sprite>* fontSprites, std::string s, int x, int y, int width, int height)
+{
+   using std::string;
+
+   //y += maxFontHeight + 2;
+   y += 2;
+   std::vector<std::string> tokens;
+   tokenize(&tokens, s);
+   int spriteX = x;
+   int spriteY = y;
+
+   for (int i = 0; i < tokens.size(); i++)
+   {
+      string s = tokens[i];
+      
+      if (s.compare("\n") == 0)
+      {
+         spriteX = x;
+         spriteY += maxFontHeight + padding;
+      }
+      else
+      {
+         // Will it fit on current line?
+         if (spriteX == x)
+         {
+            if (spriteX + stringWidth(s) < x + width)
+               loadWord(fontSprites, s, spriteX, spriteY);
+         }
+         else
+         {
+            s = " " + s;
+            if (spriteX + stringWidth(s) < x + width)
+               loadWord(fontSprites, s, spriteX, spriteY);
+         }
+
+         spriteX += stringWidth(s);
+      }
+   }
+}
+/*-----------------------------------------------*/
+void Font::tokenize(std::vector<std::string>* tokens, std::string s)
+{
+   using std::string;
+
+   char* str = &s[0];
+   char* end = &s[s.length()];
+   do
+   {
+      char* begin = str;
+
+      while (*str != ' ' && str != end && *str != '\n')
+         str++;
+
+      tokens->push_back(string(begin, str));
+
+      if (*str == '\n')
+      {
+         tokens->push_back("\n");
+         str++;
+      }
+   } while (end != str++);
+}
+/*-----------------------------------------------*/
+void Font::loadWord(std::vector<Sprite>* fontSprites, std::string s, int x, int y)
+{
+   for (int i = 0; i < s.length(); i++)
+   {
+      char c = s[i];
+      Sprite sprite = fontMap[c];
+      sprite.x = x;
+      sprite.y = y;
+
+      x += sprite.width;
+
+      fontSprites->push_back(sprite);
+   }
+}
