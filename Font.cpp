@@ -114,7 +114,8 @@ void Font::buildFontMap(void)
    fontMap['>'] = Sprite(tex, x, y, 0, 2 * cellW, 6 * cellW, 9 * cellH, 160 * uSize, 36 * vSize, 6 * uSize, 9 * vSize); // >
    fontMap['?'] = Sprite(tex, x, y, 0, 0 * cellW, 7 * cellW, 13 * cellH, 167 * uSize, 35 * vSize, 7 * uSize, 13 * vSize); // ?
    fontMap['@'] = Sprite(tex, x, y, 0, -1 * cellW, 16 * cellW, 14 * cellH, 175 * uSize, 34 * vSize, 16 * uSize, 14 * vSize); // @
-   fontMap[' '] = Sprite(tex, x, y, 0, 0 * cellW, 5 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 5 * uSize, 1 * vSize); // space
+   fontMap['\"'] = Sprite(tex, x, y, 0, 0 * cellW, 5 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 5 * uSize, 1 * vSize); // space
+   fontMap['\t'] = Sprite(tex, x, y, 0, 0 * cellW, 15 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 15 * uSize, 1 * vSize); // tab
 
    // Set max font height
    for (int i = 0; i < fontMap.size(); i++)
@@ -122,7 +123,7 @@ void Font::buildFontMap(void)
       if (fontMap[i].height > maxFontHeight)
          maxFontHeight = fontMap[i].height;
    }
-   padding = 8;
+   padding = 5;
 }
 /*-----------------------------------------------*/
 int Font::stringWidth(std::string s)
@@ -174,7 +175,7 @@ void Font::loadSprites(std::vector<Sprite>* fontSprites, std::string s, int x, i
          }
          else
          {
-            s = " " + s;
+            s = "\"" + s;
             if (spriteX + stringWidth(s) < x + width)
                loadWord(fontSprites, s, spriteX, spriteY);
          }
@@ -202,7 +203,8 @@ void Font::tokenize(std::vector<std::string>* tokens, std::string s)
       if (*str == '\n')
       {
          tokens->push_back("\n");
-         str++;
+         if (*(str + 1) == ' ')
+            str++;
       }
    } while (end != str++);
 }
