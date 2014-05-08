@@ -30,15 +30,21 @@ void Audio::notify(Event* event)
       REMARKS:
    */
 
-   if (event->type == Event::ET_LEVEL_BEGIN && event->numParams.find("level")->second == 0)
+   if (event->type == Event::ET_LEVEL_BEGIN)
    {
-      Channel* channel;
-      fmodSystem->playSound(music["overworld"], channelMusic, false, &channel);
+      if (event->checkStrParam("level", "overworld"))
+      {
+         Channel* channel;
+         fmodSystem->playSound(music["overworld"], channelMusic, false, &channel);
+      }
    }
-   if (event->type == Event::ET_DEATH && event->strParams["subject"].compare("player") == 0)
+   if (event->type == Event::ET_DEATH)
    {
-      Channel* channel;
-      fmodSystem->playSound(soundFX["link_dying"], channelEffects, false, &channel);
+      if (event->checkStrParam("subject", "player"))
+      {
+         Channel* channel;
+         fmodSystem->playSound(soundFX["link_dying"], channelEffects, false, &channel);
+      }
    }
 }
 /*-----------------------------------------------*/

@@ -45,7 +45,7 @@ void EventQueue::updateEventQueue(void)
 		REMARKS:    First in First out
 	*/
 
-   for( int i = 0; i < eventQueue.size(); i++ ) 
+   for( int i = 0; i < (int) eventQueue.size(); i++ ) 
       notifyListeners(&eventQueue[i]);
    
    eventQueue.clear();

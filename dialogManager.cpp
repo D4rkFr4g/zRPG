@@ -221,21 +221,24 @@ void DialogManager::sizeDialogBox(int* rows, int* cols, int linesOfText, std::st
 void DialogManager::notify(Event* event)
 {
    /* PURPOSE: EventListener callback function
-   RECEIVES: event - Event from the eventQueue
-   RETURNS:
-   REMARKS:
+      RECEIVES: event - Event from the eventQueue
+      RETURNS:
+      REMARKS:
    */
 
-   if (event->type == Event::ET_LEVEL_BEGIN && event->strParams.find("level")->second == "overworld" &&
-      event->strParams.find("newGame")->second == "true")
+   if (event->type == Event::ET_LEVEL_BEGIN)
    {
-      loadDialogQueue(dialogs["intro"]);
+      if (event->checkStrParam("level", "overworld") && event->checkStrParam("newGame", "true"))
+         loadDialogQueue(dialogs["intro"]);
+
+      if (event->checkStrParam("cheese", "sandwich"))
+         loadDialogQueue(dialogs["death"]);
    }
    
    if (event->type == Event::ET_DEATH)
       loadDialogQueue(dialogs["death"]);
    if (event->type == Event::ET_RESTART)
-      dialogQueue->clear();
+         dialogQueue->clear();
 }
 /*-----------------------------------------------*/
 void DialogManager::registerListeners(EventQueue* eventQueue)

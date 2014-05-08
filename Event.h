@@ -26,6 +26,10 @@ public:
    Event(EventType et, std::string key, float value);
    ~Event(void);
 
+   // Functions
+   bool checkStrParam(std::string key, std::string value);
+   bool checkNumParam(std::string key, float value);
+
    // Variables
    EventType type;
    std::unordered_map<std::string, std::string> strParams;
