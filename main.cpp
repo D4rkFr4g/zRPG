@@ -427,8 +427,14 @@ static void drawSprites()
 static void drawDialogBoxes()
 {
    int size = g_dialogBoxes.size();
+   g_isInputRequired = false;
    for (int i = 0; i < (int)g_dialogBoxes.size(); i++)
+   {
+      if (g_dialogBoxes[i].isInputNeeded)
+         g_isInputRequired = true;
+    
       g_dialogBoxes[i].display();
+   }
 }
 /*-----------------------------------------------*/
 static float getSpeed()
@@ -501,7 +507,11 @@ static void keyboard()
 		REMARKS:		Player related controls are handled through player class
 	*/
 
-	player::playerKeyboard(&g_player, kbState, kbPrevState);
+   if (!g_isInputRequired)
+      player::playerKeyboard(&g_player, kbState, kbPrevState);
+   else
+      player::stopPlayer(&g_player);
+
    dialogManager::dialogKeyboard(kbState, kbPrevState);
 
    // Reset camera to following if it has been moved around
@@ -666,7 +676,7 @@ int main( void )
 	// The game loop
 	while( !shouldExit ) 
 	{
-		memcpy (kbPrevState, kbState, sizeof( kbPrevState ));
+		memcpy(kbPrevState, kbState, sizeof( kbPrevState ));
 
 		// Handle OS message pump
 		SDL_Event event;

@@ -31,6 +31,7 @@ DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool is
    this->cols = cols;
    this->text = text;
    this->isBorderVisible = isBorderVisible;
+   this->isInputNeeded = false;
 
    loadBorderSprites();
    loadFontSprites();

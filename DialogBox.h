@@ -28,6 +28,7 @@ public:
    int cols;
    std::string text;
    bool isBorderVisible;
+   bool isInputNeeded;
 
 private:
    std::vector<Sprite> borderSprites;

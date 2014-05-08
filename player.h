@@ -17,6 +17,7 @@ public:
 	static void updatePhysics(PlayerSprite* player, int diff_time);
 	static void collisionResolution(PlayerSprite* player, Sprite* sprite);
 	static void restartPlayer(PlayerSprite* player, int x, int y);
+   static void stopPlayer(PlayerSprite* player);
 
    // Variables
    static EventQueue* eventQueue;

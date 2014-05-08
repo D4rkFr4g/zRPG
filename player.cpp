@@ -505,3 +505,11 @@ void player::restartPlayer(PlayerSprite* player, int x, int y)
 	player->updatePosition((float) x, (float) y - player->height);
 }
 /*-----------------------------------------------*/
+void player::stopPlayer(PlayerSprite* player)
+{
+   player->isAnimated = false;
+   player->prevState = player->state;
+   player->speedX = 0;
+   player->speedY = 0;
+   player->state = IDLE;
+}

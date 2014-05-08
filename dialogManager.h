@@ -20,6 +20,7 @@ public:
    static std::vector<DialogBox>* dialogQueue;
    static int* screenWidth;
    static int* screenHeight;
+   static bool isActive;
 
 protected:
    dialogManager();
