@@ -36,7 +36,8 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
          int y = 10;
 
          center(&x, &y, rows, cols);
-         dialogQueue->push_back(DialogBox(x, y, rows, cols, "\t\tPause this Game Yo! ( @ ) \nChoose: \n> Save\n\tExit", true));
+         dialogQueue->push_back(DialogBox(x, y, rows, cols, "\t\tPause this Game \"Yo!\" ( @ ) \n\bChoose: \n> Save\n\tExit", true));
+         //dialogQueue->push_back(DialogBox(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-._0123456789:;<=>?@", true));
          isPaused = true;
       }
       else

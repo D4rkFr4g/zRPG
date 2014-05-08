@@ -1,6 +1,7 @@
 #pragma once
 #include <GL/glew.h>
 #include <iostream>
+#include <string>
 #include "DrawUtils.h"
 #include "AABB.h"
 
@@ -29,6 +30,7 @@ public:
 
 	// Variables
 	GLuint* texture;
+   std::string name;
 	int width, height;
 	int x, y;
    int offsetX, offsetY;

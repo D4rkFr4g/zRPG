@@ -84,9 +84,9 @@ void Font::buildFontMap(void)
    fontMap['X'] = Sprite(tex, x, y, 7 * cellW, 13 * cellH, 162 * uSize, 19 * vSize, 7 * uSize, 13 * vSize); // X
    fontMap['Y'] = Sprite(tex, x, y, 7 * cellW, 13 * cellH, 170 * uSize, 19 * vSize, 7 * uSize, 13 * vSize); // Y
    fontMap['Z'] = Sprite(tex, x, y, 6 * cellW, 13 * cellH, 178 * uSize, 19 * vSize, 6 * uSize, 13 * vSize); // Z
-   // Symbols
+   // Symbols //             offsetY                pixelWidth pixelHeight   gridX     gridY      gridW      gridH
    fontMap['!'] = Sprite(tex, x, y, 0, 0 * cellW, 3 * cellW, 13 * cellH, 0 * uSize, 35 * vSize, 3 * uSize, 13 * vSize); // !
-   fontMap['"'] = Sprite(tex, x, y, 0, -1 * cellW, 5 * cellW, 4 * cellH, 4 * uSize, 34 * vSize, 5 * uSize, 4 * vSize); // "
+   fontMap['\"'] = Sprite(tex, x, y, 0, -1 * cellW, 5 * cellW, 4 * cellH, 4 * uSize, 45 * vSize, 5 * uSize, 4 * vSize); // "
    fontMap['~'] = Sprite(tex, x, y, 0, 1 * cellW, 6 * cellW, 12 * cellH, 10 * uSize, 34 * vSize, 6 * uSize, 12 * vSize); // ~~~
    fontMap['&'] = Sprite(tex, x, y, 0, -1 * cellW, 6 * cellW, 14 * cellH, 17 * uSize, 34 * vSize, 6 * uSize, 14 * vSize); // &
    fontMap['|'] = Sprite(tex, x, y, 0, -1 * cellW, 6 * cellW, 14 * cellH, 24 * uSize, 34 * vSize, 6 * uSize, 14 * vSize); // |
@@ -114,7 +114,7 @@ void Font::buildFontMap(void)
    fontMap['>'] = Sprite(tex, x, y, 0, 2 * cellW, 6 * cellW, 9 * cellH, 160 * uSize, 36 * vSize, 6 * uSize, 9 * vSize); // >
    fontMap['?'] = Sprite(tex, x, y, 0, 0 * cellW, 7 * cellW, 13 * cellH, 167 * uSize, 35 * vSize, 7 * uSize, 13 * vSize); // ?
    fontMap['@'] = Sprite(tex, x, y, 0, -1 * cellW, 16 * cellW, 14 * cellH, 175 * uSize, 34 * vSize, 16 * uSize, 14 * vSize); // @
-   fontMap['\"'] = Sprite(tex, x, y, 0, 0 * cellW, 5 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 5 * uSize, 1 * vSize); // space
+   fontMap['\b'] = Sprite(tex, x, y, 0, 0 * cellW, 5 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 5 * uSize, 1 * vSize); // space
    fontMap['\t'] = Sprite(tex, x, y, 0, 0 * cellW, 15 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 15 * uSize, 1 * vSize); // tab
 
    // Set max font height
@@ -171,16 +171,16 @@ void Font::loadSprites(std::vector<Sprite>* fontSprites, std::string s, int x, i
          if (spriteX == x)
          {
             if (spriteX + stringWidth(s) < x + width)
-               loadWord(fontSprites, s, spriteX, spriteY);
+               loadWord(fontSprites, s, &spriteX, spriteY);
          }
          else
          {
-            s = "\"" + s;
+            s = "\b" + s;
             if (spriteX + stringWidth(s) < x + width)
-               loadWord(fontSprites, s, spriteX, spriteY);
+               loadWord(fontSprites, s, &spriteX, spriteY);
          }
 
-         spriteX += stringWidth(s);
+         //spriteX += stringWidth(s);
       }
    }
 }
@@ -209,17 +209,28 @@ void Font::tokenize(std::vector<std::string>* tokens, std::string s)
    } while (end != str++);
 }
 /*-----------------------------------------------*/
-void Font::loadWord(std::vector<Sprite>* fontSprites, std::string s, int x, int y)
+void Font::loadWord(std::vector<Sprite>* fontSprites, std::string s, int* x, int y)
 {
    for (int i = 0; i < s.length(); i++)
    {
       char c = s[i];
       Sprite sprite = fontMap[c];
-      sprite.x = x;
+      sprite.name = s[i];
+      sprite.x = *x;
       sprite.y = y;
+      
+      if (sprite.texture == NULL)
+      {
+         if (fontSprites->size() >0 && fontSprites->back().name == "\b")
+         {
+            *x -= fontSprites->back().width;
+            fontSprites->pop_back();
+         }
+      }
+      else
+         *x += sprite.width;
 
-      x += sprite.width;
-
-      fontSprites->push_back(sprite);
+      if (sprite.texture != NULL)
+         fontSprites->push_back(sprite);
    }
 }

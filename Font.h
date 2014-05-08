@@ -10,7 +10,7 @@ class Font
 {
 private:
    static void tokenize(std::vector<std::string>* tokens, std::string s);
-   static void loadWord(std::vector<Sprite>* fontSprites, std::string s, int x, int y);
+   static void loadWord(std::vector<Sprite>* fontSprites, std::string s, int* x, int y);
 
 protected:
    Font();
