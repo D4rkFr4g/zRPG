@@ -10,7 +10,7 @@ class DialogBox
 public:
    // Constructors
    DialogBox(void);
-   DialogBox(int x, int y, int rows, int cols, std::string text, bool isBorderVisible);
+   DialogBox(int x, int y, int rows, int cols, std::string text, bool isBorderVisible, bool isInputRequired);
    ~DialogBox(void);
    
    // Functions

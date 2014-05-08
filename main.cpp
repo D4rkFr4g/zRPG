@@ -649,9 +649,11 @@ static void onInit()
 	initBuckets();
 	loadSprites();
 
+   
    dialogManager::dialogQueue = &g_dialogBoxes;
    dialogManager::screenWidth = &g_windowWidth;
    dialogManager::screenHeight = &g_windowHeight;
+   dialogManager::initDialogs();
 }
 /*-----------------------------------------------*/
 int main( void )

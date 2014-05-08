@@ -2,6 +2,7 @@
 
 
 std::vector<DialogBox>* dialogManager::dialogQueue;
+std::unordered_map<std::string, std::vector<DialogBox>> dialogManager::dialogs;
 int* dialogManager::screenWidth;
 int* dialogManager::screenHeight;
 
@@ -12,6 +13,39 @@ dialogManager::dialogManager()
 /*-----------------------------------------------*/
 dialogManager::~dialogManager()
 {
+}
+/*-----------------------------------------------*/
+void dialogManager::initDialogs()
+{
+   int cols = (int) floor(*screenWidth / DialogBox::texture->cellWidth);
+   int rows = 12;
+   int x = 0;
+   int y = *screenHeight - (rows * DialogBox::texture->cellHeight);
+   
+   DialogBox dBox;
+   std::vector<DialogBox> dBoxes;
+   
+   /*-----------------------------------------------*/
+   std::string text = "In a stunning turn of original events, the Princess Zelda of Hyrule has been captured by a Dark Lord (surprising, I know).";
+   text += "\nLink must set out on a quest to rescue the Princess from the evil clutches of this vile enemy to restore…";
+   
+   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+
+   text = "the Princess to her throne, thereby saving the land of Hyrule once again.";
+   text += " Shall Link restore balance to the peaceful land of Hyrule as a fierce warrior with a vengeance?";
+   text += " Or shall he burn his foes to a crisp as a fireball - slinging mage?";
+   text += " The playstyle…";
+   
+   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+
+   text = "is up to you to decide. But it is a given that this quest will not be an easy one…";
+   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+
+   dialogs["intro"] = dBoxes;
+   /*-----------------------------------------------*/
 }
 /*-----------------------------------------------*/
 void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState)
@@ -36,10 +70,8 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
          int y = 10;
 
          center(&x, &y, rows, cols);
-         DialogBox dBox = DialogBox(x, y, rows, cols, "\t\tPause this Game \"Yo!\" ( @ ) \n\bChoose: \n> Save\n\tExit", true);
-         dBox.isInputNeeded = true;
-         dialogQueue->push_back(dBox);
-         //dialogQueue->push_back(DialogBox(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-._0123456789:;<=>?@", true));
+         dialogQueue->push_back(DialogBox(x, y, rows, cols, "\t\tPause this Game \"Yo!\" ( @ ) \n\bChoose: \n> Save\n\tExit", true, true));
+         //dialogQueue->push_back(DialogBox(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
          isPaused = true;
       }
       else
@@ -49,43 +81,16 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
       }
    }
 
-
-
-   ////////////////////////////////////////////////////////////////////////////////
-   // Debug font Sprites
-   //    Won't  show up because of the order of printing the screen
-   //    You would need to call this function after other draws.
-   ////////////////////////////////////////////////////////////////////////////////
-   if (0)
+   if (kbState[SDL_SCANCODE_0] && !kbPrevState[SDL_SCANCODE_0])
    {
-      static std::vector<Sprite> sprites;
-      //static bool isDisplayed = false;
-      static Sprite s = Font::fontMap[' '];
-      int x = 0;
-      int y = 0;
-      center(&x, &y, 0, 0);
-      static Sprite r = Font::fontMap['I'];
-      r.x = x - r.width;
-      r.y = y-100;
-      static std::unordered_map<char, Sprite>::iterator itr = Font::fontMap.begin();
-      if (kbState[SDL_SCANCODE_KP_5] && !kbPrevState[SDL_SCANCODE_KP_5])
-      {
-         //if (!isDisplayed)
-         //{
-         char a = itr->first;
-            s = itr->second;
-            s.x = x;
-            s.y = y - 100;
-            //isDisplayed = true;
-            itr++;
-            if (itr == Font::fontMap.end())
-               itr = Font::fontMap.begin();
-         //}
-      }
-      r.drawUV(0, 0);
-      s.drawUV(0, 0);
+      loadDialogQueue(dialogs["intro"]);
    }
-   ////////////////////////////////////////////////////////////////////////////////
+   
+   if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J] && !isPaused)
+   {
+      if (dialogQueue->size() > 0 && dialogQueue->back().isInputNeeded == true)
+         dialogQueue->pop_back();
+   }
 }
 /*-----------------------------------------------*/
 void dialogManager::center(int* x, int* y, int rows, int cols)
@@ -142,5 +147,19 @@ void dialogManager::centerY(int* y, int rows, int cols)
 
    int x = 0;
    center(&x, y, rows, cols);
+}
+/*-----------------------------------------------*/
+void dialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
+{
+   /* PURPOSE:		Loads dialogSequence into the dialogQueue
+      RECEIVES:   dialogSequence - a vector of dialog boxes
+      RETURNS:
+      REMARKS:    Loads the sequence backwards
+   */
+
+   for (int i = dialogSequence.size() - 1; i >= 0; i--)
+   {
+      dialogQueue->push_back(dialogSequence[i]);
+   }
 }
 /*-----------------------------------------------*/

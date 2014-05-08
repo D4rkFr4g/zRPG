@@ -12,7 +12,7 @@ DialogBox::~DialogBox(void)
 {
 }
 /*-----------------------------------------------*/
-DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool isBorderVisible)
+DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool isBorderVisible, bool isInputRequired)
 {
    /* PURPOSE:		Creates a DialogBox to be printed to the screen 
 		RECEIVES:	x - x window coordinate
@@ -31,7 +31,7 @@ DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool is
    this->cols = cols;
    this->text = text;
    this->isBorderVisible = isBorderVisible;
-   this->isInputNeeded = false;
+   this->isInputNeeded = isInputRequired;
 
    loadBorderSprites();
    loadFontSprites();
@@ -173,6 +173,6 @@ void DialogBox::loadFontSprites(void)
    int startX = x + cellWidth;
    int startY = y + cellHeight;
 
-   Font::loadSprites(&fontSprites, text, startX, startY, (cols-2) * cellWidth, (rows-2)*cellHeight);
+   Font::loadSprites(&fontSprites, text, startX, startY, (cols-3) * cellWidth, (rows-2)*cellHeight);
 }
 /*-----------------------------------------------*/
