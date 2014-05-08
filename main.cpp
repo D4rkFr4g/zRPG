@@ -126,7 +126,16 @@ static void initAudio()
    fmodSystem->createChannelGroup(NULL, &channelEffects);
 
    g_audio = Audio(fmodSystem, channelMusic, channelEffects);
-   //g_audio.registerListeners(&eventQueue);  //TODO Uncomment
+   //g_audio.registerListeners(&g_eventQueue);  //TODO Uncomment
+}
+/*-----------------------------------------------*/
+static void initDialog()
+{
+   g_dialogManager.dialogQueue = &g_dialogBoxes;
+   g_dialogManager.screenWidth = &g_windowWidth;
+   g_dialogManager.screenHeight = &g_windowHeight;
+   g_dialogManager.initDialogs();
+   g_dialogManager.registerListeners(&g_eventQueue);
 }
 /*-----------------------------------------------*/
 static int whichBucket(int x, int y)
@@ -209,7 +218,7 @@ static void loadSprites()
 
 	// Create and place player on map
 	Texture* tex = &g_textures["link"];
-	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &eventQueue);
+	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &g_eventQueue);
 	int startX = g_currentLevel->startX;
 	int startY = g_currentLevel->startY - g_player.height;
 
@@ -479,8 +488,9 @@ static void loadLevel()
 		}
 	}
    
-   Event ev = Event(Event::ET_LEVEL_BEGIN, "level", 0);
-   eventQueue.queueEvent(ev);
+   Event ev = Event(Event::ET_LEVEL_BEGIN, "level", "overworld");
+   ev.strParams["newGame"] = "true";
+   g_eventQueue.queueEvent(ev);
 }
 /*-----------------------------------------------*/
 static void clearBackground()
@@ -512,7 +522,7 @@ static void keyboard()
    else
       player::stopPlayer(&g_player);
 
-   dialogManager::dialogKeyboard(kbState, kbPrevState);
+   g_dialogManager.dialogKeyboard(kbState, kbPrevState);
 
    // Reset camera to following if it has been moved around
 	if (g_cam.isFollowing && (kbState[SDL_SCANCODE_UP] | kbState[SDL_SCANCODE_DOWN] | kbState[SDL_SCANCODE_LEFT] | kbState[SDL_SCANCODE_RIGHT]))
@@ -630,7 +640,7 @@ static void onLoop()
    REMARKS:		 
    */
    
-   eventQueue.updateEventQueue();
+   g_eventQueue.updateEventQueue();
    fmodSystem->update();
 }
 /*-----------------------------------------------*/
@@ -646,14 +656,9 @@ static void onInit()
 	loadLevel();
 	initCamera();
    initAudio();
-	initBuckets();
+   initBuckets();
 	loadSprites();
-
-   
-   dialogManager::dialogQueue = &g_dialogBoxes;
-   dialogManager::screenWidth = &g_windowWidth;
-   dialogManager::screenHeight = &g_windowHeight;
-   dialogManager::initDialogs();
+   initDialog();
 }
 /*-----------------------------------------------*/
 int main( void )

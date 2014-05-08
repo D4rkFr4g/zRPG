@@ -5,32 +5,35 @@
 #include <SDL.h>
 #include "DialogBox.h"
 #include "Font.h"
+#include "EventQueue.h"
+#include "EventListener.h"
 
 
-class dialogManager
+class DialogManager : public EventListener
 {
+protected:
+
 private:
    // Functions
-   static void loadDialogQueue(std::vector<DialogBox> dialogSequence);
+   void loadDialogQueue(std::vector<DialogBox> dialogSequence);
+   void center(int* x, int* y, int rows, int cols);
+   void centerX(int* x, int rows, int cols);
+   void centerY(int* y, int rows, int cols);
 
 public:
-   ~dialogManager();
+   DialogManager();
+   ~DialogManager();
 
    // Functions
-   static void initDialogs();
-   static void dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState);
-   static void center(int* x, int* y, int rows, int cols);
-   static void centerX(int* x, int rows, int cols);
-   static void centerY(int* y, int rows, int cols);
+   void initDialogs();
+   void dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState);
+   virtual void notify(Event* event) override;
+   void registerListeners(EventQueue* eventQueue);
 
    // Variables
-   static std::vector<DialogBox>* dialogQueue;
-   static std::unordered_map<std::string, std::vector<DialogBox>> dialogs;
    static int* screenWidth;
    static int* screenHeight;
-   static bool isActive;
-
-protected:
-   dialogManager();
+   static std::vector<DialogBox>* dialogQueue;
+   std::unordered_map<std::string, std::vector<DialogBox>> dialogs;   
 };
 

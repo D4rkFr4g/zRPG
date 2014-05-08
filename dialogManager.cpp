@@ -1,26 +1,34 @@
-#include "dialogManager.h"
+#include "DialogManager.h"
 
 
-std::vector<DialogBox>* dialogManager::dialogQueue;
-std::unordered_map<std::string, std::vector<DialogBox>> dialogManager::dialogs;
-int* dialogManager::screenWidth;
-int* dialogManager::screenHeight;
+std::vector<DialogBox>* DialogManager::dialogQueue;
+int* DialogManager::screenWidth;
+int* DialogManager::screenHeight;
 
 /*-----------------------------------------------*/
-dialogManager::dialogManager()
+DialogManager::DialogManager()
 {
 }
 /*-----------------------------------------------*/
-dialogManager::~dialogManager()
+DialogManager::~DialogManager()
 {
 }
 /*-----------------------------------------------*/
-void dialogManager::initDialogs()
+void DialogManager::initDialogs()
 {
+   /* PURPOSE:		Loads all the dialog to be used in the game
+      RECEIVES:	
+      RETURNS:
+      REMARKS:
+   */
+
    int cols = (int) floor(*screenWidth / DialogBox::texture->cellWidth);
    int rows = 12;
    int x = 0;
    int y = *screenHeight - (rows * DialogBox::texture->cellHeight);
+   int linesOfText = 0;
+   int rowOffset = 2;
+   int colOffset = 5;
    
    DialogBox dBox;
    std::vector<DialogBox> dBoxes;
@@ -46,9 +54,33 @@ void dialogManager::initDialogs()
 
    dialogs["intro"] = dBoxes;
    /*-----------------------------------------------*/
+   dBoxes.clear();
+   linesOfText = 2;
+   cols = (int) (floor(Font::stringWidth("\bRETURN OF GANON") / DialogBox::texture->cellWidth) + colOffset);
+   rows = (int) (floor(((Font::maxFontHeight + Font::padding) * linesOfText) / DialogBox::texture->cellHeight) + rowOffset);
+   center(&x, &y, rows, cols);
+
+   text = "\t\bGAME OVER \n\bRETURN OF GANON";
+
+   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+   
+   dialogs["death"] = dBoxes;
+   /*-----------------------------------------------*/
+
+
+   /*dBoxes.clear();
+
+   text = "";
+   text += "";
+
+   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+
+   dialogs[""] = dBoxes;*/
 }
 /*-----------------------------------------------*/
-void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState)
+void DialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState)
 {
    /* PURPOSE:		Process keyboard commands as they relate to dialog boxes
       RECEIVES:	kbState - current state of the keyboard
@@ -81,11 +113,12 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
       }
    }
 
-   if (kbState[SDL_SCANCODE_0] && !kbPrevState[SDL_SCANCODE_0])
+   /*if (kbState[SDL_SCANCODE_0] && !kbPrevState[SDL_SCANCODE_0])
    {
       loadDialogQueue(dialogs["intro"]);
-   }
+   }*/
    
+   // Handle clickable dialog boxes
    if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J] && !isPaused)
    {
       if (dialogQueue->size() > 0 && dialogQueue->back().isInputNeeded == true)
@@ -93,7 +126,7 @@ void dialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
    }
 }
 /*-----------------------------------------------*/
-void dialogManager::center(int* x, int* y, int rows, int cols)
+void DialogManager::center(int* x, int* y, int rows, int cols)
 {
    /* PURPOSE:		calculates x and y coordinate to center dialog box on screen
       RECEIVES:   x - x screen coordinate
@@ -117,7 +150,7 @@ void dialogManager::center(int* x, int* y, int rows, int cols)
    *y = screenCenterY - halfTexHeight;
 }
 /*-----------------------------------------------*/
-void dialogManager::centerX(int* x, int rows, int cols)
+void DialogManager::centerX(int* x, int rows, int cols)
 {
    /* PURPOSE:		calculates x coordinate to center dialog box on screen
       RECEIVES:   x - x screen coordinate
@@ -133,7 +166,7 @@ void dialogManager::centerX(int* x, int rows, int cols)
    center(x, &y, rows, cols);
 }
 /*-----------------------------------------------*/
-void dialogManager::centerY(int* y, int rows, int cols)
+void DialogManager::centerY(int* y, int rows, int cols)
 {
    /* PURPOSE:		calculates y coordinate to center dialog box on screen
       RECEIVES:   x - x screen coordinate
@@ -149,7 +182,7 @@ void dialogManager::centerY(int* y, int rows, int cols)
    center(&x, y, rows, cols);
 }
 /*-----------------------------------------------*/
-void dialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
+void DialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
 {
    /* PURPOSE:		Loads dialogSequence into the dialogQueue
       RECEIVES:   dialogSequence - a vector of dialog boxes
@@ -161,5 +194,35 @@ void dialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
    {
       dialogQueue->push_back(dialogSequence[i]);
    }
+}
+/*-----------------------------------------------*/
+void DialogManager::notify(Event* event)
+{
+   /* PURPOSE: EventListener callback function
+   RECEIVES: event - Event from the eventQueue
+   RETURNS:
+   REMARKS:
+   */
+
+   if (event->type == Event::ET_LEVEL_BEGIN && event->strParams.find("level")->second == "overworld" &&
+      event->strParams.find("newGame")->second == "true")
+   {
+      loadDialogQueue(dialogs["intro"]);
+   }
+   
+   if (event->type == Event::ET_DEATH)
+      loadDialogQueue(dialogs["death"]);
+}
+/*-----------------------------------------------*/
+void DialogManager::registerListeners(EventQueue* eventQueue)
+{
+   /* PURPOSE: Registers all relevant Dialog related listeners with the eventQueue
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+
+   eventQueue->addEventListener(Event::ET_LEVEL_BEGIN, this);
+   eventQueue->addEventListener(Event::ET_DEATH, this);
 }
 /*-----------------------------------------------*/

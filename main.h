@@ -65,6 +65,7 @@ PlayerSprite g_player;
 FMOD_RESULT result;
 FMOD::System* fmodSystem;
 Audio g_audio;
-static EventQueue eventQueue;
+DialogManager g_dialogManager;
+static EventQueue g_eventQueue;
 std::vector<DialogBox> g_dialogBoxes;
 static bool g_isInputRequired = false;

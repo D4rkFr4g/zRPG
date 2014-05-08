@@ -166,7 +166,12 @@ void DialogBox::loadBorderSprites(void)
 /*-----------------------------------------------*/
 void DialogBox::loadFontSprites(void)
 {
-   // TODO
+   /* PURPOSE:		Loads fonts into the DialogBox
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+
    int cellWidth = texture->cellWidth;
    int cellHeight = texture->cellHeight;
    

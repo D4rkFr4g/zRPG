@@ -75,10 +75,10 @@
     <ClCompile Include="DialogBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dialogManager.cpp">
+    <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
+    <ClCompile Include="DialogManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -164,10 +164,10 @@
     <ClInclude Include="DialogBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dialogManager.h">
+    <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
+    <ClInclude Include="DialogManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
