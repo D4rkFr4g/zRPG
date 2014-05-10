@@ -76,7 +76,6 @@ static void init2D()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);  //Ghost Chickens
 }
 /*-----------------------------------------------*/
 static void initCamera()
@@ -90,15 +89,16 @@ static void initCamera()
 	g_windowOriginalWidth = g_windowWidth;
 	g_windowOriginalHeight = g_windowHeight;
 
-	TileLevel currentLevel = *g_currentLevel;
+	//TileLevel* currentLevel = g_currentLevel;
 
-	g_windowMaxWidth = (currentLevel.width * currentLevel.tilesWidth);
-	g_windowMaxHeight = (currentLevel.height * currentLevel.tilesHeight);
+	g_windowMaxWidth = (g_currentLevel->width * g_currentLevel->tilesWidth);
+	g_windowMaxHeight = (g_currentLevel->height * g_currentLevel->tilesHeight);
 
 	g_cam = Camera(0, 0, 0, g_windowMaxWidth - g_windowWidth, 0, g_windowMaxHeight - g_windowHeight);
 	g_cam.updateResolution(g_windowWidth, g_windowHeight);
 
 	g_cam.isFollowing = true;
+   //g_cam.follow(g_player.x, g_player.y, g_player.width, g_player.height);
 }
 /*-----------------------------------------------*/
 static void initAudio()
@@ -223,6 +223,7 @@ static void loadSprites()
 	int startY = g_currentLevel->startY - g_player.height;
 
 	g_player.updatePosition((float) startX, (float) startY);
+   g_cam.follow(startX, startY, g_player.width, g_player.height);
 
    // Setup DialogBox texture to be used
    DialogBox::texture = &g_textures["dialog"];
@@ -502,8 +503,10 @@ static void clearBackground()
 	r = 0;
 	g = 0;
 	b = 0;
+
 	glClearColor(r,g,b,1);
 	glClear(GL_COLOR_BUFFER_BIT);
+   SDL_GL_SwapWindow(g_window);
 }
 /*-----------------------------------------------*/
 static void keyboard()
@@ -596,7 +599,6 @@ void onRender(int* tick, int* prevTick, int ticksPerFrame)
 	do 
 	{
 		// All draw calls go here
-		clearBackground();
 		g_currentLevel->drawLevel(g_cam.x, g_cam.y, g_windowOriginalWidth, g_windowOriginalHeight);
 		drawSprites();
       drawDialogBoxes();
@@ -651,6 +653,7 @@ static void onInit()
    */
 
    init2D();
+   clearBackground();
 	loadLevel();
 	initCamera();
    initAudio();
