@@ -24,6 +24,7 @@
 #include "DialogBox.h"
 #include "player.h"
 #include "tileLoader.h"
+#include "levelLoader.h"
 #include "dialogManager.h"
 #include "textureLoader.h"
 
@@ -56,7 +57,7 @@ int g_windowMaxHeight = 0;
 Camera g_cam;
 TileLevel* g_currentLevel;
 int* g_checkBuckets;
-std::unordered_map<std::string, TileLevel> g_level;
+std::unordered_map<std::string, TileLevel> g_levels;
 std::vector<std::vector<AnimatedSprite>> g_spriteBuckets;
 std::unordered_map<std::string, Texture> g_textures;
 unsigned char kbPrevState[SDL_NUM_SCANCODES] = {0};

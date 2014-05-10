@@ -469,26 +469,23 @@ static void loadLevel()
 		REMARKS:		Determines starting position for player
 	*/
 
-	//TileLevel* level = &g_level[g_currentLevel];
-	g_level["overworld"] = TileLevel();
-   TileLevel* level = &g_level["overworld"];
-   tileLoader::loadTiles("./Levels/overworld.txt", level);
-   g_currentLevel = level;
+   g_currentLevel = new TileLevel();
+   levelLoader::loadLevels(&g_levels, &g_currentLevel);
 
 	// Find start position
 	int startTile = 4;
-	for (int i = 0; i < (int) level->collidableTiles.size(); i++)
+	for (int i = 0; i < (int) g_currentLevel->collidableTiles.size(); i++)
 	{
-		int index = level->collidableTiles[i];
-		int type = level->tileArray[index].type;
+		int index = g_currentLevel->collidableTiles[i];
+		int type = g_currentLevel->tileArray[index].type;
 		if (type == startTile)
 		{
-			level->startX = level->tileArray[index].x - level->tilesWidth;
-			level->startY = level->tileArray[index].y;
+			g_currentLevel->startX = g_currentLevel->tileArray[index].x - g_currentLevel->tilesWidth;
+			g_currentLevel->startY = g_currentLevel->tileArray[index].y;
 		}
 	}
    
-   Event ev = Event(Event::ET_LEVEL_BEGIN, "level", "overworld");
+   Event ev = Event(Event::ET_LEVEL_BEGIN, "level", g_currentLevel->name);
    ev.strParams["newGame"] = "true";
    g_eventQueue.queueEvent(ev);
 }
