@@ -15,11 +15,12 @@ void levelLoader::loadLevels(std::unordered_map<std::string, TileLevel>* levels,
    /* PURPOSE:		Loads all tile maps from flare.txt files
       RECEIVES:
       RETURNS:
-      REMARKS:		
+      REMARKS:		Sets currentLevel to first map
    */
 
    using std::string;
 
+   // Set all filnames to be used
    filenames.push_back("overworld");
    filenames.push_back("battle_test");
 
@@ -34,13 +35,6 @@ void levelLoader::loadLevels(std::unordered_map<std::string, TileLevel>* levels,
    }
 
    *currentLevel = &(*levels)[filenames[0]];
-
-   /*
-   name = "battle_test";
-   (*levels)[name] = TileLevel();
-   level = &(*levels)[name];
-   string filename = "./Levels/" + name + ".txt";
-   tileLoader::loadTiles(filename.c_str(), level);
-   level->name = name;*/
+   filenames.clear();
 }
 /*-----------------------------------------------*/

@@ -17,10 +17,13 @@
     <ClCompile Include="AnimationData.cpp" />
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="battleManager.cpp" />
+    <ClCompile Include="BattleSprite.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="DrawUtils.cpp" />
+    <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -50,10 +53,13 @@
     <ClInclude Include="AnimationData.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="battleManager.h" />
+    <ClInclude Include="BattleSprite.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DialogManager.h" />
     <ClInclude Include="DrawUtils.h" />
+    <ClInclude Include="enemyManager.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="EventListener.h" />

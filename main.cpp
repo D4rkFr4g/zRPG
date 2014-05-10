@@ -138,6 +138,18 @@ static void initDialog()
    g_dialogManager.registerListeners(&g_eventQueue);
 }
 /*-----------------------------------------------*/
+static void initBattleManager()
+{
+   battleManager::dialogQueue = &g_dialogBoxes;
+   battleManager::eventQueue = &g_eventQueue;
+   battleManager::player = &g_player;
+   battleManager::levels = &g_levels;
+   battleManager::currentLevel = &g_currentLevel;
+   battleManager::cam = &g_cam;
+   battleManager::textures = &g_textures;
+   battleManager::init();
+}
+/*-----------------------------------------------*/
 static int whichBucket(int x, int y)
 {
 	/* PURPOSE:		Determines which bucket corresponds to world coordinates 
@@ -431,7 +443,6 @@ static void drawSprites()
 	}
 
 	g_player.drawUV(g_cam.x, g_cam.y);
-	//g_player.drawCollider(g_cam.x, g_cam.y);
 }
 /*-----------------------------------------------*/
 static void drawDialogBoxes()
@@ -522,7 +533,10 @@ static void keyboard()
    else
       player::stopPlayer(&g_player);
 
-   g_dialogManager.dialogKeyboard(kbState, kbPrevState);
+   if (battleManager::isBattle)
+      battleManager::keyboard(kbState, kbPrevState);
+   else
+      g_dialogManager.dialogKeyboard(kbState, kbPrevState);
 
    // Reset camera to following if it has been moved around
 	if (g_cam.isFollowing && (kbState[SDL_SCANCODE_UP] | kbState[SDL_SCANCODE_DOWN] | kbState[SDL_SCANCODE_LEFT] | kbState[SDL_SCANCODE_RIGHT]))
@@ -571,6 +585,11 @@ static void keyboard()
 		player::restartPlayer(&g_player, g_currentLevel->startX, g_currentLevel->startY);
       g_eventQueue.queueEvent(Event(Event::ET_RESTART));
 	}
+   else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
+   {
+      // TODO remove this
+      battleManager::checkBattle(battleManager::BATTLE_EASY);
+   }
 }
 /*-----------------------------------------------*/
 static void reshape(const int w, const int h) 
@@ -600,7 +619,11 @@ void onRender(int* tick, int* prevTick, int ticksPerFrame)
 	{
 		// All draw calls go here
 		g_currentLevel->drawLevel(g_cam.x, g_cam.y, g_windowOriginalWidth, g_windowOriginalHeight);
-		drawSprites();
+      if (!battleManager::isBattle)
+         drawSprites();
+      else
+         battleManager::drawSprites();
+
       drawDialogBoxes();
 
 		// Timer updates
@@ -623,9 +646,14 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
 	while( tick > *prevPhysicsTick + ticksPerPhysics ) 
 	{
 		// Update physics
-		chickenAI(ticksPerPhysics);
-		updateSprites(ticksPerPhysics);
-		player::updatePhysics(&g_player, ticksPerPhysics);
+      if (!battleManager::isBattle)
+      {
+         chickenAI(ticksPerPhysics);
+         updateSprites(ticksPerPhysics);
+         player::updatePhysics(&g_player, ticksPerPhysics);
+      }
+      else
+         battleManager::updateBattle(ticksPerPhysics);
 
 		// Update Timers
 		*prevPhysicsTick += ticksPerPhysics;
@@ -660,6 +688,7 @@ static void onInit()
    initBuckets();
 	loadSprites();
    initDialog();
+   initBattleManager();
 }
 /*-----------------------------------------------*/
 int main( void )

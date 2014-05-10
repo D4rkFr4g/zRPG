@@ -27,6 +27,8 @@
 #include "levelLoader.h"
 #include "dialogManager.h"
 #include "textureLoader.h"
+#include "battleManager.h"
+
 
 // Forward Declarations
 static void keyboard();

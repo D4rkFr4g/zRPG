@@ -14,7 +14,7 @@ public:
 	Sprite(GLuint* texture, int x, int y, int width, int height);
 	Sprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
    Sprite(GLuint* texture, int x, int y, int offsetX, int offsetY, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
-	~Sprite(void);
+	virtual ~Sprite(void);
 
 	//Functions
 	void draw(void);
