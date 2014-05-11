@@ -514,6 +514,12 @@ void player::restartPlayer(PlayerSprite* player, int x, int y)
 /*-----------------------------------------------*/
 void player::stopPlayer(PlayerSprite* player)
 {
+   /* PURPOSE:		Stops player for use in Battle System
+      RECEIVES:	player - Sprite object of player
+      RETURNS:
+      REMARKS:
+   */
+
    player->isAnimated = false;
    player->prevState = player->state;
    player->speedX = 0;
