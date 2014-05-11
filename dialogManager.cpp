@@ -270,38 +270,152 @@ void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
    playerStrings["name"] = battlePlayer->name;
    playerStrings["health"] = "" + battlePlayer->health;
    playerStrings["maxHealth"] = "" + battlePlayer->maxHealth;
+   playerStrings["magic"] = "" + battlePlayer->magic;
 
-   // Setup action strings
-   actionStrings["Fight"] = "Fight";
-   actionStrings["Defend"] = "Defend";
-   actionStrings["Items"] = "Items";
-   actionStrings["Flee"] = "Flee";
+   // Setup Action strings
+   actionStrings.push_back("Fight");
+   actionStrings.push_back("Defend");
+   actionStrings.push_back("Items");
+   actionStrings.push_back("Flee");
 
    // Setup enemy strings
+   enemyStrings.reserve(3);
    for (int i = 0; i < (int) enemies.size(); i++)
       enemyStrings.push_back(enemies[i]->name);
 
+   // Setup item strings
+   std::unordered_map<std::string, int>::iterator itr = battlePlayer->items.begin();
+   std::unordered_map<std::string, int>::iterator end = battlePlayer->items.end();
+   for (itr; itr != end; itr++)
+   {
+      std::string qty = " " + itr->second;
+      itemStrings.push_back(itr->first + " x" + qty);
+   }
+
    // Setup dialogBoxes
-   battleBoxes["player"] = DialogBox(192, 320, 10, 28, "\t> Link \t\t100 / 100 \t\t10", true, true);
-   battleBoxes["action"] = DialogBox(150, 320, 10, 12, "Fight\nDefend\nItems\nFlee", true, true);
-   battleBoxes["enemy"] = DialogBox(0, 320, 10, 12, "Enemy 1\nEnemy 2\nEnemy 3", true, true);
+   battleBoxes["player"] = DialogBox(192, 320, 10, 28, "", true, true);
+   battleBoxes["action"] = DialogBox(150, 320, 10, 12, "", true, true);
+   battleBoxes["enemy"] = DialogBox(0, 320, 10, 12, "", true, true);
+   battleBoxes["item"] = DialogBox(192, 320, 10, 28, "", true, true);
    playerText = &battleBoxes["player"].text;
    actionText = &battleBoxes["action"].text;
    enemyText = &battleBoxes["enemy"].text;
+   itemText = &battleBoxes["item"].text;
 
    dialogQueue->push_back(battleBoxes["player"]);
    dialogQueue->push_back(battleBoxes["enemy"]);
-   dialogQueue->push_back(battleBoxes["action"]);
 }
 /*-----------------------------------------------*/
-void DialogManager::updateBattleDialog(int input)
+void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> menus)
 {
    /* PURPOSE:    Updates Battle dialogs based on user input
       RECEIVES:   input - keyboard command issued by user
       RETURNS:
       REMARKS:
    */
+   dialogQueue->clear();
 
+   // Setup player box
+      // Format:   \t> Link \t\t100 / 100 \t\t10
+   *playerText = "";
+
+   playerStrings["name"] = battlePlayer->name;
+   playerStrings["health"] = std::to_string(battlePlayer->health);
+   playerStrings["maxHealth"] = std::to_string(battlePlayer->maxHealth);
+   playerStrings["magic"] = std::to_string(battlePlayer->magic);
+
+   if (menus["player"].isActive)
+      *playerText += "\t> ";
+   else
+      *playerText += "\t";
+
+   *playerText += playerStrings["name"] + "\t\t" + playerStrings["health"] +
+      "\b/\b" + playerStrings["maxHealth"] + "\t\t" + playerStrings["magic"];
+
+   battleBoxes["player"].loadFontSprites();
+   dialogQueue->push_back(battleBoxes["player"]);
+   
+   // Setup enemy box
+   *enemyText = "";
+
+   enemyStrings.clear();
+   for (int i = 0; i < (int)enemies.size(); i++)
+      enemyStrings.push_back(enemies[i]->name);
+
+   int selection = menus["enemy"].getSelection();
+   if (menus["enemy"].isActive)
+   {
+      enemyStrings[selection] = "> " + enemyStrings[selection];
+   }
+
+   for (int i = 0; i < (int)enemyStrings.size(); i++)
+   {
+      if (!menus["enemy"].isActive || i != selection)
+         *enemyText += "\t";
+      *enemyText += enemyStrings[i] + "\n";
+   }
+
+   battleBoxes["enemy"].loadFontSprites();
+   dialogQueue->push_back(battleBoxes["enemy"]);
+
+   // Setup action box
+   if (menus["action"].isActive)
+   {
+      *actionText = "";
+      actionStrings.clear();
+      actionStrings.push_back("Fight");
+      actionStrings.push_back("Defend");
+      actionStrings.push_back("Items");
+      actionStrings.push_back("Flee");
+
+      int selection = menus["action"].getSelection();
+      actionStrings[selection] = "> " + actionStrings[selection];
+      
+      for (int i = 0; i < (int)actionStrings.size(); i++)
+      {
+         if (i != selection)
+            *actionText += "\t";
+         *actionText += actionStrings[i] + "\n";
+      }
+
+      battleBoxes["action"].loadFontSprites();
+      dialogQueue->push_back(battleBoxes["action"]);
+   }
+
+   // Setup item box
+
+      // Setup item strings
+   if (menus["item"].isActive)
+   {
+      *itemText = "";
+      itemStrings.clear();
+      std::unordered_map<std::string, int>::iterator itr = battlePlayer->items.begin();
+      std::unordered_map<std::string, int>::iterator end = battlePlayer->items.end();
+      for (itr; itr != end; itr++)
+         itemStrings.push_back(itr->first + " x" + std::to_string(itr->second));
+
+      int selection = menus["item"].getSelection();
+      itemStrings[selection] = "> " + itemStrings[selection];
+
+      // Load the 5 items near selection
+      for (int i = 0; i < (int)itemStrings.size(); i += 2)
+      {
+         if (i != selection)
+            *itemText += "\b\b";
+         
+         *itemText += itemStrings[i] + "\t\t";
+         
+         bool isSecond = i + 1 < (int)itemStrings.size();
+         if (isSecond && i + 1 != selection)
+            *itemText += "\b\b";
+
+         if (isSecond)
+            *itemText += itemStrings[i+1] + "\n";
+      }
+
+      battleBoxes["item"].loadFontSprites();
+      dialogQueue->push_back(battleBoxes["item"]);
+   }
 }
 /*-----------------------------------------------*/
 void DialogManager::battleRewards(std::vector<std::string> loot)
@@ -314,3 +428,19 @@ void DialogManager::battleRewards(std::vector<std::string> loot)
 
    
 }
+/*-----------------------------------------------*/
+void DialogManager::battleCleanup()
+{
+   /* PURPOSE:    Reset all data used in battle to ready for next
+      RECEIVES:   
+      RETURNS:
+      REMARKS:
+   */
+
+   actionStrings.clear();
+   enemyStrings.clear();
+   itemStrings.clear();
+   enemies.clear();
+   dialogQueue->clear();
+}
+/*-----------------------------------------------*/

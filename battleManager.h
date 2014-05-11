@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "enemyManager.h"
 #include "dialogManager.h"
+#include "Menu.h"
 
 
 class battleManager
@@ -24,6 +25,8 @@ public:
    // Enum
    enum BATTLE_TYPE { BATTLE_EASY = 6, BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS };
    enum CONTROLS {CONTROL_NULL, CONTROL_UP, CONTROL_DOWN, CONTROL_SELECT, CONTROL_CANCEL};
+   enum BATTLE_STATE {STATE_IDLE, STATE_PLAYER, STATE_ACTION, STATE_ENEMY, STATE_ITEMS, STATE_FLEE};
+   enum ACTIONS {ACTION_FIGHT, ACTION_DEFEND, ACTION_ITEMS, ACTION_FLEE};
 
    // Functions
    static void init();
@@ -34,6 +37,7 @@ public:
    static void battleCleanup();
    static void drawSprites();
    static void updateBattle(int ms);
+   static void executeSelection();
 
    // Variables
    static bool isBattle;
@@ -52,7 +56,10 @@ public:
    static BATTLE_TYPE currentBattle;
    static BattleSprite battlePlayer;
    static std::unordered_map<std::string, Texture>* textures;
+   static int battleState;
+   static int prevBattleState;
    static int currentTurn;
+   static std::unordered_map<std::string, Menu> menus;
    static std::unordered_map<int, std::string> statBoost;
 
 protected:

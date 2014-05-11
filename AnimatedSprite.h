@@ -3,6 +3,7 @@
 #include "sprite.h"
 #include "AnimationData.h"
 
+
 class AnimatedSprite :
 	public Sprite
 {

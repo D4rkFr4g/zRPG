@@ -17,8 +17,11 @@ int battleManager::prevCamY;
 enum battleManager::BATTLE_TYPE battleManager::currentBattle;
 std::unordered_map<std::string, Texture>* battleManager::textures;
 BattleSprite battleManager::battlePlayer;
+int battleManager::battleState;
+int battleManager::prevBattleState;
 int battleManager::currentTurn;
 std::unordered_map<int, std::string> battleManager::statBoost;
+std::unordered_map<std::string, Menu> battleManager::menus;
 
 /*-----------------------------------------------*/
 battleManager::battleManager()
@@ -39,13 +42,8 @@ void battleManager::init()
       0 * tex->uSize, 8 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
    battlePlayer.isAnimated = false; // TODO Remove once animations are done
 
-   for (int i = 0; i < (int)battlePlayer.xpToNextLevel.size(); i++)
-      battlePlayer.xpToNextLevel[i] = (i + 1) * 100;
-   
-   battlePlayer.initStats(1, 1, 1, 1, 1);
-   battlePlayer.items["Rupees"] = 0;
-
-   spriteQueue.push_back(battlePlayer);
+   for (int i = 0; i < (int)player->xpToNextLevel.size(); i++)
+      player->xpToNextLevel[i] = (i + 1) * 100;
 
    // Setup Enemies
    enemyManager::init(textures, &enemies);
@@ -67,6 +65,11 @@ void battleManager::init()
    statBoost[2] = "DEX";
    statBoost[3] = "INT";
    statBoost[4] = "LCK";
+
+   battleState = STATE_PLAYER;
+   menus["player"] = Menu(1);
+   menus["action"] = Menu(4);
+   menus["item"] = Menu(battlePlayer.items.size());
 }
 /*-----------------------------------------------*/
 void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrevState)
@@ -78,13 +81,145 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
       REMARKS:
    */
 
-   CONTROLS input = CONTROL_NULL;
+   bool isSelected = kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J];
+   bool isCanceled = kbState[SDL_SCANCODE_K] && !kbPrevState[SDL_SCANCODE_K];
+   bool isUp = kbState[SDL_SCANCODE_W] && !kbPrevState[SDL_SCANCODE_W];
+   bool isDown = kbState[SDL_SCANCODE_S] && !kbPrevState[SDL_SCANCODE_S];   
+
+   // Battle States
+   // Idle State
+   if (battleState == STATE_IDLE)
+   {
+      // Handle State Transition
+      if (battleState != prevBattleState)
+      {
+         prevBattleState = battleState;
+         std::unordered_map<std::string, Menu>::iterator itr = menus.begin();
+         std::unordered_map<std::string, Menu>::iterator end = menus.end();
+         for (itr; itr != end; itr++)
+         {
+            itr->second.reset();
+            itr->second.setActive(false);
+         }
+      }
+
+      // Check for new Transition
+      if (currentTurn == 0)
+         battleState = STATE_PLAYER;
+   }
+   // Player State
+   if (battleState == STATE_PLAYER)
+   {
+      // Handle State Transition
+      if (battleState != prevBattleState)
+      {
+         prevBattleState = battleState;
+         menus["player"].setActive(true);
+      }
+
+      // Check for new Transition
+      if (isSelected)
+      {
+         battleState = STATE_ACTION;
+      }
+      else if (isUp)
+         menus["player"].previous();
+      else if (isDown)
+         menus["player"].next();
+   }
+   // Action State
+   else if (battleState == STATE_ACTION)
+   {
+      // Handle State Transition
+      if (battleState != prevBattleState)
+      {
+         prevBattleState = battleState;
+         menus["action"].setActive(true);
+      }
+
+      // Check for new Transition
+      if (isSelected)
+      {
+         int choice = menus["action"].getSelection();
+         menus["action"].setActive(false);
+         if (choice == ACTION_FIGHT)
+            battleState = STATE_ENEMY;
+         else if (choice == ACTION_DEFEND)
+            executeSelection();
+         else if (choice == ACTION_ITEMS)
+            battleState = STATE_ITEMS;
+         if (choice == ACTION_FLEE)
+            executeSelection();
+      }
+      else if (isCanceled)
+      {
+         menus["action"].setActive(false);
+         battleState = STATE_PLAYER;
+      }
+      else if (isUp)
+         menus["action"].previous();
+      else if (isDown)
+         menus["action"].next();
+   }
+   // Items State
+   else if (battleState == STATE_ITEMS)
+   {
+      // Handle State Transition
+      if (battleState != prevBattleState)
+      {
+         prevBattleState = battleState;
+         menus["item"].setActive(true);
+      }
+
+      // Check for new Transition
+      if (isSelected)
+      {
+         menus["item"].setActive(false);
+         executeSelection();
+      }
+      else if (isCanceled)
+      {
+         menus["item"].setActive(false);
+         battleState = STATE_ACTION;
+      }
+      else if (isUp)
+         menus["item"].previous();
+      else if (isDown)
+         menus["item"].next();
+   }
+   // Enemy State
+   else if (battleState == STATE_ENEMY)
+   {
+      // Handle State Transition
+      if (battleState != prevBattleState)
+      {
+         prevBattleState = battleState;
+         menus["enemy"].setActive(true);
+      }
+
+      // Check for new Transition
+      if (isSelected)
+      {
+         executeSelection();
+      }
+      else if (isCanceled)
+      {
+         menus["enemy"].setActive(false);
+         menus["action"].setActive(true);
+         battleState = STATE_ACTION;
+      }
+      else if (isUp)
+         menus["enemy"].previous();
+      else if (isDown)
+         menus["enemy"].next();
+   }
+
+   dialogManager->updateBattleDialog(menus);
+
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
       battleCleanup(); // TODO Remove when unneeded
    }
-
-   dialogManager->updateBattleDialog(input);
 }
 /*-----------------------------------------------*/
 void battleManager::checkBattle(BATTLE_TYPE battle)
@@ -135,6 +270,18 @@ void battleManager::initBattle()
    cam->x = 0;
    cam->y = 0;
 
+   // Player setup
+   battlePlayer.initStats(player->stats["STR"], player->stats["CON"], 
+      player->stats["DEX"], player->stats["INT"], player->stats["LCK"]);
+   battlePlayer.items = player->items;
+   battlePlayer.name = player->name;
+   battlePlayer.health = player->health;
+   battlePlayer.maxHealth = player->maxHealth;
+   battlePlayer.magic = player->magic;
+   battlePlayer.maxMagic = player->maxMagic;
+
+   spriteQueue.push_back(battlePlayer);
+
    int numEnemies = rand() % 3 + 1;
 
    if (currentBattle == BATTLE_EASY)
@@ -175,6 +322,8 @@ void battleManager::initBattle()
          spriteQueue[i+1].posY += 75;
    }
 
+   menus["enemy"] = Menu(numEnemies);
+   menus["item"] = Menu(battlePlayer.items.size());
    dialogManager->initBattleDialog(&spriteQueue);
 }
 /*-----------------------------------------------*/
@@ -187,9 +336,11 @@ void battleManager::battleCleanup()
    */
 
    battlePlayer.health = battlePlayer.maxHealth;
+   battlePlayer.magic = battlePlayer.maxMagic;
    player->isAlive = true;
    *currentLevel = previousLevel;
    isBattle = false;
+   spriteQueue.clear();
 
    cam->x = prevCamX;
    cam->y = prevCamY;
@@ -198,7 +349,7 @@ void battleManager::battleCleanup()
    for (int i = 1; i < (int)spriteQueue.size(); i++)
       spriteQueue.pop_back();
 
-   dialogManager->dialogQueue->clear();
+   dialogManager->battleCleanup();
 }
 /*-----------------------------------------------*/
 void battleManager::drawSprites()
@@ -246,5 +397,11 @@ void battleManager::updateCurrentTurn()
    currentTurn++;
    if (currentTurn >= spriteQueue.size())
       currentTurn = 0;
+}
+/*-----------------------------------------------*/
+void battleManager::executeSelection()
+{
+   battleState = STATE_IDLE;
+   updateCurrentTurn();
 }
 /*-----------------------------------------------*/

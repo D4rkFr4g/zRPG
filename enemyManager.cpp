@@ -22,6 +22,7 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    
    // Create enemy stats
    enemy.initStats(1, 1, 1, 1, 1);
+   enemy.name = "chicken";
    
    (*enemies)[BATTLE_EASY].push_back(enemy);
    enemy.level = 5;

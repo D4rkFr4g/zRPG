@@ -15,10 +15,11 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
       Intelligence == magic points
       Luck == Luck points*/
 
-   xpToNextLevel.reserve(10);
    level = 1;
-   maxHealth = 10 * stats["CON"];
+   maxHealth = 100;
+   maxMagic = 10;
    health = maxHealth;
+   magic = maxMagic;
 }
 /*-----------------------------------------------*/
 BattleSprite::~BattleSprite()

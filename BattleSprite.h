@@ -19,10 +19,11 @@ public:
    // Variables
    std::unordered_map<std::string, int> items;
    std::unordered_map<std::string, int> stats;
-   std::vector<int> xpToNextLevel;
    int level;
    int xp;
    int health;
    int maxHealth;
+   int magic;
+   int maxMagic;
 };
 

@@ -32,6 +32,15 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
 	player.maxSpeedY = 175;
 	//player.jumpSpeed = -300;
 	//player.jumpTicks = 200;
+   player.name = "Link";
+   player.maxHealth = 100;
+   player.magic = 10;
+   player.maxMagic = 10;
+   player.items["Rupees"] = 1;
+   player.items["Steves"] = 2;
+   player.items["Bombs"] = 3;
+   player.items["Red Potions"] = 4;
+   player.items["Blue Potions"] = 5;
 
 	//Setup Collider
 	int xOffset = 20;
