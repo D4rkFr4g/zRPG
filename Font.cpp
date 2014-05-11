@@ -117,6 +117,7 @@ void Font::buildFontMap(void)
    fontMap['@'] = Sprite(tex, x, y, 0, -1 * cellH, 16 * cellW, 14 * cellH, 175 * uSize, 34 * vSize, 16 * uSize, 14 * vSize); // @
    fontMap['\b'] = Sprite(tex, x, y, 0, 0 * cellH, 5 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 5 * uSize, 1 * vSize); // space
    fontMap['\t'] = Sprite(tex, x, y, 0, 0 * cellH, 15 * cellW, 1 * cellH, 0 * uSize, 0 * vSize, 15 * uSize, 1 * vSize); // tab
+   fontMap['/'] = Sprite(tex, x, y, 0, 0 * cellH, 8 * cellW, 13 * cellH, 180 * uSize, 2 * vSize, 8 * uSize, 13 * vSize); // /
 
    // Set max font height
    for (int i = 0; i < fontMap.size(); i++)

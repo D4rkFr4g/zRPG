@@ -14,6 +14,7 @@ public:
 	std::vector<int>* checkCollision(AABB *box);
 
 	// Variables
+   std::string name;
 	int tilesWidth, tilesHeight;
 	int width, height;
 	int startX, startY;

@@ -178,6 +178,7 @@ void DialogBox::loadFontSprites(void)
    int startX = x + cellWidth;
    int startY = y + cellHeight;
 
+   fontSprites.clear();
    Font::loadSprites(&fontSprites, text, startX, startY, (cols-3) * cellWidth, (rows-2)*cellHeight);
 }
 /*-----------------------------------------------*/

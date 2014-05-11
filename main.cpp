@@ -76,7 +76,6 @@ static void init2D()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);  //Ghost Chickens
 }
 /*-----------------------------------------------*/
 static void initCamera()
@@ -90,15 +89,16 @@ static void initCamera()
 	g_windowOriginalWidth = g_windowWidth;
 	g_windowOriginalHeight = g_windowHeight;
 
-	TileLevel currentLevel = *g_currentLevel;
+	//TileLevel* currentLevel = g_currentLevel;
 
-	g_windowMaxWidth = (currentLevel.width * currentLevel.tilesWidth);
-	g_windowMaxHeight = (currentLevel.height * currentLevel.tilesHeight);
+	g_windowMaxWidth = (g_currentLevel->width * g_currentLevel->tilesWidth);
+	g_windowMaxHeight = (g_currentLevel->height * g_currentLevel->tilesHeight);
 
 	g_cam = Camera(0, 0, 0, g_windowMaxWidth - g_windowWidth, 0, g_windowMaxHeight - g_windowHeight);
 	g_cam.updateResolution(g_windowWidth, g_windowHeight);
 
 	g_cam.isFollowing = true;
+   //g_cam.follow(g_player.x, g_player.y, g_player.width, g_player.height);
 }
 /*-----------------------------------------------*/
 static void initAudio()
@@ -136,6 +136,18 @@ static void initDialog()
    g_dialogManager.screenHeight = &g_windowHeight;
    g_dialogManager.initDialogs();
    g_dialogManager.registerListeners(&g_eventQueue);
+}
+/*-----------------------------------------------*/
+static void initBattleManager()
+{
+   battleManager::dialogManager = &g_dialogManager;
+   battleManager::eventQueue = &g_eventQueue;
+   battleManager::player = &g_player;
+   battleManager::levels = &g_levels;
+   battleManager::currentLevel = &g_currentLevel;
+   battleManager::cam = &g_cam;
+   battleManager::textures = &g_textures;
+   battleManager::init();
 }
 /*-----------------------------------------------*/
 static int whichBucket(int x, int y)
@@ -223,6 +235,7 @@ static void loadSprites()
 	int startY = g_currentLevel->startY - g_player.height;
 
 	g_player.updatePosition((float) startX, (float) startY);
+   g_cam.follow(startX, startY, g_player.width, g_player.height);
 
    // Setup DialogBox texture to be used
    DialogBox::texture = &g_textures["dialog"];
@@ -430,7 +443,6 @@ static void drawSprites()
 	}
 
 	g_player.drawUV(g_cam.x, g_cam.y);
-	//g_player.drawCollider(g_cam.x, g_cam.y);
 }
 /*-----------------------------------------------*/
 static void drawDialogBoxes()
@@ -469,26 +481,23 @@ static void loadLevel()
 		REMARKS:		Determines starting position for player
 	*/
 
-	//TileLevel* level = &g_level[g_currentLevel];
-	g_level["overworld"] = TileLevel();
-   TileLevel* level = &g_level["overworld"];
-   tileLoader::loadTiles("./Levels/overworld.txt", level);
-   g_currentLevel = level;
+   g_currentLevel = new TileLevel();
+   levelLoader::loadLevels(&g_levels, &g_currentLevel);
 
 	// Find start position
 	int startTile = 4;
-	for (int i = 0; i < (int) level->collidableTiles.size(); i++)
+	for (int i = 0; i < (int) g_currentLevel->collidableTiles.size(); i++)
 	{
-		int index = level->collidableTiles[i];
-		int type = level->tileArray[index].type;
+		int index = g_currentLevel->collidableTiles[i];
+		int type = g_currentLevel->tileArray[index].type;
 		if (type == startTile)
 		{
-			level->startX = level->tileArray[index].x - level->tilesWidth;
-			level->startY = level->tileArray[index].y;
+			g_currentLevel->startX = g_currentLevel->tileArray[index].x - g_currentLevel->tilesWidth;
+			g_currentLevel->startY = g_currentLevel->tileArray[index].y;
 		}
 	}
    
-   Event ev = Event(Event::ET_LEVEL_BEGIN, "level", "overworld");
+   Event ev = Event(Event::ET_LEVEL_BEGIN, "level", g_currentLevel->name);
    ev.strParams["newGame"] = "true";
    g_eventQueue.queueEvent(ev);
 }
@@ -505,8 +514,10 @@ static void clearBackground()
 	r = 0;
 	g = 0;
 	b = 0;
+
 	glClearColor(r,g,b,1);
 	glClear(GL_COLOR_BUFFER_BIT);
+   SDL_GL_SwapWindow(g_window);
 }
 /*-----------------------------------------------*/
 static void keyboard()
@@ -522,7 +533,10 @@ static void keyboard()
    else
       player::stopPlayer(&g_player);
 
-   g_dialogManager.dialogKeyboard(kbState, kbPrevState);
+   if (battleManager::isBattle)
+      battleManager::keyboard(kbState, kbPrevState);
+   else
+      g_dialogManager.dialogKeyboard(kbState, kbPrevState);
 
    // Reset camera to following if it has been moved around
 	if (g_cam.isFollowing && (kbState[SDL_SCANCODE_UP] | kbState[SDL_SCANCODE_DOWN] | kbState[SDL_SCANCODE_LEFT] | kbState[SDL_SCANCODE_RIGHT]))
@@ -571,6 +585,11 @@ static void keyboard()
 		player::restartPlayer(&g_player, g_currentLevel->startX, g_currentLevel->startY);
       g_eventQueue.queueEvent(Event(Event::ET_RESTART));
 	}
+   else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
+   {
+      // TODO remove this
+      battleManager::checkBattle(battleManager::BATTLE_EASY);
+   }
 }
 /*-----------------------------------------------*/
 static void reshape(const int w, const int h) 
@@ -599,9 +618,12 @@ void onRender(int* tick, int* prevTick, int ticksPerFrame)
 	do 
 	{
 		// All draw calls go here
-		clearBackground();
 		g_currentLevel->drawLevel(g_cam.x, g_cam.y, g_windowOriginalWidth, g_windowOriginalHeight);
-		drawSprites();
+      if (!battleManager::isBattle)
+         drawSprites();
+      else
+         battleManager::drawSprites();
+
       drawDialogBoxes();
 
 		// Timer updates
@@ -624,9 +646,14 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
 	while( tick > *prevPhysicsTick + ticksPerPhysics ) 
 	{
 		// Update physics
-		chickenAI(ticksPerPhysics);
-		updateSprites(ticksPerPhysics);
-		player::updatePhysics(&g_player, ticksPerPhysics);
+      if (!battleManager::isBattle)
+      {
+         chickenAI(ticksPerPhysics);
+         updateSprites(ticksPerPhysics);
+         player::updatePhysics(&g_player, ticksPerPhysics);
+      }
+      else
+         battleManager::updateBattle(ticksPerPhysics);
 
 		// Update Timers
 		*prevPhysicsTick += ticksPerPhysics;
@@ -654,12 +681,14 @@ static void onInit()
    */
 
    init2D();
+   clearBackground();
 	loadLevel();
 	initCamera();
    initAudio();
    initBuckets();
 	loadSprites();
    initDialog();
+   initBattleManager();
 }
 /*-----------------------------------------------*/
 int main( void )

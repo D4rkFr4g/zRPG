@@ -1,5 +1,8 @@
 #pragma once
+#include <unordered_map>
+#include <string>
 #include "AnimatedSprite.h"
+
 
 class PlayerSprite :
 	public AnimatedSprite
@@ -14,6 +17,11 @@ public:
 	// Variables
 	bool isAlive;
 	int health;
+   int level;
+   int xp;
+   int maxHealth;
+   int magic;
+   int maxMagic;
 	int score;
 	int state;
 	int prevState;
@@ -21,5 +29,8 @@ public:
 	int jumpTicksRemaining;
 	float jumpSpeed;
 	bool isJumping;
+   std::vector<int> xpToNextLevel;
+   std::unordered_map<std::string, int> items;
+   std::unordered_map<std::string, int> stats;
 };
 

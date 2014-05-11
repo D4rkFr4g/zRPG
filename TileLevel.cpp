@@ -18,6 +18,7 @@ TileLevel::TileLevel(int width, int height, int tilesWidth, int tilesHeight)
 	tile_yStop = 0;
 	startX = 0;
 	startY = 0;
+   name = "";
 }
 /*-----------------------------------------------*/
 TileLevel::~TileLevel(void)

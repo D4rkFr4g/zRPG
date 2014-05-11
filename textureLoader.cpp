@@ -18,7 +18,7 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    (*g_textures)["chicken"] = Texture(texture, 64, 64, 32, 32); 
 
    texture = glTexImageTGAFile("./Sprites/link_Sprites.tga", width, height);
-   (*g_textures)["link"] = Texture(texture, *width, *height);
+   (*g_textures)["link"] = Texture(texture, *width, *height, 32, 32);
 
    texture = glTexImageTGAFile("./Sprites/dialog16x16.tga", width, height);
    (*g_textures)["dialog"] = Texture(texture, *width, *height, 16, 16);
