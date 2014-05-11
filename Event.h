@@ -16,7 +16,8 @@ public:
       ET_LEVEL_END,
       ET_LEVEL_BEGIN,
       ET_DEATH,
-      ET_RESTART
+      ET_RESTART,
+      ET_LEVEL_LOAD
    };
 
    // Constructors
@@ -29,6 +30,8 @@ public:
    // Functions
    bool checkStrParam(std::string key, std::string value);
    bool checkNumParam(std::string key, float value);
+   bool checkStrKey(std::string key);
+   bool checkNumKey(std::string key);
 
    // Variables
    EventType type;

@@ -29,6 +29,7 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="levelLoader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapEventHandler.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerSprite.cpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="levelLoader.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="MapEventHandler.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerSprite.h" />

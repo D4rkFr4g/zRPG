@@ -150,6 +150,16 @@ static void initBattleManager()
    battleManager::init();
 }
 /*-----------------------------------------------*/
+static void initMapEventHandler()
+{
+   g_mapEventHandler = MapEventHandler();
+   g_mapEventHandler.player = &g_player;
+   g_mapEventHandler.levels = &g_levels;
+   g_mapEventHandler.currentLevel = &g_currentLevel;
+
+   g_mapEventHandler.registerListeners(&g_eventQueue);
+}
+/*-----------------------------------------------*/
 static int whichBucket(int x, int y)
 {
 	/* PURPOSE:		Determines which bucket corresponds to world coordinates 
@@ -683,6 +693,7 @@ static void onInit()
    init2D();
    clearBackground();
 	loadLevel();
+   initMapEventHandler();
 	initCamera();
    initAudio();
    initBuckets();

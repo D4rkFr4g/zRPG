@@ -28,6 +28,7 @@
 #include "dialogManager.h"
 #include "textureLoader.h"
 #include "battleManager.h"
+#include "MapEventHandler.h"
 
 
 // Forward Declarations
@@ -72,3 +73,4 @@ DialogManager g_dialogManager;
 static EventQueue g_eventQueue;
 std::vector<DialogBox> g_dialogBoxes;
 static bool g_isInputRequired = false;
+MapEventHandler g_mapEventHandler;

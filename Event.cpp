@@ -64,3 +64,37 @@ bool Event::checkNumParam(std::string key, float value)
       return false;
 }
 /*-----------------------------------------------*/
+bool Event::checkStrKey(std::string key)
+{
+   /* PURPOSE:    Safe function to lookup if string parameters exists
+      RECEIVES:   key - key value to search for
+      RETURNS:    true if key is found otherwise false
+      REMARKS:
+   */
+   std::unordered_map<std::string, std::string>::iterator itr;
+   std::unordered_map<std::string, std::string>::iterator end = strParams.end();
+
+   itr = strParams.find(key);
+   if (itr != end)
+      return true;
+   else
+      return false;
+}
+/*-----------------------------------------------*/
+bool Event::checkNumKey(std::string key)
+{
+   /* PURPOSE:    Safe function to lookup if number parameters exists
+      RECEIVES:   key - key value to search for
+      RETURNS:    true if key is found otherwise false
+      REMARKS:
+   */
+   std::unordered_map<std::string, float>::iterator itr;
+   std::unordered_map<std::string, float>::iterator end = numParams.end();
+
+   itr = numParams.find(key);
+   if (itr != end)
+      return true;
+   else
+      return false;
+}
+/*-----------------------------------------------*/
