@@ -4,7 +4,7 @@
 bool battleManager::isBattle = false;
 PlayerSprite* battleManager::player;
 EventQueue* battleManager::eventQueue;
-std::vector<DialogBox>* battleManager::dialogQueue;
+DialogManager* battleManager::dialogManager;
 std::vector<BattleSprite> battleManager::spriteQueue;
 std::unordered_map<std::string, TileLevel>* battleManager::levels;
 std::unordered_map<int, std::vector<BattleSprite>> battleManager::enemies;
@@ -78,10 +78,13 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
       REMARKS:
    */
 
+   CONTROLS input = CONTROL_NULL;
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
-      battleCleanup();
+      battleCleanup(); // TODO Remove when unneeded
    }
+
+   dialogManager->updateBattleDialog(input);
 }
 /*-----------------------------------------------*/
 void battleManager::checkBattle(BATTLE_TYPE battle)
@@ -171,6 +174,8 @@ void battleManager::initBattle()
       else if (i == 2)
          spriteQueue[i+1].posY += 75;
    }
+
+   dialogManager->initBattleDialog(&spriteQueue);
 }
 /*-----------------------------------------------*/
 void battleManager::battleCleanup()
@@ -193,6 +198,7 @@ void battleManager::battleCleanup()
    for (int i = 1; i < (int)spriteQueue.size(); i++)
       spriteQueue.pop_back();
 
+   dialogManager->dialogQueue->clear();
 }
 /*-----------------------------------------------*/
 void battleManager::drawSprites()
@@ -241,3 +247,4 @@ void battleManager::updateCurrentTurn()
    if (currentTurn >= spriteQueue.size())
       currentTurn = 0;
 }
+/*-----------------------------------------------*/

@@ -13,21 +13,17 @@
 #include "BattleSprite.h"
 #include "Texture.h"
 #include "enemyManager.h"
+#include "dialogManager.h"
 
 
 class battleManager
 {
-protected:
-   battleManager();
-
-private:
-   static void updateCurrentTurn();
-
 public:
    ~battleManager();
 
    // Enum
    enum BATTLE_TYPE { BATTLE_EASY = 6, BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS };
+   enum CONTROLS {CONTROL_NULL, CONTROL_UP, CONTROL_DOWN, CONTROL_SELECT, CONTROL_CANCEL};
 
    // Functions
    static void init();
@@ -43,7 +39,7 @@ public:
    static bool isBattle;
    static PlayerSprite* player;
    static EventQueue* eventQueue;
-   static std::vector<DialogBox>* dialogQueue;
+   static DialogManager* dialogManager;
    static std::unordered_map<std::string, TileLevel>* levels;
    static std::unordered_map<int, std::vector<BattleSprite>> enemies;
    static std::unordered_map<int, std::vector<std::string>> loot;
@@ -58,5 +54,11 @@ public:
    static std::unordered_map<std::string, Texture>* textures;
    static int currentTurn;
    static std::unordered_map<int, std::string> statBoost;
+
+protected:
+   battleManager();
+
+private:
+   static void updateCurrentTurn();
 };
 

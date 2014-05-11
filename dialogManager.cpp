@@ -254,3 +254,63 @@ void DialogManager::registerListeners(EventQueue* eventQueue)
    eventQueue->addEventListener(Event::ET_RESTART, this);
 }
 /*-----------------------------------------------*/
+void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
+{
+   /* PURPOSE:    Initializes all menus for Battle
+      RECEIVES:   battleSprites - all sprites involved in battle
+      RETURNS:
+      REMARKS:
+   */
+
+   battlePlayer = &(*battleSprites)[0];
+   for (int i = 1; i < (int)battleSprites->size(); i++)
+      this->enemies.push_back(&(*battleSprites)[i]);
+
+   // Setup player strings
+   playerStrings["name"] = battlePlayer->name;
+   playerStrings["health"] = "" + battlePlayer->health;
+   playerStrings["maxHealth"] = "" + battlePlayer->maxHealth;
+
+   // Setup action strings
+   actionStrings["Fight"] = "Fight";
+   actionStrings["Defend"] = "Defend";
+   actionStrings["Items"] = "Items";
+   actionStrings["Flee"] = "Flee";
+
+   // Setup enemy strings
+   for (int i = 0; i < (int) enemies.size(); i++)
+      enemyStrings.push_back(enemies[i]->name);
+
+   // Setup dialogBoxes
+   battleBoxes["player"] = DialogBox(192, 320, 10, 28, "\t> Link \t\t100 / 100 \t\t10", true, true);
+   battleBoxes["action"] = DialogBox(150, 320, 10, 12, "Fight\nDefend\nItems\nFlee", true, true);
+   battleBoxes["enemy"] = DialogBox(0, 320, 10, 12, "Enemy 1\nEnemy 2\nEnemy 3", true, true);
+   playerText = &battleBoxes["player"].text;
+   actionText = &battleBoxes["action"].text;
+   enemyText = &battleBoxes["enemy"].text;
+
+   dialogQueue->push_back(battleBoxes["player"]);
+   dialogQueue->push_back(battleBoxes["enemy"]);
+   dialogQueue->push_back(battleBoxes["action"]);
+}
+/*-----------------------------------------------*/
+void DialogManager::updateBattleDialog(int input)
+{
+   /* PURPOSE:    Updates Battle dialogs based on user input
+      RECEIVES:   input - keyboard command issued by user
+      RETURNS:
+      REMARKS:
+   */
+
+}
+/*-----------------------------------------------*/
+void DialogManager::battleRewards(std::vector<std::string> loot)
+{
+   /* PURPOSE:    Displays all rewards from the battle through dialogboxes
+      RECEIVES:   loot - a list of all the rewards to be displayed
+      RETURNS:
+      REMARKS:
+   */
+
+   
+}

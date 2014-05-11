@@ -22,3 +22,4 @@ Luck == does nothing
 
 Initial Stat build at beginning of game
 Level Up stat increases
+- Create Map Loader that is an EventListener

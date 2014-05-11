@@ -140,7 +140,7 @@ static void initDialog()
 /*-----------------------------------------------*/
 static void initBattleManager()
 {
-   battleManager::dialogQueue = &g_dialogBoxes;
+   battleManager::dialogManager = &g_dialogManager;
    battleManager::eventQueue = &g_eventQueue;
    battleManager::player = &g_player;
    battleManager::levels = &g_levels;
