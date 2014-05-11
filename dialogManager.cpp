@@ -17,9 +17,9 @@ DialogManager::~DialogManager()
 void DialogManager::initDialogs()
 {
    /* PURPOSE:		Loads all the dialog to be used in the game
-      RECEIVES:	
-      RETURNS:
-      REMARKS:
+   RECEIVES:
+   RETURNS:
+   REMARKS:
    */
 
    int stdCols = (int)floor(*screenWidth / DialogBox::texture->cellWidth);
@@ -30,14 +30,14 @@ void DialogManager::initDialogs()
    int stdY = *screenHeight - (rows * DialogBox::texture->cellHeight);
    int x = stdX;
    int y = stdY;
-   
+
    DialogBox dBox;
    std::vector<DialogBox> dBoxes;
-   
+
    /*-----------------------------------------------*/
    std::string text = "In a stunning turn of original events, the Princess Zelda of Hyrule has been captured by a Dark Lord (surprising, I know).";
    text += "\nLink must set out on a quest to rescue the Princess from the evil clutches of this vile enemy to restore…";
-   
+
    dBox = DialogBox(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
@@ -45,7 +45,7 @@ void DialogManager::initDialogs()
    text += " Shall Link restore balance to the peaceful land of Hyrule as a fierce warrior with a vengeance?";
    text += " Or shall he burn his foes to a crisp as a fireball - slinging mage?";
    text += " The playstyle…";
-   
+
    dBox = DialogBox(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
@@ -56,7 +56,7 @@ void DialogManager::initDialogs()
    dialogs["intro"] = dBoxes;
    /*-----------------------------------------------*/
    dBoxes.clear();
-   
+
    sizeDialogBox(&rows, &cols, 2, "\bRETURN OF GANON");
    center(&x, &y, rows, cols);
 
@@ -64,7 +64,7 @@ void DialogManager::initDialogs()
 
    dBox = DialogBox(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
-   
+
    dialogs["death"] = dBoxes;
    /*-----------------------------------------------*/
 
@@ -87,10 +87,10 @@ void DialogManager::initDialogs()
 void DialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState)
 {
    /* PURPOSE:		Process keyboard commands as they relate to dialog boxes
-      RECEIVES:	kbState - current state of the keyboard
-                  kbPrevState - Previous frame state of the keyboard
-      RETURNS:
-      REMARKS:
+   RECEIVES:	kbState - current state of the keyboard
+   kbPrevState - Previous frame state of the keyboard
+   RETURNS:
+   REMARKS:
    */
 
    static bool isPaused = false;
@@ -119,9 +119,9 @@ void DialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
 
    /*if (kbState[SDL_SCANCODE_0] && !kbPrevState[SDL_SCANCODE_0])
    {
-      loadDialogQueue(dialogs["intro"]);
+   loadDialogQueue(dialogs["intro"]);
    }*/
-   
+
    // Handle clickable dialog boxes
    if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J] && !isPaused)
    {
@@ -133,22 +133,22 @@ void DialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
 void DialogManager::center(int* x, int* y, int rows, int cols)
 {
    /* PURPOSE:		calculates x and y coordinate to center dialog box on screen
-      RECEIVES:   x - x screen coordinate
-      y - y screen coordinate
-      rows - number of Rows in DialogBox
-      cols - number of columns in DialogBox
-      RETURNS:
-      REMARKS:
+   RECEIVES:   x - x screen coordinate
+   y - y screen coordinate
+   rows - number of Rows in DialogBox
+   cols - number of columns in DialogBox
+   RETURNS:
+   REMARKS:
    */
 
    int cellWidth = DialogBox::texture->cellWidth;
    int cellHeight = DialogBox::texture->cellHeight;
 
-   int screenCenterX = (int) floor(*screenWidth / 2.0);
-   int screenCenterY = (int) floor(*screenHeight / 2.0);
+   int screenCenterX = (int)floor(*screenWidth / 2.0);
+   int screenCenterY = (int)floor(*screenHeight / 2.0);
 
-   int halfTexWidth = (int) floor((cols * cellWidth) / 2.0);
-   int halfTexHeight = (int) floor((rows * cellHeight) / 2.0);
+   int halfTexWidth = (int)floor((cols * cellWidth) / 2.0);
+   int halfTexHeight = (int)floor((rows * cellHeight) / 2.0);
 
    *x = screenCenterX - halfTexWidth;
    *y = screenCenterY - halfTexHeight;
@@ -157,13 +157,13 @@ void DialogManager::center(int* x, int* y, int rows, int cols)
 void DialogManager::centerX(int* x, int rows, int cols)
 {
    /* PURPOSE:		calculates x coordinate to center dialog box on screen
-      RECEIVES:   x - x screen coordinate
-      y - y screen coordinate
-      rows - number of Rows in DialogBox
-      cols - number of columns in DialogBox
+   RECEIVES:   x - x screen coordinate
+   y - y screen coordinate
+   rows - number of Rows in DialogBox
+   cols - number of columns in DialogBox
 
-      RETURNS:
-      REMARKS:
+   RETURNS:
+   REMARKS:
    */
 
    int y = 0;
@@ -173,13 +173,13 @@ void DialogManager::centerX(int* x, int rows, int cols)
 void DialogManager::centerY(int* y, int rows, int cols)
 {
    /* PURPOSE:		calculates y coordinate to center dialog box on screen
-      RECEIVES:   x - x screen coordinate
-      y - y screen coordinate
-      rows - number of Rows in DialogBox
-      cols - number of columns in DialogBox
+   RECEIVES:   x - x screen coordinate
+   y - y screen coordinate
+   rows - number of Rows in DialogBox
+   cols - number of columns in DialogBox
 
-      RETURNS:
-      REMARKS:
+   RETURNS:
+   REMARKS:
    */
 
    int x = 0;
@@ -189,9 +189,9 @@ void DialogManager::centerY(int* y, int rows, int cols)
 void DialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
 {
    /* PURPOSE:		Loads dialogSequence into the dialogQueue
-      RECEIVES:   dialogSequence - a vector of dialog boxes
-      RETURNS:
-      REMARKS:    Loads the sequence backwards
+   RECEIVES:   dialogSequence - a vector of dialog boxes
+   RETURNS:
+   REMARKS:    Loads the sequence backwards
    */
 
    for (int i = dialogSequence.size() - 1; i >= 0; i--)
@@ -203,12 +203,12 @@ void DialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
 void DialogManager::sizeDialogBox(int* rows, int* cols, int linesOfText, std::string maxRowOfText)
 {
    /* PURPOSE:    Sets the row and col sizes needed for the given input
-      RECEIVES:   rows - number of rows in the dialog box to be set
-                  cols - number of cols in the dialog box to be set
-                  linesOfText - number of lines needed for all text in dialog box
-                  maxRowOfText - One line of text that will be the widest line in dialog box
-      RETURNS:
-      REMARKS:
+   RECEIVES:   rows - number of rows in the dialog box to be set
+   cols - number of cols in the dialog box to be set
+   linesOfText - number of lines needed for all text in dialog box
+   maxRowOfText - One line of text that will be the widest line in dialog box
+   RETURNS:
+   REMARKS:
    */
 
    int rowOffset = 2;
@@ -221,9 +221,9 @@ void DialogManager::sizeDialogBox(int* rows, int* cols, int linesOfText, std::st
 void DialogManager::notify(Event* event)
 {
    /* PURPOSE: EventListener callback function
-      RECEIVES: event - Event from the eventQueue
-      RETURNS:
-      REMARKS:
+   RECEIVES: event - Event from the eventQueue
+   RETURNS:
+   REMARKS:
    */
 
    if (event->type == Event::ET_LEVEL_BEGIN)
@@ -234,19 +234,19 @@ void DialogManager::notify(Event* event)
       if (event->checkStrParam("cheese", "sandwich"))
          loadDialogQueue(dialogs["death"]);
    }
-   
+
    if (event->type == Event::ET_DEATH)
       loadDialogQueue(dialogs["death"]);
    if (event->type == Event::ET_RESTART)
-         dialogQueue->clear();
+      dialogQueue->clear();
 }
 /*-----------------------------------------------*/
 void DialogManager::registerListeners(EventQueue* eventQueue)
 {
    /* PURPOSE: Registers all relevant Dialog related listeners with the eventQueue
-      RECEIVES:
-      RETURNS:
-      REMARKS:
+   RECEIVES:
+   RETURNS:
+   REMARKS:
    */
 
    eventQueue->addEventListener(Event::ET_LEVEL_BEGIN, this);
@@ -257,9 +257,9 @@ void DialogManager::registerListeners(EventQueue* eventQueue)
 void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
 {
    /* PURPOSE:    Initializes all menus for Battle
-      RECEIVES:   battleSprites - all sprites involved in battle
-      RETURNS:
-      REMARKS:
+   RECEIVES:   battleSprites - all sprites involved in battle
+   RETURNS:
+   REMARKS:
    */
 
    battlePlayer = &(*battleSprites)[0];
@@ -280,7 +280,7 @@ void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
 
    // Setup enemy strings
    enemyStrings.reserve(3);
-   for (int i = 0; i < (int) enemies.size(); i++)
+   for (int i = 0; i < (int)enemies.size(); i++)
       enemyStrings.push_back(enemies[i]->name);
 
    // Setup item strings
@@ -309,14 +309,14 @@ void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
 void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> menus)
 {
    /* PURPOSE:    Updates Battle dialogs based on user input
-      RECEIVES:   input - keyboard command issued by user
-      RETURNS:
-      REMARKS:
+   RECEIVES:   input - keyboard command issued by user
+   RETURNS:
+   REMARKS:
    */
    dialogQueue->clear();
 
    // Setup player box
-      // Format:   \t> Link \t\t100 / 100 \t\t10
+   // Format:   \t> Link \t\t100 / 100 \t\t10
    *playerText = "";
 
    playerStrings["name"] = battlePlayer->name;
@@ -334,7 +334,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
 
    battleBoxes["player"].loadFontSprites();
    dialogQueue->push_back(battleBoxes["player"]);
-   
+
    // Setup enemy box
    *enemyText = "";
 
@@ -370,7 +370,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
 
       int selection = menus["action"].getSelection();
       actionStrings[selection] = "> " + actionStrings[selection];
-      
+
       for (int i = 0; i < (int)actionStrings.size(); i++)
       {
          if (i != selection)
@@ -384,7 +384,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
 
    // Setup item box
 
-      // Setup item strings
+   // Setup item strings
    if (menus["item"].isActive)
    {
       *itemText = "";
@@ -397,20 +397,19 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
       int selection = menus["item"].getSelection();
       itemStrings[selection] = "> " + itemStrings[selection];
 
-      // Load the 5 items near selection
       for (int i = 0; i < (int)itemStrings.size(); i += 2)
       {
          if (i != selection)
             *itemText += "\b\b";
-         
+
          *itemText += itemStrings[i] + "\t\t";
-         
+
          bool isSecond = i + 1 < (int)itemStrings.size();
          if (isSecond && i + 1 != selection)
             *itemText += "\b\b";
 
          if (isSecond)
-            *itemText += itemStrings[i+1] + "\n";
+            *itemText += itemStrings[i + 1] + "\n";
       }
 
       battleBoxes["item"].loadFontSprites();
@@ -421,20 +420,20 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
 void DialogManager::battleRewards(std::vector<std::string> loot)
 {
    /* PURPOSE:    Displays all rewards from the battle through dialogboxes
-      RECEIVES:   loot - a list of all the rewards to be displayed
-      RETURNS:
-      REMARKS:
+   RECEIVES:   loot - a list of all the rewards to be displayed
+   RETURNS:
+   REMARKS:
    */
 
-   
+
 }
 /*-----------------------------------------------*/
 void DialogManager::battleCleanup()
 {
    /* PURPOSE:    Reset all data used in battle to ready for next
-      RECEIVES:   
-      RETURNS:
-      REMARKS:
+   RECEIVES:
+   RETURNS:
+   REMARKS:
    */
 
    actionStrings.clear();
