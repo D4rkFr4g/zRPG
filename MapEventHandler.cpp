@@ -42,7 +42,6 @@ void MapEventHandler::notify(Event* event)
             (*currentLevel) = &levels->find(event->strParams.find("level")->second)->second;
 
             // Load position
-            Vec pos;
             if (event->checkNumKey("x") && event->checkNumKey("y"))
             {
                pos.x = (int)event->numParams.find("x")->second;
