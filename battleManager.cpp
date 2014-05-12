@@ -523,9 +523,11 @@ void battleManager::updateBattle(int ms)
       }
    }
 
-   if (currentTurn != 0)
+   if (currentTurn != 0 && spriteQueue.size() > 0)
    {
-      enemyManager::updateEnemy(spriteQueue[currentTurn]);
+      // In case enemy was destroyed
+      if (currentTurn < spriteQueue.size())
+         enemyManager::updateEnemy(spriteQueue[currentTurn]);
       updateCurrentTurn();
    }
 }
@@ -600,7 +602,7 @@ void battleManager::useItem(std::string item)
       for (int i = 1; i < (int)spriteQueue.size(); i++)
       {
          Event ev = Event(Event::ET_DAMAGE, "subject", spriteQueue[i]->getUUID());
-         ev.numParams["damage"] = 2;
+         ev.numParams["damage"] = 10;
          eventQueue->queueEvent(ev);
       }
    }
