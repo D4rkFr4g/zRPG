@@ -1,4 +1,5 @@
 #include "player.h"
+#include "battleManager.h"
 
 //enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
 enum { IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT_RIGHT, WALKING_DIAG_UP, WALKING_DIAG_DOWN, DEATH };
@@ -178,7 +179,6 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
          player->speedX = 0;
       if (!kbState[SDL_SCANCODE_W] && !kbState[SDL_SCANCODE_S])
          player->speedY = 0;
-
    }
 
    bool isIdle = (kbState[SDL_SCANCODE_W] | kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_S] |
@@ -487,6 +487,21 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    if (sprite->type == COLLISION_DEATH)
    {
       player->state = DEATH;
+   }
+   if (sprite->type == BATTLE_EASY)
+   {
+	   //currently bugged
+	   battleManager::checkBattle(battleManager::BATTLE_EASY);
+   }
+   if (sprite->type == BATTLE_MEDIUM)
+   {
+	   //currently bugged
+	   battleManager::checkBattle(battleManager::BATTLE_MEDIUM);
+   }
+   if (sprite->type == BATTLE_HARD)
+   {
+	   //currently bugged
+	   battleManager::checkBattle(battleManager::BATTLE_HARD);
    }
 }
 /*-----------------------------------------------*/
