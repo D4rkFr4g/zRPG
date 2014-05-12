@@ -8,6 +8,9 @@ enum { COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, CO
 enum { LEFT, RIGHT, TOP, BOTTOM };
 
 EventQueue* player::eventQueue;
+int player::timeBetweenBattles = 5000;
+int player::timeSinceLastBattle = 0;
+bool player::isBattleReady = false;
 
 PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue)
 {
@@ -406,20 +409,20 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
 void player::updatePhysics(PlayerSprite* player, int diff_time)
 {
    /* PURPOSE:		Handles physics updates for player sprite
-   RECEIVES:	player - Sprite object of player
-   diff_time - milliseconds since last frame
-   RETURNS:
-   REMARKS:
+      RECEIVES:	player - Sprite object of player
+                  diff_time - milliseconds since last frame
+      RETURNS:
+      REMARKS:
    */
 
-   //float gravity = (float) 0;
-
-   // Gravity effect
-   //player->speedY = player->speedY + gravity;
-
-   // JumpingTicks Adjustment
-   //if (player->state == JUMPING && player->jumpTicksRemaining > 0)
-   //player->jumpTicksRemaining -= diff_time;
+   // Timer for battle rest periods
+   if (!isBattleReady && !battleManager::isBattle)
+   timeSinceLastBattle += diff_time;
+   if (timeSinceLastBattle > timeBetweenBattles)
+   {
+      timeSinceLastBattle = 0;
+      isBattleReady = true;
+   }
 }
 /*-----------------------------------------------*/
 void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
@@ -503,6 +506,9 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
 	   //currently bugged
 	   battleManager::checkBattle(battleManager::BATTLE_HARD);
    }
+
+   if (battleManager::isBattle)
+      isBattleReady = false;
 }
 /*-----------------------------------------------*/
 void player::restartPlayer(PlayerSprite* player, int x, int y)

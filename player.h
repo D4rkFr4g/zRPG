@@ -21,4 +21,7 @@ public:
 
    // Variables
    static EventQueue* eventQueue;
+   static int timeBetweenBattles;
+   static int timeSinceLastBattle;
+   static bool isBattleReady;
 };
