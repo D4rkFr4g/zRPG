@@ -23,6 +23,9 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    texture = glTexImageTGAFile("./Sprites/red_knight.tga", width, height);
    (*g_textures)["knight"] = Texture(texture, *width, *height, 64, 64);
 
+   texture = glTexImageTGAFile("./Sprites/link_battle.tga", width, height);
+   (*g_textures)["link_battle"] = Texture(texture, *width, *height, 576, 64);
+
    texture = glTexImageTGAFile("./Sprites/link_Sprites.tga", width, height);
    (*g_textures)["link"] = Texture(texture, *width, *height, 32, 32);
 

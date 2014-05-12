@@ -34,7 +34,7 @@ public:
    void dialogKeyboard(const unsigned char* kbState, unsigned char* kbPrevState);
    virtual void notify(Event* event) override;
    void registerListeners(EventQueue* eventQueue);
-   void initBattleDialog(std::vector<BattleSprite>* battleSprites);
+   void initBattleDialog(std::vector<BattleSprite*>* battleSprites);
    void updateBattleDialog(std::unordered_map<std::string, Menu> menus);
    void battleRewards(std::vector<std::string> loot);
    void battleCleanup();

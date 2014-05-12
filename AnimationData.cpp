@@ -39,7 +39,7 @@ void AnimationData::updateTime(int ms)
 
 	elapsedTime += ms;
 
-	if (elapsedTime > timeToNextFrame)
+ 	if (elapsedTime > timeToNextFrame)
 	{
 		resetElapsedTime();
 		advanceFrame();

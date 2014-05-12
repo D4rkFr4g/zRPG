@@ -79,16 +79,20 @@ void EventQueue::addEventListener(Event::EventType eventType, EventListener* lis
 /*-----------------------------------------------*/
 void EventQueue::removeEventListener(EventListener* listener)
 {
-   /* PURPOSE:		Finds and removes all listener references 
-		RECEIVES:	listener - pointer to listener to be removed
-		RETURNS:		
-		REMARKS:		 
-	*/
+   /* PURPOSE:		Finds and removes all listener references
+      RECEIVES:	listener - pointer to listener to be removed
+      RETURNS:
+      REMARKS:
+      */
 
-   unordered_map<Event::EventType, std::vector<EventListener*>>::iterator i;
-   for (i = listeners.begin(); i != listeners.end(); i++)
+
+   unordered_map<Event::EventType, std::vector<EventListener*>>::iterator itr;
+   if (listeners.size() > 0)
    {
-      i->second.erase(remove(i->second.begin(), i->second.end(), listener));
+      for (itr = listeners.begin(); itr != listeners.end(); itr++)
+      {
+         itr->second.erase(remove(itr->second.begin(), itr->second.end(), listener));
+      }
    }
 }
 /*-----------------------------------------------*/

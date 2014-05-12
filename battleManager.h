@@ -30,6 +30,7 @@ public:
 
    // Functions
    static void init();
+   static void initPlayer();
    static void keyboard(const unsigned char* kbState, unsigned char* kbPrevState);
    static void checkBattle(BATTLE_TYPE battle);
    static void stopPlayer();
@@ -54,7 +55,7 @@ public:
    static std::unordered_map<int, std::vector<std::string>> loot;
    static TileLevel** currentLevel;
    static TileLevel* previousLevel;
-   static std::vector<BattleSprite> spriteQueue;
+   static std::vector<BattleSprite*> spriteQueue;
    static Camera* cam;
    static int prevCamX;
    static int prevCamY;

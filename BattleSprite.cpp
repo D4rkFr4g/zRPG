@@ -24,6 +24,7 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
    maxMagic = 10;
    health = maxHealth;
    magic = maxMagic;
+   isDefending = false;
    initStats(1, 1, 1, 1, 1);
 
    uuid = uuidManager::newUUID();
@@ -32,7 +33,7 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
 BattleSprite::~BattleSprite()
 {
    if (eventQueue)
-      (*eventQueue)->removeEventListener(this);
+      eventQueue->removeEventListener(this);
 }
 /*-----------------------------------------------*/
 void BattleSprite::initStats(int STR, int CON, int DEX, int INT, int LCK)
@@ -115,7 +116,7 @@ void BattleSprite::registerListeners(EventQueue* eventQueue)
    REMARKS:
    */
 
-   this->eventQueue = &eventQueue;
+   this->eventQueue = eventQueue;
    eventQueue->addEventListener(Event::ET_DAMAGE, this);
 }
 /*-----------------------------------------------*/
@@ -134,7 +135,7 @@ void BattleSprite::update(int ms)
 {
    AnimatedSprite::update(ms);
 
-   if (curAnimation.def.name.compare("attack") == 0 && curAnimation.timeToSendEvent())
+   if (curAnimation.def.name.compare("Attack") == 0 && curAnimation.timeToSendEvent())
    {
       sendDamage(targetUUID);
       targetUUID = "";

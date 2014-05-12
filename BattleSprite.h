@@ -19,7 +19,7 @@ private:
 
    // Variables
    std::string uuid;
-   EventQueue** eventQueue;
+   EventQueue* eventQueue;
 
 public:
    // Constructors

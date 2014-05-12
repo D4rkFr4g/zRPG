@@ -7,7 +7,7 @@ bool battleManager::isBattleWon;
 PlayerSprite* battleManager::player;
 EventQueue* battleManager::eventQueue;
 DialogManager* battleManager::dialogManager;
-std::vector<BattleSprite> battleManager::spriteQueue;
+std::vector<BattleSprite*> battleManager::spriteQueue;
 std::unordered_map<std::string, TileLevel>* battleManager::levels;
 std::unordered_map<int, std::vector<BattleSprite>> battleManager::enemies;
 std::unordered_map<int, std::vector<std::string>> battleManager::loot;
@@ -40,26 +40,7 @@ void battleManager::init()
 {
    srand((unsigned int) time(NULL));
 
-   // Setup battlePlayer
-   Texture* tex = &(*textures)["link"];
-   battlePlayer = BattleSprite(&tex->texture, 50, 100, 65, 65,
-      0 * tex->uSize, 8 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
-   battlePlayer.isAnimated = false; // TODO Remove once animations are done
-
-   player->maxLevel = 10;
-   player->xp = 0;
-
-   player->xpToNextLevel.reserve(player->maxLevel-1);
-
-   player->xpToNextLevel.push_back(120);
-   player->xpToNextLevel.push_back(300);
-   player->xpToNextLevel.push_back(540);
-   player->xpToNextLevel.push_back(840);
-   player->xpToNextLevel.push_back(1440);
-   player->xpToNextLevel.push_back(2340);
-   player->xpToNextLevel.push_back(3540);
-   player->xpToNextLevel.push_back(5340);
-   player->xpToNextLevel.push_back(8340);
+   initPlayer();
 
    // Setup Enemies
    enemyManager::init(textures, &enemies);
@@ -86,6 +67,73 @@ void battleManager::init()
    menus["player"] = Menu(1);
    menus["action"] = Menu(4);
    menus["item"] = Menu(battlePlayer.items.size());
+}
+/*-----------------------------------------------*/
+void battleManager::initPlayer()
+{
+   // Setup battlePlayer
+   Texture* tex = &(*textures)["link_battle"];
+   battlePlayer = BattleSprite(&tex->texture, 50, 100, tex->cellWidth, tex->cellHeight,
+      0 * tex->uSize, 0 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
+   battlePlayer.isAnimated = true; // TODO Remove once animations are done
+
+   // Setup animations
+   float uSize = tex->uSize;
+   float vSize = tex->vSize;
+
+   // Animations
+   int numFrames = 1;
+   int timeToNextFrame = 10;
+
+   // Idle Animation
+   AnimationFrame* frames_idle = new AnimationFrame[numFrames];
+   frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_idle = Animation("Idle", frames_idle, numFrames);
+   battlePlayer.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
+   
+   // Attack Animation
+   numFrames = 20;
+   AnimationFrame* frames_attack = new AnimationFrame[numFrames];
+   frames_attack[0] = AnimationFrame(19 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[1] = AnimationFrame(18 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[2] = AnimationFrame(17 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[3] = AnimationFrame(16 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[4] = AnimationFrame(15 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[5] = AnimationFrame(14 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[6] = AnimationFrame(13 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[7] = AnimationFrame(12 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[8] = AnimationFrame(11 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[9] = AnimationFrame(10 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[10] = AnimationFrame(9 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[11] = AnimationFrame(8 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[12] = AnimationFrame(7 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[13] = AnimationFrame(6 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[14] = AnimationFrame(5 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[15] = AnimationFrame(4 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[16] = AnimationFrame(3 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[17] = AnimationFrame(2 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[18] = AnimationFrame(1 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[19] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_attack = Animation("Attack", frames_attack, numFrames);
+   AnimationData animData = AnimationData(animation_attack, timeToNextFrame, true);
+   animData.eventFrame = 6;
+   battlePlayer.animations[animation_attack.name] = animData;
+   
+   battlePlayer.setAnimation("Attack");
+
+   player->maxLevel = 10;
+   player->xp = 0;
+
+   player->xpToNextLevel.reserve(player->maxLevel - 1);
+   player->xpToNextLevel.push_back(120);
+   player->xpToNextLevel.push_back(300);
+   player->xpToNextLevel.push_back(540);
+   player->xpToNextLevel.push_back(840);
+   player->xpToNextLevel.push_back(1440);
+   player->xpToNextLevel.push_back(2340);
+   player->xpToNextLevel.push_back(3540);
+   player->xpToNextLevel.push_back(5340);
+   player->xpToNextLevel.push_back(8340);
 }
 /*-----------------------------------------------*/
 void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrevState)
@@ -134,7 +182,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             prevBattleState = battleState;
             menus["player"].setActive(true);
 
-            spriteQueue[0].isDefending = false;
+            spriteQueue[0]->isDefending = false;
          }
 
          // Check for new Transition
@@ -261,7 +309,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    {
       // TODO Remove when unnecessary
       for (int i = 1; i < (int)spriteQueue.size(); i++)
-         spriteQueue[i].health = 0;
+         spriteQueue[i]->health = 0;
 
       if (dialogManager->dialogQueue->size() > 2)
       {
@@ -316,7 +364,7 @@ void battleManager::initBattle()
    isBattle = true;
    isPlayerAlive = true;
    isBattleWon = false;
-   battleState = STATE_PLAYER;
+   battleState = STATE_IDLE;
    totalLevel = 0;
    previousLevel = *currentLevel;
    stopPlayer();
@@ -335,8 +383,10 @@ void battleManager::initBattle()
    battlePlayer.magic = player->magic;
    battlePlayer.maxMagic = player->maxMagic;
    battlePlayer.xp = player->xp;
+   battlePlayer.isDefending = false;
 
-   spriteQueue.push_back(battlePlayer);
+   spriteQueue.push_back(&battlePlayer);
+   spriteQueue[0]->registerListeners(eventQueue);
 
    numEnemies = rand() % 3 + 1;
 
@@ -361,23 +411,25 @@ void battleManager::initBattle()
       int numTypesEnemy = enemies[currentBattle].size();
       int choice = rand() % numTypesEnemy;
 
-      BattleSprite enemy = enemies[currentBattle][choice];
+      BattleSprite* enemy = new BattleSprite;
+      *enemy = enemies[currentBattle][choice];
+      //BattleSprite* enemy = &enemies[currentBattle][choice];
       
-      totalLevel += enemy.level;
+      totalLevel += enemy->level;
       
       // Boost random stats based on level
-      for (int i = 0; i < enemy.level; i++)
+      for (int i = 0; i < enemy->level; i++)
       {
          int choice = rand() % (int)statBoost.size();
-         enemy.stats[statBoost[choice]]++;
+         enemy->stats[statBoost[choice]]++;
       }
       spriteQueue.push_back(enemy);
 
       // Stagger enemy positions
       if (i == 1)
-         spriteQueue[i+1].posY -= 75;
+         spriteQueue[i+1]->posY -= 75;
       else if (i == 2)
-         spriteQueue[i+1].posY += 75;
+         spriteQueue[i+1]->posY += 75;
    }
 
    menus["enemy"] = Menu(numEnemies);
@@ -400,9 +452,9 @@ void battleManager::battleCleanup()
    isBattle = false;
 
    // Write back items
-   player->items = spriteQueue[0].items;
-   player->xp = spriteQueue[0].xp;
-   player->level = spriteQueue[0].level;
+   player->items = spriteQueue[0]->items;
+   player->xp = spriteQueue[0]->xp;
+   player->level = spriteQueue[0]->level;
 
    spriteQueue.clear();
 
@@ -422,7 +474,7 @@ void battleManager::drawSprites()
 
    for (int i = 0; i < (int)spriteQueue.size(); i++)
    {
-      spriteQueue[i].drawUV(cam->x, cam->y);
+      spriteQueue[i]->drawUV(cam->x, cam->y);
    }
 }
 /*-----------------------------------------------*/
@@ -435,7 +487,7 @@ void battleManager::updateBattle(int ms)
    */
 
    // End battle if player dead
-   if (isPlayerAlive && spriteQueue[0].health <= 0)
+   if (isPlayerAlive && spriteQueue[0]->health <= 0)
    {
       eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
       isPlayerAlive = false;
@@ -443,12 +495,12 @@ void battleManager::updateBattle(int ms)
 
    for (int i = 0; i < (int) spriteQueue.size(); i++)
    {
-      spriteQueue[i].update(ms);
+      spriteQueue[i]->update(ms);
       
       // Remove enemy if dead
       if (i != 0)
       {
-         if (spriteQueue[i].health <= 0)
+         if (spriteQueue[i]->health <= 0)
             spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
 
          if (spriteQueue.size() <= 1)
@@ -461,7 +513,7 @@ void battleManager::updateBattle(int ms)
 
    if (currentTurn != 0)
    {
-      enemyManager::updateEnemy(&spriteQueue[currentTurn]);
+      enemyManager::updateEnemy(spriteQueue[currentTurn]);
       updateCurrentTurn();
    }
 }
@@ -490,11 +542,11 @@ void battleManager::executeSelection()
    // Fighting
    if (battleState == STATE_ENEMY)
    {
-      spriteQueue[0].targetUUID = spriteQueue[menus["enemy"].getSelection() + 1].getUUID();
+      spriteQueue[0]->targetUUID = spriteQueue[menus["enemy"].getSelection() + 1]->getUUID();
    }
    else if (battleState == STATE_DEFEND)
    {
-      spriteQueue[0].isDefending = true;
+      spriteQueue[0]->isDefending = true;
    }
    else if (battleState == STATE_FLEE)
    {
@@ -504,7 +556,7 @@ void battleManager::executeSelection()
    else if (battleState == STATE_ITEMS)
    {
       std::unordered_map<std::string, int>::iterator itr;
-      itr = spriteQueue[0].items.begin();
+      itr = spriteQueue[0]->items.begin();
 
       for (int i = 0; i < menus["item"].getSelection(); i++)
          itr++;
@@ -526,7 +578,7 @@ void battleManager::useItem(std::string item)
    {
       for (int i = 1; i < (int)spriteQueue.size(); i++)
       {
-         Event ev = Event(Event::ET_DAMAGE, "subject", spriteQueue[i].getUUID());
+         Event ev = Event(Event::ET_DAMAGE, "subject", spriteQueue[i]->getUUID());
          ev.numParams["damage"] = 2;
          eventQueue->queueEvent(ev);
       }
@@ -534,22 +586,22 @@ void battleManager::useItem(std::string item)
    
    if (item.compare("Red Potion") == 0 || item.compare("Green Potion") == 0)
    {
-      int maxHealth = spriteQueue[0].maxHealth;
-      int newHealth = spriteQueue[0].health + (int) floor(maxHealth / 2);
+      int maxHealth = spriteQueue[0]->maxHealth;
+      int newHealth = spriteQueue[0]->health + (int) floor(maxHealth / 2);
       
       if (newHealth > maxHealth)
-         spriteQueue[0].health = maxHealth;
+         spriteQueue[0]->health = maxHealth;
       else
-         spriteQueue[0].health = newHealth;
+         spriteQueue[0]->health = newHealth;
    }
    if (item.compare("Blue Potion") == 0 || item.compare("Green Potion") == 0)
    {
-      int maxMagic = spriteQueue[0].maxMagic;
-      int newMagic = spriteQueue[0].magic + (int)floor(maxMagic / 2);
+      int maxMagic = spriteQueue[0]->maxMagic;
+      int newMagic = spriteQueue[0]->magic + (int)floor(maxMagic / 2);
       if (newMagic > maxMagic)
-         spriteQueue[0].magic = maxMagic;
+         spriteQueue[0]->magic = maxMagic;
       else
-         spriteQueue[0].magic = newMagic;
+         spriteQueue[0]->magic = newMagic;
    }
 }
 /*-----------------------------------------------*/
@@ -574,7 +626,7 @@ void battleManager::battleWin()
       REMARKS:
    */
    
-   BattleSprite* bPlayer = &spriteQueue[0];
+   BattleSprite* bPlayer = spriteQueue[0];
 
    std::unordered_map<std::string, int> tempReward;
    std::vector<std::string> rewards;
@@ -627,11 +679,11 @@ void battleManager::battleWin()
    // Check for LevelUp
    if (bPlayer->xp >= player->xpToNextLevel[bPlayer->level-1])
    {
-      bPlayer->xp %= player->xpToNextLevel[bPlayer->level-1];
+      //bPlayer->xp %= player->xpToNextLevel[bPlayer->level-1];
       bPlayer->level++;
 
-      if (bPlayer->level == player->maxLevel)
-         bPlayer->xp = 0;
+      /*if (bPlayer->level == player->maxLevel)
+         bPlayer->xp = 0;*/
 
       rewards.push_back(player->name + " Leveled Up!");
    }

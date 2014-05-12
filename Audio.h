@@ -24,4 +24,3 @@ public:
    std::unordered_map<std::string, FMOD::Sound*> music;
    std::unordered_map<std::string, FMOD::Sound*> soundFX;
 };
-

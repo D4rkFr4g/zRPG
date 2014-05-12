@@ -261,7 +261,7 @@ void DialogManager::registerListeners(EventQueue* eventQueue)
    eventQueue->addEventListener(Event::ET_RESTART, this);
 }
 /*-----------------------------------------------*/
-void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
+void DialogManager::initBattleDialog(std::vector<BattleSprite*>* battleSprites)
 {
    /* PURPOSE:    Initializes all menus for Battle
    RECEIVES:   battleSprites - all sprites involved in battle
@@ -269,9 +269,9 @@ void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
    REMARKS:
    */
 
-   battlePlayer = &(*battleSprites)[0];
+   battlePlayer = (*battleSprites)[0];
    for (int i = 1; i < (int)battleSprites->size(); i++)
-      this->enemies.push_back(&(*battleSprites)[i]);
+      this->enemies.push_back((*battleSprites)[i]);
 
    // Setup player strings
    playerStrings["name"] = battlePlayer->name;
@@ -370,10 +370,13 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    {
       BattleSprite* enemy = enemies[menus["enemy"].getSelection()];
 
+      int rows = 2;
+      int cols = 5;
+      int yOffset = DialogContainer::texture->cellHeight * (rows-1);
       int x = enemy->x;
-      int y = enemy->y - enemy->height;
+      int y = enemy->y - yOffset;
 
-      dialogQueue->push_back(DialogContainer(x, y, 10, 10, "Here^", true, false));
+       dialogQueue->push_back(DialogContainer(x, y, rows, cols, "^", false , false));
    }
 
    // Setup action box
