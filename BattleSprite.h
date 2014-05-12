@@ -30,7 +30,8 @@ public:
    virtual void notify(Event* event) override;
    void registerListeners(EventQueue* eventQueue);
    std::string getUUID();
-
+   bool operator==(BattleSprite rhs);
+   
    // Functions
    void initStats(int STR, int CON, int DEX, int INT, int LCK);
 

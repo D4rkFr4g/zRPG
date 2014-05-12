@@ -3,6 +3,7 @@
 
 bool battleManager::isBattle = false;
 bool battleManager::isPlayerAlive;
+bool battleManager::isBattleWon;
 PlayerSprite* battleManager::player;
 EventQueue* battleManager::eventQueue;
 DialogManager* battleManager::dialogManager;
@@ -16,6 +17,8 @@ Camera* battleManager::cam;
 int battleManager::prevCamX;
 int battleManager::prevCamY;
 enum battleManager::BATTLE_TYPE battleManager::currentBattle;
+int battleManager::numEnemies;
+int battleManager::totalLevel;
 std::unordered_map<std::string, Texture>* battleManager::textures;
 BattleSprite battleManager::battlePlayer;
 int battleManager::battleState;
@@ -43,8 +46,20 @@ void battleManager::init()
       0 * tex->uSize, 8 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
    battlePlayer.isAnimated = false; // TODO Remove once animations are done
 
-   for (int i = 0; i < (int)player->xpToNextLevel.size(); i++)
-      player->xpToNextLevel[i] = (i + 1) * 100;
+   player->maxLevel = 10;
+   player->xp = 0;
+
+   player->xpToNextLevel.reserve(player->maxLevel-1);
+
+   player->xpToNextLevel.push_back(120);
+   player->xpToNextLevel.push_back(300);
+   player->xpToNextLevel.push_back(540);
+   player->xpToNextLevel.push_back(840);
+   player->xpToNextLevel.push_back(1440);
+   player->xpToNextLevel.push_back(2340);
+   player->xpToNextLevel.push_back(3540);
+   player->xpToNextLevel.push_back(5340);
+   player->xpToNextLevel.push_back(8340);
 
    // Setup Enemies
    enemyManager::init(textures, &enemies);
@@ -87,151 +102,164 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    bool isUp = kbState[SDL_SCANCODE_W] && !kbPrevState[SDL_SCANCODE_W];
    bool isDown = kbState[SDL_SCANCODE_S] && !kbPrevState[SDL_SCANCODE_S];   
 
-   // Battle States
-   // Idle State
-   if (battleState == STATE_IDLE)
+   if (isPlayerAlive && !isBattleWon)
    {
-      // Handle State Transition
-      if (battleState != prevBattleState)
+      // Battle States
+      // Idle State
+      if (battleState == STATE_IDLE)
       {
-         prevBattleState = battleState;
-         std::unordered_map<std::string, Menu>::iterator itr = menus.begin();
-         std::unordered_map<std::string, Menu>::iterator end = menus.end();
-         for (itr; itr != end; itr++)
+         // Handle State Transition
+         if (battleState != prevBattleState)
          {
-            itr->second.reset();
-            itr->second.setActive(false);
+            prevBattleState = battleState;
+            std::unordered_map<std::string, Menu>::iterator itr = menus.begin();
+            std::unordered_map<std::string, Menu>::iterator end = menus.end();
+            for (itr; itr != end; itr++)
+            {
+               itr->second.reset();
+               itr->second.setActive(false);
+            }
          }
-      }
 
-      // Check for new Transition
-      if (currentTurn == 0)
-         battleState = STATE_PLAYER;
-   }
-   // Player State
-   if (battleState == STATE_PLAYER)
-   {
-      // Handle State Transition
-      if (battleState != prevBattleState)
-      {
-         prevBattleState = battleState;
-         menus["player"].setActive(true);
+         // Check for new Transition
+         if (currentTurn == 0)
+            battleState = STATE_PLAYER;
       }
-
-      // Check for new Transition
-      if (isSelected)
+      // Player State
+      if (battleState == STATE_PLAYER)
       {
-         battleState = STATE_ACTION;
-      }
-      else if (isUp)
-         menus["player"].previous();
-      else if (isDown)
-         menus["player"].next();
-   }
-   // Action State
-   else if (battleState == STATE_ACTION)
-   {
-      // Handle State Transition
-      if (battleState != prevBattleState)
-      {
-         prevBattleState = battleState;
-         menus["action"].setActive(true);
-      }
-
-      // Check for new Transition
-      if (isSelected)
-      {
-         int choice = menus["action"].getSelection();
-         menus["action"].setActive(false);
-         if (choice == ACTION_FIGHT)
-            battleState = STATE_ENEMY;
-         else if (choice == ACTION_DEFEND)
+         // Handle State Transition
+         if (battleState != prevBattleState)
          {
-            battleState = STATE_DEFEND;
+            prevBattleState = battleState;
+            menus["player"].setActive(true);
+
+            spriteQueue[0].isDefending = false;
+         }
+
+         // Check for new Transition
+         if (isSelected)
+         {
+            battleState = STATE_ACTION;
+         }
+         else if (isUp)
+            menus["player"].previous();
+         else if (isDown)
+            menus["player"].next();
+      }
+      // Action State
+      else if (battleState == STATE_ACTION)
+      {
+         // Handle State Transition
+         if (battleState != prevBattleState)
+         {
+            prevBattleState = battleState;
+            menus["action"].setActive(true);
+         }
+
+         // Check for new Transition
+         if (isSelected)
+         {
+            int choice = menus["action"].getSelection();
+            menus["action"].setActive(false);
+            if (choice == ACTION_FIGHT)
+               battleState = STATE_ENEMY;
+            else if (choice == ACTION_DEFEND)
+            {
+               battleState = STATE_DEFEND;
+               executeSelection();
+            }
+            else if (choice == ACTION_ITEMS)
+               battleState = STATE_ITEMS;
+            if (choice == ACTION_FLEE)
+            {
+               battleState = STATE_FLEE;
+               executeSelection();
+            }
+         }
+         else if (isCanceled)
+         {
+            menus["action"].setActive(false);
+            battleState = STATE_PLAYER;
+         }
+         else if (isUp)
+            menus["action"].previous();
+         else if (isDown)
+            menus["action"].next();
+      }
+      // Items State
+      else if (battleState == STATE_ITEMS)
+      {
+         // Handle State Transition
+         if (battleState != prevBattleState)
+         {
+            prevBattleState = battleState;
+            menus["item"].setActive(true);
+         }
+
+         // Check for new Transition
+         if (isSelected)
+         {
+            menus["item"].setActive(false);
             executeSelection();
          }
-         else if (choice == ACTION_ITEMS)
-            battleState = STATE_ITEMS;
-         if (choice == ACTION_FLEE)
+         else if (isCanceled)
          {
-            battleState = STATE_FLEE;
+            menus["item"].setActive(false);
+            battleState = STATE_ACTION;
+         }
+         else if (isUp)
+            menus["item"].previous();
+         else if (isDown)
+            menus["item"].next();
+      }
+      // Enemy State
+      else if (battleState == STATE_ENEMY)
+      {
+         // Handle State Transition
+         if (battleState != prevBattleState)
+         {
+            prevBattleState = battleState;
+            menus["enemy"].setActive(true);
+         }
+
+         // Check for new Transition
+         if (isSelected)
+         {
             executeSelection();
          }
-      }
-      else if (isCanceled)
-      {
-         menus["action"].setActive(false);
-         battleState = STATE_PLAYER;
-      }
-      else if (isUp)
-         menus["action"].previous();
-      else if (isDown)
-         menus["action"].next();
-   }
-   // Items State
-   else if (battleState == STATE_ITEMS)
-   {
-      // Handle State Transition
-      if (battleState != prevBattleState)
-      {
-         prevBattleState = battleState;
-         menus["item"].setActive(true);
+         else if (isCanceled)
+         {
+            menus["enemy"].setActive(false);
+            menus["action"].setActive(true);
+            battleState = STATE_ACTION;
+         }
+         else if (isUp)
+            menus["enemy"].previous();
+         else if (isDown)
+            menus["enemy"].next();
       }
 
-      // Check for new Transition
-      if (isSelected)
-      {
-         menus["item"].setActive(false);
-         executeSelection();
-      }
-      else if (isCanceled)
-      {
-         menus["item"].setActive(false);
-         battleState = STATE_ACTION;
-      }
-      else if (isUp)
-         menus["item"].previous();
-      else if (isDown)
-         menus["item"].next();
-   }
-   // Enemy State
-   else if (battleState == STATE_ENEMY)
-   {
-      // Handle State Transition
-      if (battleState != prevBattleState)
-      {
-         prevBattleState = battleState;
-         menus["enemy"].setActive(true);
-      }
-
-      // Check for new Transition
-      if (isSelected)
-      {
-         executeSelection();
-      }
-      else if (isCanceled)
-      {
-         menus["enemy"].setActive(false);
-         menus["action"].setActive(true);
-         battleState = STATE_ACTION;
-      }
-      else if (isUp)
-         menus["enemy"].previous();
-      else if (isDown)
-         menus["enemy"].next();
+      if (isBattle)
+         dialogManager->updateBattleDialog(menus);
    }
 
-   if (isPlayerAlive)
-      dialogManager->updateBattleDialog(menus);
-
-   if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
+   if (!isPlayerAlive && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
    {
          playerDeath();
+   }
+   if (isBattleWon && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
+   {
+      if (dialogManager->dialogQueue->size() > 2)
+         dialogManager->dialogQueue->pop_back();
    }
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
       battleCleanup(); // TODO Remove when unnecessary
    }
+
+   if (isBattleWon && dialogManager->dialogQueue->size() <= 2)
+      battleCleanup();
 }
 /*-----------------------------------------------*/
 void battleManager::checkBattle(BATTLE_TYPE battle)
@@ -276,6 +304,9 @@ void battleManager::initBattle()
    currentTurn = 0;
    isBattle = true;
    isPlayerAlive = true;
+   isBattleWon = false;
+   battleState = STATE_PLAYER;
+   totalLevel = 0;
    previousLevel = *currentLevel;
    stopPlayer();
    prevCamX = cam->x;
@@ -292,10 +323,11 @@ void battleManager::initBattle()
    battlePlayer.maxHealth = player->maxHealth;
    battlePlayer.magic = player->magic;
    battlePlayer.maxMagic = player->maxMagic;
+   battlePlayer.xp = player->xp;
 
    spriteQueue.push_back(battlePlayer);
 
-   int numEnemies = rand() % 3 + 1;
+   numEnemies = rand() % 3 + 1;
 
    if (currentBattle == BATTLE_EASY)
       *currentLevel = &(*levels)["battle_test"];
@@ -320,7 +352,9 @@ void battleManager::initBattle()
 
       BattleSprite enemy = enemies[currentBattle][choice];
       
-      // Boost stats based on level
+      totalLevel += enemy.level;
+      
+      // Boost random stats based on level
       for (int i = 0; i < enemy.level; i++)
       {
          int choice = rand() % (int)statBoost.size();
@@ -356,16 +390,14 @@ void battleManager::battleCleanup()
 
    // Write back items
    player->items = spriteQueue[0].items;
+   player->xp = spriteQueue[0].xp;
+   player->level = spriteQueue[0].level;
 
    spriteQueue.clear();
 
    cam->x = prevCamX;
    cam->y = prevCamY;
    
-   //// Clean the spriteQueue
-   //for (int i = 1; i < (int)spriteQueue.size(); i++)
-   //   spriteQueue.pop_back();
-
    dialogManager->battleCleanup();
 }
 /*-----------------------------------------------*/
@@ -401,9 +433,19 @@ void battleManager::updateBattle(int ms)
    for (int i = 0; i < (int) spriteQueue.size(); i++)
    {
       spriteQueue[i].update(ms);
-
       
       // Remove enemy if dead
+      if (i != 0)
+      {
+         if (spriteQueue[i].health <= 0)
+            spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
+
+         if (spriteQueue.size() <= 1)
+         {
+            isBattleWon = true;
+            battleWin();
+         }
+      }
    }
 
    if (currentTurn != 0)
@@ -502,8 +544,89 @@ void battleManager::useItem(std::string item)
 /*-----------------------------------------------*/
 void battleManager::playerDeath()
 {
+   /* PURPOSE:    Handles resetting if player dies
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+
    battleCleanup();
    player->posX = (*currentLevel)->startX;
    player->posY = (*currentLevel)->startY - player->height;
+}
+/*-----------------------------------------------*/
+void battleManager::battleWin()
+{
+   /* PURPOSE:    When the battle is over, doles out rewards
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+   
+   BattleSprite* bPlayer = &spriteQueue[0];
+
+   std::unordered_map<std::string, int> tempReward;
+   std::vector<std::string> rewards;
+
+   // Decide rewards
+   int numLoots = loot[currentBattle].size();
+   
+   for (int i = 0; i < numEnemies; i++)
+   {
+      int numReward = rand() % 2;
+
+      if (numReward == 1)
+      {
+         int choice = rand() % numLoots;
+         std::string s = loot[currentBattle][choice];
+
+         tempReward[s]++;
+      }
+   }
+
+   // Update player
+   std::unordered_map<std::string, int>::iterator itr;
+
+   // Rupee Rewards
+   int rupees = numEnemies * 10;
+
+   for (itr = tempReward.begin(); itr != tempReward.end(); itr++)
+   {
+      // Rupees
+      if (itr->first.compare("Rupees") == 0)
+      {
+          rupees += itr->second * 10;
+      }
+      else
+      {
+         // Other items
+         bPlayer->items[itr->first] += itr->second;
+         rewards.push_back("Found " + itr->first + " x" + std::to_string(itr->second));
+      }
+   }
+   bPlayer->items["Rupees"] += rupees;
+
+   rewards.push_back("Found " + std::to_string(rupees) + " Rupees");
+
+   // XP Rewards
+
+   int xpGained = totalLevel * 10;
+   bPlayer->xp += xpGained;
+
+   // Check for LevelUp
+   if (bPlayer->xp >= player->xpToNextLevel[bPlayer->level-1])
+   {
+      bPlayer->xp %= player->xpToNextLevel[bPlayer->level-1];
+      bPlayer->level++;
+
+      if (bPlayer->level == player->maxLevel)
+         bPlayer->xp = 0;
+
+      rewards.push_back(player->name + " Leveled Up!");
+   }
+
+   rewards.push_back("Got " + std::to_string(xpGained) + " XP");
+
+   dialogManager->battleRewards(rewards);
 }
 /*-----------------------------------------------*/

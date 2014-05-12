@@ -18,6 +18,7 @@ public:
 	bool isAlive;
 	int health;
    int level;
+   int maxLevel;
    int xp;
    int maxHealth;
    int magic;

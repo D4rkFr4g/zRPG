@@ -16,7 +16,7 @@ protected:
 
 private:
    // Functions
-   void loadDialogQueue(std::vector<DialogContainer> dialogSequence);
+   void loadDialogQueue(std::vector<DialogContainer> dialogSequence, bool reverse);
    void center(int* x, int* y, int rows, int cols);
    void centerX(int* x, int rows, int cols);
    void centerY(int* y, int rows, int cols);

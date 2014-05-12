@@ -186,7 +186,7 @@ void DialogManager::centerY(int* y, int rows, int cols)
    center(&x, y, rows, cols);
 }
 /*-----------------------------------------------*/
-void DialogManager::loadDialogQueue(std::vector<DialogContainer> dialogSequence)
+void DialogManager::loadDialogQueue(std::vector<DialogContainer> dialogSequence, bool reverse)
 {
    /* PURPOSE:		Loads dialogSequence into the dialogQueue
    RECEIVES:   dialogSequence - a vector of dialog boxes
@@ -194,9 +194,19 @@ void DialogManager::loadDialogQueue(std::vector<DialogContainer> dialogSequence)
    REMARKS:    Loads the sequence backwards
    */
 
-   for (int i = dialogSequence.size() - 1; i >= 0; i--)
+   if (reverse)
    {
-      dialogQueue->push_back(dialogSequence[i]);
+      for (int i = dialogSequence.size() - 1; i >= 0; i--)
+      {
+         dialogQueue->push_back(dialogSequence[i]);
+      }
+   }
+   else
+   {
+      for (int i = 0; i < dialogSequence.size(); i++)
+      {
+         dialogQueue->push_back(dialogSequence[i]);
+      }
    }
 }
 /*-----------------------------------------------*/
@@ -229,11 +239,11 @@ void DialogManager::notify(Event* event)
    if (event->type == Event::ET_LEVEL_BEGIN)
    {
       if (event->checkStrParam("level", "overworld") && event->checkStrParam("newGame", "true"))
-         loadDialogQueue(dialogs["intro"]);
+         loadDialogQueue(dialogs["intro"], true);
    }
 
    if (event->type == Event::ET_DEATH)
-      loadDialogQueue(dialogs["death"]);
+      loadDialogQueue(dialogs["death"], true);
    if (event->type == Event::ET_RESTART)
       dialogQueue->clear();
 }
@@ -422,7 +432,23 @@ void DialogManager::battleRewards(std::vector<std::string> loot)
    REMARKS:
    */
 
+   int* x = new int;
+   int* y = new int;
+   int* rows = new int;
+   int* cols = new int;
 
+   sizeDialogBox(rows, cols, 1, "Found Green Potion x10000");
+   center(x, y, *rows, *cols);
+   std::string text = "";
+   std::vector<DialogContainer> dBoxes;
+
+   for (int i = 0; i < (int)loot.size(); i++)
+   {
+      text = loot[i];
+      dBoxes.push_back(DialogContainer(*x, *y, *rows, *cols, text, true, true));
+   }
+
+   loadDialogQueue(dBoxes, false);
 }
 /*-----------------------------------------------*/
 void DialogManager::battleCleanup()

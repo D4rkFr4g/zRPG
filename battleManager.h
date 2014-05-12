@@ -40,10 +40,12 @@ public:
    static void executeSelection();
    static void useItem(std::string item);
    static void playerDeath();
+   static void battleWin();
 
    // Variables 
    static bool isBattle;
    static bool isPlayerAlive;
+   static bool isBattleWon;
    static PlayerSprite* player;
    static EventQueue* eventQueue;
    static DialogManager* dialogManager;
@@ -57,6 +59,8 @@ public:
    static int prevCamX;
    static int prevCamY;
    static BATTLE_TYPE currentBattle;
+   static int numEnemies;
+   static int totalLevel;
    static BattleSprite battlePlayer;
    static std::unordered_map<std::string, Texture>* textures;
    static int battleState;

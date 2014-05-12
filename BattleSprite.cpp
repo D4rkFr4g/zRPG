@@ -140,3 +140,12 @@ void BattleSprite::update(int ms)
       targetUUID = "";
    }
 }
+/*-----------------------------------------------*/
+bool BattleSprite::operator==(BattleSprite other)
+{
+   if (this->uuid == other.uuid)
+      return true;
+   else
+      return false;
+
+}
