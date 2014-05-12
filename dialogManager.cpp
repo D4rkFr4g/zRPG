@@ -365,6 +365,17 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    battleBoxes["enemy"].loadFontSprites();
    dialogQueue->push_back(battleBoxes["enemy"]);
 
+   // Setup Enemy Highlights
+   if (menus["enemy"].isActive)
+   {
+      BattleSprite* enemy = enemies[menus["enemy"].getSelection()];
+
+      int x = enemy->x;
+      int y = enemy->y - enemy->height;
+
+      dialogQueue->push_back(DialogContainer(x, y, 10, 10, "Here^", true, false));
+   }
+
    // Setup action box
    if (menus["action"].isActive)
    {
@@ -390,7 +401,6 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    }
 
    // Setup item box
-
    // Setup item strings
    if (menus["item"].isActive)
    {
