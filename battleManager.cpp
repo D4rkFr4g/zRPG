@@ -413,6 +413,9 @@ void battleManager::initBattle()
       *currentLevel = &(*levels)["battle_boss"];
    }
 
+   if (currentBattle == BATTLE_BOSS)
+      numEnemies = 1;
+
    // Load enemies into spriteQueue for battle
    for (int i = 0; i < numEnemies; i++)
    {
