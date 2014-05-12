@@ -343,6 +343,16 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    dialogQueue->push_back(battleBoxes["player"]);
 
    // Setup enemy box
+   
+   // Check for killed enemies
+   for (int i = 0; i < (int)enemies.size(); i++)
+   {
+      if (enemies[i]->health <= 0)
+      {
+         enemies.erase(remove(enemies.begin(), enemies.end(), enemies[i]));
+      }
+   }
+
    *enemyText = "";
 
    enemyStrings.clear();

@@ -71,7 +71,7 @@ void battleManager::init()
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
 {
-   player->initStats(10, 1, 1, 1, 1);
+   player->initStats(10, 1, 1, 1, 1); // TODO Revert to 1 STR
 
    // Setup battlePlayer
    Texture* tex = &(*textures)["link_battle"];

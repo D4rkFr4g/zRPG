@@ -90,7 +90,8 @@ void EventQueue::removeEventListener(EventListener* listener)
    {
       for (itr = listeners.begin(); itr != listeners.end(); itr++)
       {
-         itr->second.erase(remove(itr->second.begin(), itr->second.end(), listener));
+         if (itr->second.size() > 0)
+            itr->second.erase(remove(itr->second.begin(), itr->second.end()-1, listener));
       }
    }
 }
