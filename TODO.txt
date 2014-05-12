@@ -16,10 +16,17 @@ Strength = damage modifier
 Constitution = hit points
 Dexterity = accuracy
 Intelligence == magic points
-Luck == does nothing
+Luck == Luck points
 
 
 
 Initial Stat build at beginning of game
 Level Up stat increases
-- Create Map Loader that is an EventListener
+Setup audio for heals, coins, damage, sword swing, link noises, battle
+Make Load Screen
+Make End Screen
+Make End Dialog
+
+
+
+Done - Create Map Loader that is an EventListener
