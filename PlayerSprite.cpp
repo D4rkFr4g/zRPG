@@ -22,3 +22,22 @@ PlayerSprite::PlayerSprite(GLuint* texture, int x, int y, int width, int height,
 PlayerSprite::~PlayerSprite(void)
 {
 }
+/*-----------------------------------------------*/
+void PlayerSprite::initStats(int STR, int CON, int DEX, int INT, int LCK)
+{
+   /* PURPOSE:    initializes Stats to given values
+   RECEIVES:   STR - Strength value
+   CON - Constitution value
+   DEX - Dexterity value
+   INT - Intelligence value
+   LCK - Luck value
+   RETURNS:
+   REMARKS:
+   */
+
+   stats["STR"] = STR;
+   stats["CON"] = CON;
+   stats["DEX"] = DEX;
+   stats["INT"] = INT;
+   stats["LCK"] = LCK;
+}

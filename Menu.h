@@ -15,11 +15,11 @@ public:
 
    // Variables
    bool isActive;
+   int numOfChoices;
 
 private:
 
    // Variables
-   int numOfChoices;
    int selection;
 };
 

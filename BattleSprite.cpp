@@ -66,7 +66,7 @@ void BattleSprite::applyDamage(int damage)
 
    bool isCrit = (rand() % 10) == 0;
 
-   int defense = 5 * stats["CON"];
+   int defense = 2 * stats["CON"];
 
    if (isCrit)
       defense *= 2;
@@ -88,7 +88,8 @@ void BattleSprite::sendDamage(std::string uuid)
       damage *= 2;
 
    Event ev = Event(Event::ET_DAMAGE, "subject", uuid);
-   ev.strParams["damage"] = damage;
+   ev.numParams["damage"] = damage;
+   eventQueue->queueEvent(ev);
 }
 /*-----------------------------------------------*/
 void BattleSprite::notify(Event* event)
@@ -134,13 +135,31 @@ std::string BattleSprite::getUUID()
 /*-----------------------------------------------*/
 void BattleSprite::update(int ms)
 {
+   /* PURPOSE:    Updates position and animation and other event based tasks
+      RECEIVES:   ms - time since last frame in milliseconds
+      RETURNS: 
+      REMARKS:
+   */
+
    AnimatedSprite::update(ms);
 
-   if (curAnimation.def.name.compare("Attack") == 0 && curAnimation.timeToSendEvent())
+   if (curAnimation.def.name.compare("Attack") == 0 && curAnimation.timeToSendEvent() &&
+      curAnimation.elapsedTime == 0)
    {
       sendDamage(targetUUID);
       targetUUID = "";
    }
+}
+/*-----------------------------------------------*/
+void BattleSprite::getNewUUID()
+{
+   /* PURPOSE:    requests for new UUID
+      RECEIVES:
+      RETURNS:    string representing uuid of object
+      REMARKS:    Used when copying the object
+   */
+
+   uuid = uuidManager::newUUID();
 }
 /*-----------------------------------------------*/
 bool BattleSprite::operator==(BattleSprite other)
@@ -151,3 +170,4 @@ bool BattleSprite::operator==(BattleSprite other)
       return false;
 
 }
+/*-----------------------------------------------*/

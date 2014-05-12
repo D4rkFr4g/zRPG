@@ -71,11 +71,12 @@ void battleManager::init()
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
 {
+   player->initStats(10, 1, 1, 1, 1);
+
    // Setup battlePlayer
    Texture* tex = &(*textures)["link_battle"];
    battlePlayer = BattleSprite(&tex->texture, 20, 100, tex->cellWidth, tex->cellHeight,
       0 * tex->uSize, 0 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
-   //battlePlayer.isAnimated = true; // TODO Remove once animations are done
 
    // Setup animations
    float uSize = tex->uSize;
@@ -116,7 +117,7 @@ void battleManager::initPlayer()
    frames_attack[19] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    Animation animation_attack = Animation("Attack", frames_attack, numFrames);
    AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
-   animData.eventFrame = 6;
+   animData.eventFrame = 13;
    battlePlayer.animations[animation_attack.name] = animData;
    
    battlePlayer.setAnimation("Idle");
@@ -420,8 +421,9 @@ void battleManager::initBattle()
 
       BattleSprite* enemy = new BattleSprite;
       *enemy = enemies[currentBattle][choice];
-      //BattleSprite* enemy = &enemies[currentBattle][choice];
-      
+      enemy->getNewUUID();
+      enemy->registerListeners(eventQueue);
+
       totalLevel += enemy->level;
       
       // Boost random stats based on level
@@ -508,8 +510,11 @@ void battleManager::updateBattle(int ms)
       if (i != 0)
       {
          if (spriteQueue[i]->health <= 0)
+         {
             spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
 
+            menus["enemy"].numOfChoices--;
+         }
          if (spriteQueue.size() <= 1)
          {
             isBattleWon = true;

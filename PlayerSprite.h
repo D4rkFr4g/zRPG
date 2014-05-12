@@ -11,6 +11,7 @@ public:
 	PlayerSprite(void);
 	PlayerSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY, int health);
 	~PlayerSprite(void);
+   void initStats(int STR, int CON, int DEX, int INT, int LCK);
 
 	// Functions
 

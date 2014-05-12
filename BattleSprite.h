@@ -31,6 +31,7 @@ public:
    void registerListeners(EventQueue* eventQueue);
    std::string getUUID();
    bool operator==(BattleSprite rhs);
+   void getNewUUID();
    
    // Functions
    void initStats(int STR, int CON, int DEX, int INT, int LCK);
