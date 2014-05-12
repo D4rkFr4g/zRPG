@@ -240,7 +240,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             menus["enemy"].next();
       }
 
-      if (isBattle)
+      if (isBattle && !isBattleWon)
          dialogManager->updateBattleDialog(menus);
    }
 
@@ -256,6 +256,17 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
       battleCleanup(); // TODO Remove when unnecessary
+   }
+   if (kbState[SDL_SCANCODE_I] && !kbPrevState[SDL_SCANCODE_I])
+   {
+      // TODO Remove when unnecessary
+      for (int i = 1; i < (int)spriteQueue.size(); i++)
+         spriteQueue[i].health = 0;
+
+      if (dialogManager->dialogQueue->size() > 2)
+      {
+         dialogManager->dialogQueue->pop_back();
+      }
    }
 
    if (isBattleWon && dialogManager->dialogQueue->size() <= 2)
