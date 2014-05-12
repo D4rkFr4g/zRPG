@@ -15,7 +15,13 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
 	int* height = new int;
    
    GLuint texture = glTexImageTGAFile("./Sprites/spriteSheet_chicken.tga", NULL, NULL);
-   (*g_textures)["chicken"] = Texture(texture, 64, 64, 32, 32); 
+   (*g_textures)["chicken"] = Texture(texture, 64, 64, 32, 32);
+
+   texture = glTexImageTGAFile("./Sprites/pig_guard.tga", width, height);
+   (*g_textures)["guard"] = Texture(texture, *width, *height, 64, 64);
+
+   texture = glTexImageTGAFile("./Sprites/red_knight.tga", width, height);
+   (*g_textures)["knight"] = Texture(texture, *width, *height, 64, 64);
 
    texture = glTexImageTGAFile("./Sprites/link_Sprites.tga", width, height);
    (*g_textures)["link"] = Texture(texture, *width, *height, 32, 32);
