@@ -39,9 +39,11 @@ public:
    static void updateBattle(int ms);
    static void executeSelection();
    static void useItem(std::string item);
+   static void playerDeath();
 
-   // Variables
+   // Variables 
    static bool isBattle;
+   static bool isPlayerAlive;
    static PlayerSprite* player;
    static EventQueue* eventQueue;
    static DialogManager* dialogManager;

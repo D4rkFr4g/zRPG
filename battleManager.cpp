@@ -2,6 +2,7 @@
 
 
 bool battleManager::isBattle = false;
+bool battleManager::isPlayerAlive;
 PlayerSprite* battleManager::player;
 EventQueue* battleManager::eventQueue;
 DialogManager* battleManager::dialogManager;
@@ -220,12 +221,16 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          menus["enemy"].next();
    }
 
-   if (isBattle)
+   if (isPlayerAlive)
       dialogManager->updateBattleDialog(menus);
 
+   if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
+   {
+         playerDeath();
+   }
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
-      battleCleanup(); // TODO Remove when unneeded
+      battleCleanup(); // TODO Remove when unnecessary
    }
 }
 /*-----------------------------------------------*/
@@ -237,7 +242,7 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       REMARKS:
    */
 
-   if (rand() % 100 >= 75)
+   if (rand() % 4 == 0)
    {
       currentBattle = battle;
       initBattle();
@@ -270,6 +275,7 @@ void battleManager::initBattle()
 
    currentTurn = 0;
    isBattle = true;
+   isPlayerAlive = true;
    previousLevel = *currentLevel;
    stopPlayer();
    prevCamX = cam->x;
@@ -385,9 +391,19 @@ void battleManager::updateBattle(int ms)
       REMARKS: 
    */
 
+   // End battle if player dead
+   if (isPlayerAlive && spriteQueue[0].health <= 0)
+   {
+      eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
+      isPlayerAlive = false;
+   }
+
    for (int i = 0; i < (int) spriteQueue.size(); i++)
    {
       spriteQueue[i].update(ms);
+
+      
+      // Remove enemy if dead
    }
 
    if (currentTurn != 0)
@@ -483,3 +499,11 @@ void battleManager::useItem(std::string item)
          spriteQueue[0].magic = newMagic;
    }
 }
+/*-----------------------------------------------*/
+void battleManager::playerDeath()
+{
+   battleCleanup();
+   player->posX = (*currentLevel)->startX;
+   player->posY = (*currentLevel)->startY - player->height;
+}
+/*-----------------------------------------------*/

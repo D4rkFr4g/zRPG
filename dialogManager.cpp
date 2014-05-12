@@ -230,9 +230,6 @@ void DialogManager::notify(Event* event)
    {
       if (event->checkStrParam("level", "overworld") && event->checkStrParam("newGame", "true"))
          loadDialogQueue(dialogs["intro"]);
-
-      if (event->checkStrParam("cheese", "sandwich"))
-         loadDialogQueue(dialogs["death"]);
    }
 
    if (event->type == Event::ET_DEATH)
