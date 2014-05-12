@@ -381,7 +381,8 @@ void updateSprites(int diff_time)
 
 	// Check for Tile Collisions surrounding player
 	vector<int>* collisions = g_currentLevel->checkCollision(&g_player.collider);
-	while (collisions->size() > 0)
+   std::string levelName = g_currentLevel->name;
+   while (collisions->size() > 0 && g_currentLevel->name.compare(levelName)==0)
 	{
       Sprite* sprite = &g_currentLevel->tileArray[collisions->front()];
 		player::collisionResolution(&g_player, sprite);

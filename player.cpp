@@ -417,11 +417,13 @@ void player::updatePhysics(PlayerSprite* player, int diff_time)
 
    // Timer for battle rest periods
    if (!isBattleReady && !battleManager::isBattle)
-   timeSinceLastBattle += diff_time;
-   if (timeSinceLastBattle > timeBetweenBattles)
    {
-      timeSinceLastBattle = 0;
-      isBattleReady = true;
+      timeSinceLastBattle += diff_time;
+      if (timeSinceLastBattle > timeBetweenBattles)
+      {
+         timeSinceLastBattle = 0;
+         isBattleReady = true;
+      }
    }
 }
 /*-----------------------------------------------*/
@@ -491,24 +493,28 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    {
       player->state = DEATH;
    }
-   if (sprite->type == BATTLE_EASY)
+   
+   if (isBattleReady)
    {
-	   //currently bugged
-	   battleManager::checkBattle(battleManager::BATTLE_EASY);
-   }
-   else if (sprite->type == BATTLE_MEDIUM)
-   {
-	   //currently bugged
-	   battleManager::checkBattle(battleManager::BATTLE_MEDIUM);
-   }
-   else if (sprite->type == BATTLE_HARD)
-   {
-	   //currently bugged
-	   battleManager::checkBattle(battleManager::BATTLE_HARD);
-   }
+      if (sprite->type == BATTLE_EASY)
+      {
+         //currently bugged
+         battleManager::checkBattle(battleManager::BATTLE_EASY);
+      }
+      else if (sprite->type == BATTLE_MEDIUM)
+      {
+         //currently bugged
+         battleManager::checkBattle(battleManager::BATTLE_MEDIUM);
+      }
+      else if (sprite->type == BATTLE_HARD)
+      {
+         //currently bugged
+         battleManager::checkBattle(battleManager::BATTLE_HARD);
+      }
 
-   if (battleManager::isBattle)
-      isBattleReady = false;
+      if (battleManager::isBattle)
+         isBattleReady = false;
+   }
 }
 /*-----------------------------------------------*/
 void player::restartPlayer(PlayerSprite* player, int x, int y)
