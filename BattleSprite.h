@@ -44,6 +44,7 @@ public:
    int maxHealth;
    int magic;
    int maxMagic;
+   int startY;
    std::string targetUUID;
    bool isDefending;
 };

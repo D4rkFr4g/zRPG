@@ -21,5 +21,6 @@ public:
    int eventFrame;
 	int elapsedTime;
 	bool isRepeating;
+   bool isFinished;
 };
 

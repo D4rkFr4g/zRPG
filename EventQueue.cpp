@@ -85,7 +85,6 @@ void EventQueue::removeEventListener(EventListener* listener)
       REMARKS:
       */
 
-
    unordered_map<Event::EventType, std::vector<EventListener*>>::iterator itr;
    if (listeners.size() > 0)
    {

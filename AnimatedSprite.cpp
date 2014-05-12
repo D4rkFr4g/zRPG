@@ -66,6 +66,7 @@ void AnimatedSprite::setAnimation(std::string animation)
 	tv = curAnimation.def.frames[0].tv;
 	tSizeX = curAnimation.def.frames[0].tWidth;
 	tSizeY = curAnimation.def.frames[0].tHeight;
+   curAnimation.isFinished = false;
 }
 /*-----------------------------------------------*/
 void AnimatedSprite::updatePosition(float x , float y)

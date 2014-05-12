@@ -73,9 +73,9 @@ void battleManager::initPlayer()
 {
    // Setup battlePlayer
    Texture* tex = &(*textures)["link_battle"];
-   battlePlayer = BattleSprite(&tex->texture, 50, 100, tex->cellWidth, tex->cellHeight,
+   battlePlayer = BattleSprite(&tex->texture, 20, 100, tex->cellWidth, tex->cellHeight,
       0 * tex->uSize, 0 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
-   battlePlayer.isAnimated = true; // TODO Remove once animations are done
+   //battlePlayer.isAnimated = true; // TODO Remove once animations are done
 
    // Setup animations
    float uSize = tex->uSize;
@@ -83,9 +83,9 @@ void battleManager::initPlayer()
 
    // Animations
    int numFrames = 1;
-   int timeToNextFrame = 10;
+   int timeToNextFrame = 100;
 
-   // Idle Animation
+   //// Idle Animation
    AnimationFrame* frames_idle = new AnimationFrame[numFrames];
    frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    Animation animation_idle = Animation("Idle", frames_idle, numFrames);
@@ -94,32 +94,32 @@ void battleManager::initPlayer()
    // Attack Animation
    numFrames = 20;
    AnimationFrame* frames_attack = new AnimationFrame[numFrames];
-   frames_attack[0] = AnimationFrame(19 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[1] = AnimationFrame(18 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[2] = AnimationFrame(17 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[3] = AnimationFrame(16 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[4] = AnimationFrame(15 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[5] = AnimationFrame(14 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[6] = AnimationFrame(13 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[7] = AnimationFrame(12 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[8] = AnimationFrame(11 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[9] = AnimationFrame(10 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[10] = AnimationFrame(9 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[11] = AnimationFrame(8 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[12] = AnimationFrame(7 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[13] = AnimationFrame(6 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[14] = AnimationFrame(5 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[15] = AnimationFrame(4 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[16] = AnimationFrame(3 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[17] = AnimationFrame(2 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[18] = AnimationFrame(1 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[1] = AnimationFrame(0 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[2] = AnimationFrame(0 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[3] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[4] = AnimationFrame(0 * uSize, 15 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[5] = AnimationFrame(0 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[6] = AnimationFrame(0 * uSize, 13 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[7] = AnimationFrame(0 * uSize, 12 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[8] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[9] = AnimationFrame(0 * uSize, 10 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[10] = AnimationFrame(0 * uSize, 9 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[11] = AnimationFrame(0 * uSize, 8 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[12] = AnimationFrame(0 * uSize, 7 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[13] = AnimationFrame(0 * uSize, 6 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[14] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[15] = AnimationFrame(0 * uSize, 4 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[16] = AnimationFrame(0 * uSize, 3 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[17] = AnimationFrame(0 * uSize, 2 * vSize, 1 * uSize, 1 * vSize);
+   frames_attack[18] = AnimationFrame(0 * uSize, 1 * vSize, 1 * uSize, 1 * vSize);
    frames_attack[19] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    Animation animation_attack = Animation("Attack", frames_attack, numFrames);
-   AnimationData animData = AnimationData(animation_attack, timeToNextFrame, true);
+   AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
    animData.eventFrame = 6;
    battlePlayer.animations[animation_attack.name] = animData;
    
-   battlePlayer.setAnimation("Attack");
+   battlePlayer.setAnimation("Idle");
 
    player->maxLevel = 10;
    player->xp = 0;
@@ -169,8 +169,15 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             }
          }
 
+         if (spriteQueue[0]->posY != spriteQueue[0]->startY &&
+            spriteQueue[0]->curAnimation.def.name.compare("Attack") == 0 &&
+            spriteQueue[0]->curAnimation.isFinished)
+         {
+            spriteQueue[0]->posY = spriteQueue[0]->startY;
+         }
+
          // Check for new Transition
-         if (currentTurn == 0)
+         if (currentTurn == 0 && spriteQueue[0]->curAnimation.isFinished)
             battleState = STATE_PLAYER;
       }
       // Player State
@@ -181,7 +188,6 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          {
             prevBattleState = battleState;
             menus["player"].setActive(true);
-
             spriteQueue[0]->isDefending = false;
          }
 
@@ -384,6 +390,7 @@ void battleManager::initBattle()
    battlePlayer.maxMagic = player->maxMagic;
    battlePlayer.xp = player->xp;
    battlePlayer.isDefending = false;
+   battlePlayer.setAnimation("Idle");
 
    spriteQueue.push_back(&battlePlayer);
    spriteQueue[0]->registerListeners(eventQueue);
@@ -542,7 +549,16 @@ void battleManager::executeSelection()
    // Fighting
    if (battleState == STATE_ENEMY)
    {
-      spriteQueue[0]->targetUUID = spriteQueue[menus["enemy"].getSelection() + 1]->getUUID();
+      int choice = menus["enemy"].getSelection();
+      spriteQueue[0]->targetUUID = spriteQueue[choice + 1]->getUUID();
+     
+      // Adjust to be on same track as enemy
+      if (choice == 1)
+         spriteQueue[0]->posY -= 75;
+      else if (choice == 2)
+         spriteQueue[0]->posY += 75;
+
+      spriteQueue[0]->setAnimation("Attack");
    }
    else if (battleState == STATE_DEFEND)
    {

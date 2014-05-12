@@ -26,6 +26,7 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
    magic = maxMagic;
    isDefending = false;
    initStats(1, 1, 1, 1, 1);
+   startY = y;
 
    uuid = uuidManager::newUUID();
 }

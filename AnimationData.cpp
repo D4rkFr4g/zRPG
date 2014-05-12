@@ -12,6 +12,7 @@ AnimationData::AnimationData(Animation def, int timeToNextFrame, bool isRepeatin
 	this->currentFrame = 0;
 	this->isRepeating = isRepeating;
    this->eventFrame = 0;
+   this->isFinished = false;
 }
 /*-----------------------------------------------*/
 AnimationData::~AnimationData(void)
@@ -48,21 +49,27 @@ void AnimationData::updateTime(int ms)
 /*-----------------------------------------------*/
 void AnimationData::advanceFrame()
 {
-	/* PURPOSE:		Updates current frame of animation 
-		RECEIVES:	 
-		RETURNS:		 
-		REMARKS:		Resets to 0 if isRepeating == true otherwise stops at last frame 
-						 
-	*/
+   /* PURPOSE:		Updates current frame of animation
+      RECEIVES:
+      RETURNS:
+      REMARKS:		Resets to 0 if isRepeating == true otherwise stops at last frame
 
-	currentFrame++;
-	if (currentFrame >= def.numFrames)
-	{
-		if (isRepeating)
-			currentFrame = 0;
-		else
-			currentFrame = def.numFrames - 1;
-	}
+      */
+
+   if (!isFinished)
+   {
+      currentFrame++;
+      if (currentFrame >= def.numFrames)
+      {
+         if (isRepeating)
+            currentFrame = 0;
+         else
+         {
+            currentFrame = def.numFrames - 1;
+            isFinished = true;
+         }
+      }
+   }
 }
 /*-----------------------------------------------*/
 bool AnimationData::timeToSendEvent()
