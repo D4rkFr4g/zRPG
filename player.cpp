@@ -36,7 +36,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    player.maxHealth = 100;
    player.magic = 10;
    player.maxMagic = 10;
-   player.items["Rupees"] = 0;
+   player.items["Rupees"] = 1;
 
    //Setup Collider
    int xOffset = 20;

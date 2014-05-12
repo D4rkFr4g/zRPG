@@ -7,7 +7,7 @@
 #include "PlayerSprite.h"
 #include "EventQueue.h"
 #include "Event.h"
-#include "DialogBox.h"
+#include "DialogContainer.h"
 #include "TileLevel.h"
 #include "Camera.h"
 #include "BattleSprite.h"
@@ -25,7 +25,7 @@ public:
    // Enum
    enum BATTLE_TYPE { BATTLE_EASY = 6, BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS };
    enum CONTROLS {CONTROL_NULL, CONTROL_UP, CONTROL_DOWN, CONTROL_SELECT, CONTROL_CANCEL};
-   enum BATTLE_STATE {STATE_IDLE, STATE_PLAYER, STATE_ACTION, STATE_ENEMY, STATE_ITEMS, STATE_FLEE};
+   enum BATTLE_STATE {STATE_IDLE, STATE_PLAYER, STATE_ACTION, STATE_ENEMY, STATE_ITEMS, STATE_FLEE, STATE_DEFEND};
    enum ACTIONS {ACTION_FIGHT, ACTION_DEFEND, ACTION_ITEMS, ACTION_FLEE};
 
    // Functions
@@ -38,6 +38,7 @@ public:
    static void drawSprites();
    static void updateBattle(int ms);
    static void executeSelection();
+   static void useItem(std::string item);
 
    // Variables
    static bool isBattle;

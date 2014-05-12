@@ -20,7 +20,7 @@
     <ClCompile Include="battleManager.cpp" />
     <ClCompile Include="BattleSprite.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DialogBox.cpp" />
+    <ClCompile Include="DialogContainer.cpp" />
     <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="DrawUtils.cpp" />
     <ClCompile Include="enemyManager.cpp" />
@@ -38,6 +38,7 @@
     <ClCompile Include="textureLoader.cpp" />
     <ClCompile Include="TileLevel.cpp" />
     <ClCompile Include="tileLoader.cpp" />
+    <ClCompile Include="uuidManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
@@ -58,7 +59,7 @@
     <ClInclude Include="battleManager.h" />
     <ClInclude Include="BattleSprite.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="DialogBox.h" />
+    <ClInclude Include="DialogContainer.h" />
     <ClInclude Include="DialogManager.h" />
     <ClInclude Include="DrawUtils.h" />
     <ClInclude Include="enemyManager.h" />
@@ -77,6 +78,7 @@
     <ClInclude Include="textureLoader.h" />
     <ClInclude Include="TileLevel.h" />
     <ClInclude Include="tileLoader.h" />
+    <ClInclude Include="uuidManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <Keyword>Win32Proj</Keyword>
@@ -125,7 +127,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;opengl32.lib;glu32.lib;glew32.lib;fmodstudio_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;opengl32.lib;glu32.lib;glew32.lib;fmodstudio_vc.lib;fmod_vc.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy /y “C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studio\lib\fmodstudio.dll” “$(OutputPath)”</Command>

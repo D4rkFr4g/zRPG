@@ -1,27 +1,27 @@
-#include "DialogBox.h"
+#include "DialogContainer.h"
 
 
-Texture* DialogBox::texture;
+Texture* DialogContainer::texture;
 
 /*-----------------------------------------------*/
-DialogBox::DialogBox(void)
+DialogContainer::DialogContainer(void)
 {
 }
 /*-----------------------------------------------*/
-DialogBox::~DialogBox(void)
+DialogContainer::~DialogContainer(void)
 {
 }
 /*-----------------------------------------------*/
-DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool isBorderVisible, bool isInputRequired)
+DialogContainer::DialogContainer(int x, int y, int rows, int cols, std::string text, bool isBorderVisible, bool isInputRequired)
 {
-   /* PURPOSE:		Creates a DialogBox to be printed to the screen 
+   /* PURPOSE:		Creates a DialogContainer to be printed to the screen 
 		RECEIVES:	x - x window coordinate
                   y - y window coordinate
-                  width - width of dialogBox based on cell size of texture
-                  height - height of dialogBox based on cell size of texture
-                  text - text to be printed in the DialogBox
+                  width - width of DialogContainer based on cell size of texture
+                  height - height of DialogContainer based on cell size of texture
+                  text - text to be printed in the DialogContainer
                   isBorderVisible - If false then it will only print text to the screen
-		RETURNS:		Object of DialogBox
+		RETURNS:		Object of DialogContainer
 		REMARKS:		
 	*/
 
@@ -37,7 +37,7 @@ DialogBox::DialogBox(int x, int y, int rows, int cols, std::string text, bool is
    loadFontSprites();
 }
 /*-----------------------------------------------*/
-void DialogBox::display(void)
+void DialogContainer::display(void)
 {
    /* PURPOSE:		Displays dialog box to the screen
       RECEIVES:	
@@ -55,7 +55,7 @@ void DialogBox::display(void)
       fontSprites[i].drawUV(0,0);
 }
 /*-----------------------------------------------*/
-void DialogBox::loadBorderSprites(void)
+void DialogContainer::loadBorderSprites(void)
 {
    /* PURPOSE:		Creates sprites to make up the dialog box
       RECEIVES:
@@ -164,9 +164,9 @@ void DialogBox::loadBorderSprites(void)
 	}
 }
 /*-----------------------------------------------*/
-void DialogBox::loadFontSprites(void)
+void DialogContainer::loadFontSprites(void)
 {
-   /* PURPOSE:		Loads fonts into the DialogBox
+   /* PURPOSE:		Loads fonts into the DialogContainer
       RECEIVES:
       RETURNS:
       REMARKS:

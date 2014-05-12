@@ -247,8 +247,8 @@ static void loadSprites()
 	g_player.updatePosition((float) startX, (float) startY);
    g_cam.follow(startX, startY, g_player.width, g_player.height);
 
-   // Setup DialogBox texture to be used
-   DialogBox::texture = &g_textures["dialog"];
+   // Setup DialogContainer texture to be used
+   DialogContainer::texture = &g_textures["dialog"];
    Font::texture = &g_textures["font"];
    Font::buildFontMap();
 }

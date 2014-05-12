@@ -21,7 +21,7 @@
 #include "Audio.h"
 #include "EventQueue.h"
 #include "Texture.h"
-#include "DialogBox.h"
+#include "DialogContainer.h"
 #include "player.h"
 #include "tileLoader.h"
 #include "levelLoader.h"
@@ -71,6 +71,6 @@ FMOD::System* fmodSystem;
 Audio g_audio;
 DialogManager g_dialogManager;
 static EventQueue g_eventQueue;
-std::vector<DialogBox> g_dialogBoxes;
+std::vector<DialogContainer> g_dialogBoxes;
 static bool g_isInputRequired = false;
 MapEventHandler g_mapEventHandler;

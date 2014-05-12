@@ -154,8 +154,8 @@ void Font::loadSprites(std::vector<Sprite>* fontSprites, std::string s, int x, i
                   s - string to convert to font sprites
                   x - x window coordinate
                   y - y window coordinate
-                  width - width of DialogBox to fit font in
-                  height - height of DialogBox to fit font in
+                  width - width of DialogContainer to fit font in
+                  height - height of DialogContainer to fit font in
       RETURNS:    
       REMARKS:    
    */

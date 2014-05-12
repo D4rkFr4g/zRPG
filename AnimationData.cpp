@@ -11,6 +11,7 @@ AnimationData::AnimationData(Animation def, int timeToNextFrame, bool isRepeatin
 	this->elapsedTime = 0;
 	this->currentFrame = 0;
 	this->isRepeating = isRepeating;
+   this->eventFrame = 0;
 }
 /*-----------------------------------------------*/
 AnimationData::~AnimationData(void)
@@ -63,3 +64,15 @@ void AnimationData::advanceFrame()
 			currentFrame = def.numFrames - 1;
 	}
 }
+/*-----------------------------------------------*/
+bool AnimationData::timeToSendEvent()
+{
+   /* PURPOSE:		Checks whether it is time to send Event
+      RECEIVES:
+      RETURNS:    true if it is ok to send event otherwise false
+      REMARKS:		Default is 0 unless set beforehand
+   */
+
+   return (currentFrame == eventFrame);
+}
+/*-----------------------------------------------*/

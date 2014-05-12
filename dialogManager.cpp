@@ -1,7 +1,7 @@
 #include "DialogManager.h"
 
 
-std::vector<DialogBox>* DialogManager::dialogQueue;
+std::vector<DialogContainer>* DialogManager::dialogQueue;
 int* DialogManager::screenWidth;
 int* DialogManager::screenHeight;
 
@@ -22,23 +22,23 @@ void DialogManager::initDialogs()
    REMARKS:
    */
 
-   int stdCols = (int)floor(*screenWidth / DialogBox::texture->cellWidth);
+   int stdCols = (int)floor(*screenWidth / DialogContainer::texture->cellWidth);
    int stdRows = 12;
    int cols = stdCols;
    int rows = stdRows;
    int stdX = 0;
-   int stdY = *screenHeight - (rows * DialogBox::texture->cellHeight);
+   int stdY = *screenHeight - (rows * DialogContainer::texture->cellHeight);
    int x = stdX;
    int y = stdY;
 
-   DialogBox dBox;
-   std::vector<DialogBox> dBoxes;
+   DialogContainer dBox;
+   std::vector<DialogContainer> dBoxes;
 
    /*-----------------------------------------------*/
    std::string text = "In a stunning turn of original events, the Princess Zelda of Hyrule has been captured by a Dark Lord (surprising, I know).";
    text += "\nLink must set out on a quest to rescue the Princess from the evil clutches of this vile enemy to restore…";
 
-   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
    text = "the Princess to her throne, thereby saving the land of Hyrule once again.";
@@ -46,11 +46,11 @@ void DialogManager::initDialogs()
    text += " Or shall he burn his foes to a crisp as a fireball - slinging mage?";
    text += " The playstyle…";
 
-   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
    text = "is up to you to decide. But it is a given that this quest will not be an easy one…";
-   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
    dialogs["intro"] = dBoxes;
@@ -62,7 +62,7 @@ void DialogManager::initDialogs()
 
    text = "\t\bGAME OVER \n\bRETURN OF GANON";
 
-   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
    dialogs["death"] = dBoxes;
@@ -78,7 +78,7 @@ void DialogManager::initDialogs()
    text = "";
    text += "";
 
-   dBox = DialogBox(x, y, rows, cols, text, true, true);
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
    dialogs[""] = dBoxes;*/
@@ -95,7 +95,7 @@ void DialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
 
    static bool isPaused = false;
 
-   // Pause DialogBox
+   // Pause DialogContainer
    if (kbState[SDL_SCANCODE_P] && !kbPrevState[SDL_SCANCODE_P])
    {
       if (!isPaused)
@@ -106,8 +106,8 @@ void DialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
          int y = 10;
 
          center(&x, &y, rows, cols);
-         dialogQueue->push_back(DialogBox(x, y, rows, cols, "\t\tPause this Game \"Yo!\" ( @ ) \n\bChoose: \n> Save\n\tExit", true, true));
-         //dialogQueue->push_back(DialogBox(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
+         dialogQueue->push_back(DialogContainer(x, y, rows, cols, "\t\tPause this Game \"Yo!\" ( @ ) \n\bChoose: \n> Save\n\tExit", true, true));
+         //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
          isPaused = true;
       }
       else
@@ -135,14 +135,14 @@ void DialogManager::center(int* x, int* y, int rows, int cols)
    /* PURPOSE:		calculates x and y coordinate to center dialog box on screen
    RECEIVES:   x - x screen coordinate
    y - y screen coordinate
-   rows - number of Rows in DialogBox
-   cols - number of columns in DialogBox
+   rows - number of Rows in DialogContainer
+   cols - number of columns in DialogContainer
    RETURNS:
    REMARKS:
    */
 
-   int cellWidth = DialogBox::texture->cellWidth;
-   int cellHeight = DialogBox::texture->cellHeight;
+   int cellWidth = DialogContainer::texture->cellWidth;
+   int cellHeight = DialogContainer::texture->cellHeight;
 
    int screenCenterX = (int)floor(*screenWidth / 2.0);
    int screenCenterY = (int)floor(*screenHeight / 2.0);
@@ -159,8 +159,8 @@ void DialogManager::centerX(int* x, int rows, int cols)
    /* PURPOSE:		calculates x coordinate to center dialog box on screen
    RECEIVES:   x - x screen coordinate
    y - y screen coordinate
-   rows - number of Rows in DialogBox
-   cols - number of columns in DialogBox
+   rows - number of Rows in DialogContainer
+   cols - number of columns in DialogContainer
 
    RETURNS:
    REMARKS:
@@ -175,8 +175,8 @@ void DialogManager::centerY(int* y, int rows, int cols)
    /* PURPOSE:		calculates y coordinate to center dialog box on screen
    RECEIVES:   x - x screen coordinate
    y - y screen coordinate
-   rows - number of Rows in DialogBox
-   cols - number of columns in DialogBox
+   rows - number of Rows in DialogContainer
+   cols - number of columns in DialogContainer
 
    RETURNS:
    REMARKS:
@@ -186,7 +186,7 @@ void DialogManager::centerY(int* y, int rows, int cols)
    center(&x, y, rows, cols);
 }
 /*-----------------------------------------------*/
-void DialogManager::loadDialogQueue(std::vector<DialogBox> dialogSequence)
+void DialogManager::loadDialogQueue(std::vector<DialogContainer> dialogSequence)
 {
    /* PURPOSE:		Loads dialogSequence into the dialogQueue
    RECEIVES:   dialogSequence - a vector of dialog boxes
@@ -214,8 +214,8 @@ void DialogManager::sizeDialogBox(int* rows, int* cols, int linesOfText, std::st
    int rowOffset = 2;
    int colOffset = 5;
 
-   *cols = (int)(floor(Font::stringWidth(maxRowOfText) / DialogBox::texture->cellWidth) + colOffset);
-   *rows = (int)(floor(((Font::maxFontHeight + Font::padding) * linesOfText) / DialogBox::texture->cellHeight) + rowOffset);
+   *cols = (int)(floor(Font::stringWidth(maxRowOfText) / DialogContainer::texture->cellWidth) + colOffset);
+   *rows = (int)(floor(((Font::maxFontHeight + Font::padding) * linesOfText) / DialogContainer::texture->cellHeight) + rowOffset);
 }
 /*-----------------------------------------------*/
 void DialogManager::notify(Event* event)
@@ -293,10 +293,10 @@ void DialogManager::initBattleDialog(std::vector<BattleSprite>* battleSprites)
    }
 
    // Setup dialogBoxes
-   battleBoxes["player"] = DialogBox(192, 320, 10, 28, "", true, true);
-   battleBoxes["action"] = DialogBox(150, 320, 10, 12, "", true, true);
-   battleBoxes["enemy"] = DialogBox(0, 320, 10, 12, "", true, true);
-   battleBoxes["item"] = DialogBox(192, 320, 10, 28, "", true, true);
+   battleBoxes["player"] = DialogContainer(192, 320, 10, 28, "", true, true);
+   battleBoxes["action"] = DialogContainer(150, 320, 10, 12, "", true, true);
+   battleBoxes["enemy"] = DialogContainer(0, 320, 10, 12, "", true, true);
+   battleBoxes["item"] = DialogContainer(192, 320, 10, 28, "", true, true);
    playerText = &battleBoxes["player"].text;
    actionText = &battleBoxes["action"].text;
    enemyText = &battleBoxes["enemy"].text;

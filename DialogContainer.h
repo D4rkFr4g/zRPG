@@ -5,13 +5,13 @@
 #include "Sprite.h"
 #include "Font.h"
 
-class DialogBox
+class DialogContainer
 {
 public:
    // Constructors
-   DialogBox(void);
-   DialogBox(int x, int y, int rows, int cols, std::string text, bool isBorderVisible, bool isInputRequired);
-   ~DialogBox(void);
+   DialogContainer(void);
+   DialogContainer(int x, int y, int rows, int cols, std::string text, bool isBorderVisible, bool isInputRequired);
+   ~DialogContainer(void);
    
    // Functions
    void display(void);

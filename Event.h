@@ -17,7 +17,8 @@ public:
       ET_LEVEL_BEGIN,
       ET_DEATH,
       ET_RESTART,
-      ET_LEVEL_LOAD
+      ET_LEVEL_LOAD,
+      ET_DAMAGE
    };
 
    // Constructors

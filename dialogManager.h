@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include <SDL.h>
-#include "DialogBox.h"
+#include "DialogContainer.h"
 #include "Font.h"
 #include "EventQueue.h"
 #include "EventListener.h"
@@ -16,7 +16,7 @@ protected:
 
 private:
    // Functions
-   void loadDialogQueue(std::vector<DialogBox> dialogSequence);
+   void loadDialogQueue(std::vector<DialogContainer> dialogSequence);
    void center(int* x, int* y, int rows, int cols);
    void centerX(int* x, int rows, int cols);
    void centerY(int* y, int rows, int cols);
@@ -42,8 +42,8 @@ public:
    // Variables
    static int* screenWidth;
    static int* screenHeight;
-   static std::vector<DialogBox>* dialogQueue;
-   std::unordered_map<std::string, std::vector<DialogBox>> dialogs; 
+   static std::vector<DialogContainer>* dialogQueue;
+   std::unordered_map<std::string, std::vector<DialogContainer>> dialogs; 
    BattleSprite* battlePlayer;
    std::vector<BattleSprite*> enemies;
    std::unordered_map<std::string, std::string> playerStrings;
@@ -54,6 +54,6 @@ public:
    std::string* actionText;
    std::string* enemyText;
    std::string* itemText;
-   std::unordered_map<std::string, DialogBox> battleBoxes;
+   std::unordered_map<std::string, DialogContainer> battleBoxes;
 };
 

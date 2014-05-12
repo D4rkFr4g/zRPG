@@ -145,11 +145,17 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (choice == ACTION_FIGHT)
             battleState = STATE_ENEMY;
          else if (choice == ACTION_DEFEND)
+         {
+            battleState = STATE_DEFEND;
             executeSelection();
+         }
          else if (choice == ACTION_ITEMS)
             battleState = STATE_ITEMS;
          if (choice == ACTION_FLEE)
+         {
+            battleState = STATE_FLEE;
             executeSelection();
+         }
       }
       else if (isCanceled)
       {
@@ -214,7 +220,8 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          menus["enemy"].next();
    }
 
-   dialogManager->updateBattleDialog(menus);
+   if (isBattle)
+      dialogManager->updateBattleDialog(menus);
 
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
@@ -335,19 +342,23 @@ void battleManager::battleCleanup()
       REMARKS:
    */
 
-   battlePlayer.health = battlePlayer.maxHealth;
-   battlePlayer.magic = battlePlayer.maxMagic;
+   //battlePlayer.health = battlePlayer.maxHealth;
+   //battlePlayer.magic = battlePlayer.maxMagic;
    player->isAlive = true;
    *currentLevel = previousLevel;
    isBattle = false;
+
+   // Write back items
+   player->items = spriteQueue[0].items;
+
    spriteQueue.clear();
 
    cam->x = prevCamX;
    cam->y = prevCamY;
-
-   // Clean the spriteQueue
-   for (int i = 1; i < (int)spriteQueue.size(); i++)
-      spriteQueue.pop_back();
+   
+   //// Clean the spriteQueue
+   //for (int i = 1; i < (int)spriteQueue.size(); i++)
+   //   spriteQueue.pop_back();
 
    dialogManager->battleCleanup();
 }
@@ -401,7 +412,74 @@ void battleManager::updateCurrentTurn()
 /*-----------------------------------------------*/
 void battleManager::executeSelection()
 {
-   battleState = STATE_IDLE;
+   /* PURPOSE:    execute the current battleState selection
+      RECEIVES:   
+      RETURNS:
+      REMARKS:
+   */
+
+   // Fighting
+   if (battleState == STATE_ENEMY)
+   {
+      spriteQueue[0].targetUUID = spriteQueue[menus["enemy"].getSelection() + 1].getUUID();
+   }
+   else if (battleState == STATE_DEFEND)
+   {
+      spriteQueue[0].isDefending = true;
+   }
+   else if (battleState == STATE_FLEE)
+   {
+      if ((rand() % 4) == 0)
+         battleCleanup();
+   }
+   else if (battleState == STATE_ITEMS)
+   {
+      std::unordered_map<std::string, int>::iterator itr;
+      itr = spriteQueue[0].items.begin();
+
+      for (int i = 0; i < menus["item"].getSelection(); i++)
+         itr++;
+
+      if (itr->second > 0)
+      {
+         itr->second--;
+         useItem(itr->first);
+      }
+   }
+
    updateCurrentTurn();
+   battleState = STATE_IDLE;
 }
 /*-----------------------------------------------*/
+void battleManager::useItem(std::string item)
+{
+   if (item.compare("Rupees") == 0)
+   {
+      for (int i = 1; i < (int)spriteQueue.size(); i++)
+      {
+         Event ev = Event(Event::ET_DAMAGE, "subject", spriteQueue[i].getUUID());
+         ev.numParams["damage"] = 2;
+         eventQueue->queueEvent(ev);
+      }
+   }
+   
+   if (item.compare("Red Potion") == 0 || item.compare("Green Potion") == 0)
+   {
+      int maxHealth = spriteQueue[0].maxHealth;
+      int newHealth = spriteQueue[0].health + (int) floor(maxHealth / 2);
+      
+      if (newHealth > maxHealth)
+         spriteQueue[0].health = maxHealth;
+      else
+         spriteQueue[0].health = newHealth;
+   }
+   if (item.compare("Blue Potion") == 0 || item.compare("Green Potion") == 0)
+   {
+      int maxMagic = spriteQueue[0].maxMagic;
+      int newMagic = spriteQueue[0].magic + (int)floor(maxMagic / 2);
+      if (newMagic > maxMagic)
+         spriteQueue[0].magic = maxMagic;
+      else
+         spriteQueue[0].magic = newMagic;
+   }
+}

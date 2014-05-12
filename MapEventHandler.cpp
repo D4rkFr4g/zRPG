@@ -13,9 +13,9 @@ MapEventHandler::~MapEventHandler()
 void MapEventHandler::notify(Event* event)
 {
    /* PURPOSE: EventListener callback function
-   RECEIVES: event - Event from the eventQueue
-   RETURNS:
-   REMARKS:
+      RECEIVES: event - Event from the eventQueue
+      RETURNS:
+      REMARKS:
    */
 
    if (event->type == Event::ET_LEVEL_LOAD)
