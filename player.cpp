@@ -4,7 +4,7 @@
 //enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
 enum { IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT_RIGHT, WALKING_DIAG_UP, WALKING_DIAG_DOWN, DEATH };
 enum { COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END, BATTLE_EASY,
-   BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS, DUNGEON_1};
+   BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS, DUNGEON_1, COLLISION_OVERWORLD};
 enum { LEFT, RIGHT, TOP, BOTTOM };
 
 EventQueue* player::eventQueue;
@@ -487,37 +487,51 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
          */
       }
    }
-   if (sprite->type == COLLISION_END)
-      std::cout << "You Win" << std::endl;
-   if (sprite->type == COLLISION_DEATH)
+   
+   // Only resolve onCollisionEnter and not onCollisionStay
+   if (!sprite->hasCollided)
    {
-      player->state = DEATH;
-   }
-   if (sprite->type == DUNGEON_1)
-   {
-	   eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "dungeon_1"));
-   }
-   if (isBattleReady)
-   {
-      if (sprite->type == BATTLE_EASY)
+      if (sprite->type == COLLISION_END)
       {
-         //currently bugged
-         battleManager::checkBattle(battleManager::BATTLE_EASY);
+         //std::cout << "You Win" << std::endl;
       }
-      else if (sprite->type == BATTLE_MEDIUM)
+      if (sprite->type == COLLISION_DEATH)
       {
-         //currently bugged
-         battleManager::checkBattle(battleManager::BATTLE_MEDIUM);
+         //player->state = DEATH;
       }
-      else if (sprite->type == BATTLE_HARD)
+      if (sprite->type == DUNGEON_1)
       {
-         //currently bugged
-         battleManager::checkBattle(battleManager::BATTLE_HARD);
+         eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "dungeon_1"));
       }
+      else if (sprite->type == COLLISION_OVERWORLD)
+      {
+         eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
+      }
+      
+      if (isBattleReady)
+      {
+         if (sprite->type == BATTLE_EASY)
+         {
+            //currently bugged
+            battleManager::checkBattle(battleManager::BATTLE_EASY);
+         }
+         else if (sprite->type == BATTLE_MEDIUM)
+         {
+            //currently bugged
+            battleManager::checkBattle(battleManager::BATTLE_MEDIUM);
+         }
+         else if (sprite->type == BATTLE_HARD)
+         {
+            //currently bugged
+            battleManager::checkBattle(battleManager::BATTLE_HARD);
+         }
 
-      if (battleManager::isBattle)
-         isBattleReady = false;
+         if (battleManager::isBattle)
+            isBattleReady = false;
+      }
    }
+   // For testing onCollisionStay
+   sprite->hasCollided = true;
 }
 /*-----------------------------------------------*/
 void player::restartPlayer(PlayerSprite* player, int x, int y)

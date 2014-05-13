@@ -40,6 +40,7 @@ void MapEventHandler::notify(Event* event)
 
             // Set currentLevel
             (*currentLevel) = &levels->find(event->strParams.find("level")->second)->second;
+            name = (*currentLevel)->name;
 
             // Load position
             if (event->checkNumKey("x") && event->checkNumKey("y"))
@@ -61,9 +62,23 @@ void MapEventHandler::notify(Event* event)
                }
             }
 
+            // Calculate player direction
+            int xSpeed = 0;
+            int ySpeed = 0;
+
+            if (player->speedX > 0)
+               xSpeed = 1;
+            else if (player->speedX < 0)
+               xSpeed = -1;
+
+            if (player->speedY > 0)
+               ySpeed = 1;
+            else if (player->speedY < 0)
+               ySpeed = -1;
+
             // Set position with a little bit extra to clear collider
-            player->posX = pos.x + player->speedX;
-            player->posY = pos.y + player->speedY;
+            player->posX = pos.x + xSpeed;
+            player->posY = pos.y + ySpeed;
          }
       }
    }

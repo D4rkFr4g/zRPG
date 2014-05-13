@@ -71,6 +71,7 @@ void Sprite::initialize(GLuint* texture, int x, int y, int offsetX, int offsetY,
 	colliderXOffset = 0;
 	colliderYOffset = 0;
    isColliderDrawn = false;
+   hasCollided = false;
 }
 /*-----------------------------------------------*/
 void Sprite::draw(void)

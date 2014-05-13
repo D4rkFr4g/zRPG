@@ -78,8 +78,10 @@ std::vector<int>* TileLevel::checkCollision(AABB *box)
 		{
 			int position = (i * this->width) + j;
 			Sprite* tile = &tileArray[position];
-			if (tile->type != 0 && tile->collider.AABBIntersect(box))
-				collisions->push_back(position);
+         if (tile->type != 0 && tile->collider.AABBIntersect(box))
+            collisions->push_back(position);
+         else
+            tile->hasCollided = false;
 		}
 	}
 	return collisions;

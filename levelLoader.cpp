@@ -33,8 +33,22 @@ void levelLoader::loadLevels(std::unordered_map<std::string, TileLevel>* levels,
       string filename = "./Levels/" + name + ".txt";
       tileLoader::loadTiles(filename.c_str(), level);
       level->name = name;
+
+      // Find start position
+      int startTile = 4;
+      for (int i = 0; i < (int)level->collidableTiles.size(); i++)
+      {
+         int index = level->collidableTiles[i];
+         int type = level->tileArray[index].type;
+         if (type == startTile)
+         {
+            level->startX = level->tileArray[index].x - level->tilesWidth;
+            level->startY = level->tileArray[index].y;
+         }
+      }
    }
 
+   // Load first level and clear filenames vector
    *currentLevel = &(*levels)[filenames[0]];
    filenames.clear();
 }

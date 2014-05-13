@@ -494,19 +494,6 @@ static void loadLevel()
 
    g_currentLevel = new TileLevel();
    levelLoader::loadLevels(&g_levels, &g_currentLevel);
-
-	// Find start position
-	int startTile = 4;
-	for (int i = 0; i < (int) g_currentLevel->collidableTiles.size(); i++)
-	{
-		int index = g_currentLevel->collidableTiles[i];
-		int type = g_currentLevel->tileArray[index].type;
-		if (type == startTile)
-		{
-			g_currentLevel->startX = g_currentLevel->tileArray[index].x - g_currentLevel->tilesWidth;
-			g_currentLevel->startY = g_currentLevel->tileArray[index].y;
-		}
-	}
    
    Event ev = Event(Event::ET_LEVEL_BEGIN, "level", g_currentLevel->name);
    ev.strParams["newGame"] = "true";

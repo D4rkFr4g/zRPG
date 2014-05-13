@@ -43,6 +43,7 @@ public:
 	bool isFlippedY;
 	AABB collider;
 	AABB prevCollider;
+   bool hasCollided;
 	float prevPosX, prevPosY;
 	int type;
    bool isColliderDrawn;
