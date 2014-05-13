@@ -344,8 +344,11 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       initBattle();
    }
    
-   if (battle == 0)
+   if (battle == battleManager::BATTLE_YES)
+   {
+      currentBattle = battleManager::BATTLE_EASY;
       initBattle();
+   }
 }
 /*-----------------------------------------------*/
 void battleManager::stopPlayer()
