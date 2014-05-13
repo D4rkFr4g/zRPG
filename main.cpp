@@ -268,7 +268,7 @@ static void makeChicken()
 
 	Texture* tex = &g_textures["chicken"];
 	AnimatedSprite sprite_chicken = AnimatedSprite(&tex->texture, x, y, tex->width, tex->height, 0, 0, 0.5, 1);
-	sprite_chicken.type = 2;
+	sprite_chicken.type = 1;
 
 	//Setup Collider
 	int xOffset = 20;

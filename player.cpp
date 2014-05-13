@@ -467,7 +467,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       else if (sides[RIGHT])
       {
          player->speedX = 0;
-         int newX = (sprite->collider.x + sprite->width + 1) - player->colliderXOffset;
+         int newX = (sprite->collider.x + sprite->collider.w + 1) - player->colliderXOffset;
          player->updatePosition((float)newX, player->posY);
       }
       player->updateCamera();
