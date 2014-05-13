@@ -467,6 +467,7 @@ void battleManager::battleCleanup()
    player->items = spriteQueue[0]->items;
    player->xp = spriteQueue[0]->xp;
    player->level = spriteQueue[0]->level;
+   player->stats = spriteQueue[0]->stats;
 
    spriteQueue.clear();
 
@@ -705,12 +706,9 @@ void battleManager::battleWin()
    // Check for LevelUp
    if (bPlayer->xp >= player->xpToNextLevel[bPlayer->level-1])
    {
-      //bPlayer->xp %= player->xpToNextLevel[bPlayer->level-1];
       bPlayer->level++;
-
-      /*if (bPlayer->level == player->maxLevel)
-         bPlayer->xp = 0;*/
-
+      bPlayer->stats["STR"]++;  // TODO Remove once Stat Picker is done
+      bPlayer->stats["CON"]++; // TODO Remove once Stat Picker is done
       rewards.push_back(player->name + " Leveled Up!");
    }
 

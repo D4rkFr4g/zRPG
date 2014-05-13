@@ -28,5 +28,5 @@ Make End Screen
 Make End Dialog
 
 
-
+Done - Boss only spawns once
 Done - Create Map Loader that is an EventListener
