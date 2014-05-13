@@ -26,21 +26,21 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    enemy.isAnimated = false; // TODO Remove once animations are setup
    enemy.name = "chicken";
    enemy.level = 1;
-   enemy.isColliderDrawn = true;
+   enemy.isColliderDrawn = false;
 
    //// Setup animations
-   //float uSize = 0.5;
-   //float vSize = 1;
+   float uSize = 0.5;
+   float vSize = 1;
 
    //// Animations
-   //int numFrames = 1;
-   //int timeToNextFrame = 100;
+   int numFrames = 1;
+   int timeToNextFrame = 100;
 
    ////// Idle Animation
-   //AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-   //frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   //Animation animation_idle = Animation("Idle", frames_idle, numFrames);
-   //enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
+   AnimationFrame* frames_idle = new AnimationFrame[numFrames];
+   frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_idle = Animation("Idle", frames_idle, numFrames);
+   enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
 
    //// Attack Animation
    //numFrames = 11;

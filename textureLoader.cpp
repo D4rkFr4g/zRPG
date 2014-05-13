@@ -49,5 +49,8 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
 
    texture = glTexImageTGAFile("./Sprites/lttp_font2x2.tga", width, height);
    (*g_textures)["font"] = Texture(texture, *width, *height, 2, 2);
+
+   texture - glTexImageTGAFile("./Sprites/kakariko_villagers.tga", width, height);
+   (*g_textures)[""]
 }
 /*-----------------------------------------------*/
