@@ -77,8 +77,10 @@ void MapEventHandler::notify(Event* event)
                ySpeed = -1;
 
             // Set position with a little bit extra to clear collider
-            player->posX = pos.x + xSpeed;
-            player->posY = pos.y + ySpeed;
+            player->updatePosition(pos.x + xSpeed, pos.y + ySpeed);
+
+            /*player->posX = pos.x + xSpeed;
+            player->posY = pos.y + ySpeed;*/
          }
       }
    }

@@ -50,7 +50,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    player.colliderXOffset = xOffset;
    player.colliderYOffset = yOffset;
    player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
-   player.isColliderDrawn = false;
+   player.isColliderDrawn = true;
 
 
    // Animations
@@ -443,49 +443,35 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    bool* sides = AABB::AABBwhichSideIntersected(&player->prevCollider, &player->collider, &sprite->collider);
 
    // Ground Collision
-   if (sprite->type == COLLISION_GROUND || sprite->type == COLLISION_PLATFORM)
+   if (sprite->type == COLLISION_GROUND )
    {
 
       if (sides[TOP])
       {
-         player->isJumping = false;
          player->speedY = 0;
          int newY = (sprite->collider.y - 1) - (player->collider.h + player->colliderYOffset);
          player->updatePosition(player->posX, (float)newY);
       }
       else if (sides[BOTTOM])
       {
-         player->isJumping = false;
          player->speedY = 0;
          int newY = (sprite->collider.y + 1) + sprite->collider.h - player->colliderYOffset;
          player->updatePosition(player->posX, (float)newY);
       }
-
-
-      if (sprite->type == COLLISION_GROUND)
+      else if (sides[LEFT]) // Correct
       {
-         if (sides[LEFT])
-         {
-            player->speedX = 0;
-            int newX = (sprite->collider.x - 1) - (player->collider.w + player->colliderXOffset);
-            player->updatePosition((float)newX, player->posY);
-         }
-         else if (sides[RIGHT])
-         {
-            player->speedX = 0;
-            int newX = (sprite->collider.x + 1) + sprite->collider.w - player->colliderXOffset;
-            player->updatePosition((float)newX, player->posY);
-         }
-         /*
-         else if (sides[TOP])
-         {
-         player->isJumping = false;
-         player->speedY = 0;
-         int newY = (sprite->colliderYOffset - 1) - player->height;
-         player->updatePosition(player->posX, (float) newY);
-         }
-         */
+         player->speedX = 0;
+         int newX = (sprite->collider.x - 1) - (player->colliderXOffset + player->collider.w);
+         player->updatePosition((float)newX, player->posY);
       }
+      else if (sides[RIGHT]) // Correct
+      {
+         player->speedX = 0;
+         int newX = (sprite->collider.x + sprite->width + 1) - player->colliderXOffset;
+         player->updatePosition((float)newX, player->posY);
+      }
+
+      player->updateCamera();
    }
    
    // Only resolve onCollisionEnter and not onCollisionStay

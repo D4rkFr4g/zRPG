@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include "AnimatedSprite.h"
+#include "Camera.h"
 
 
 class PlayerSprite :
@@ -11,9 +12,10 @@ public:
 	PlayerSprite(void);
 	PlayerSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY, int health);
 	~PlayerSprite(void);
-   void initStats(int STR, int CON, int DEX, int INT, int LCK);
 
 	// Functions
+   void initStats(int STR, int CON, int DEX, int INT, int LCK);
+   void updateCamera();
 
 	// Variables
 	bool isAlive;
@@ -34,5 +36,6 @@ public:
    std::vector<int> xpToNextLevel;
    std::unordered_map<std::string, int> items;
    std::unordered_map<std::string, int> stats;
+   Camera* cam;
 };
 

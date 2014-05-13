@@ -41,3 +41,14 @@ void PlayerSprite::initStats(int STR, int CON, int DEX, int INT, int LCK)
    stats["INT"] = INT;
    stats["LCK"] = LCK;
 }
+/*-----------------------------------------------*/
+void PlayerSprite::updateCamera()
+{
+   /* PURPOSE:    Moves camera to current position of the player.
+      RECEIVES:   
+      RETURNS:
+      REMARKS:
+   */
+
+   cam->follow(x, y, width, height);
+}
