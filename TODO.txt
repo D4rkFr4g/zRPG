@@ -21,11 +21,12 @@ Luck == Luck points
 
 
 Initial Stat build at beginning of game / Stat chooser on levelUP
-Level Up stat increases
+Simple - Level Up stat increases
 Setup audio for heals, coins, damage, sword swing, link noises, battle
 Make Load Screen
 Make End Screen
 Make End Dialog
+Code enemy turn state machine
 
 
 Done - Boss only spawns once
