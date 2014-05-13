@@ -24,7 +24,7 @@ void MapEventHandler::notify(Event* event)
       if (event->checkStrKey("level"))
       {
 
-         std::unordered_map<std::string, TileLevel>::iterator itr = levels->find("level");
+         std::unordered_map<std::string, TileLevel>::iterator itr = levels->find(event->strParams.find("level")->second);
          std::unordered_map<std::string, TileLevel>::iterator end = levels->end();
 
          if (itr != end)
