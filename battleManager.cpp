@@ -343,6 +343,9 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       currentBattle = battle;
       initBattle();
    }
+   
+   if (battle == 0)
+      initBattle();
 }
 /*-----------------------------------------------*/
 void battleManager::stopPlayer()
