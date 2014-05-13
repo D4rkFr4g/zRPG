@@ -7,7 +7,7 @@ BattleSprite::BattleSprite()
    eventQueue = NULL;
 }
 /*-----------------------------------------------*/
-BattleSprite::BattleSprite(GLuint* texture, int x, int y, int texWidth, int texHeight, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY) 
+BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY) 
 : AnimatedSprite(texture, x, y, width, height, tu, tv, tSizeX, tSizeY)
 {
    /*Strength = damage modifier
