@@ -590,7 +590,8 @@ static void keyboard()
    else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
    {
       // TODO remove this
-      g_player.updatePosition(594,250 );
+      //g_player.updatePosition(594,250 );
+      battleManager::checkBattle(0);
    }
 }
 /*-----------------------------------------------*/
