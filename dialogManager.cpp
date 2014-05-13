@@ -68,7 +68,6 @@ void DialogManager::initDialogs()
    dialogs["death"] = dBoxes;
    /*-----------------------------------------------*/
 
-
    /*dBoxes.clear();
    rows = stdRows;
    cols = stdCols;

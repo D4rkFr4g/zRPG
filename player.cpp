@@ -4,7 +4,7 @@
 //enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
 enum { IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT_RIGHT, WALKING_DIAG_UP, WALKING_DIAG_DOWN, DEATH };
 enum { COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END, BATTLE_EASY,
-   BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS};
+   BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS, DUNGEON_1};
 enum { LEFT, RIGHT, TOP, BOTTOM };
 
 EventQueue* player::eventQueue;
@@ -493,7 +493,10 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    {
       player->state = DEATH;
    }
-   
+   if (sprite->type == DUNGEON_1)
+   {
+	   eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "dungeon_1"));
+   }
    if (isBattleReady)
    {
       if (sprite->type == BATTLE_EASY)
