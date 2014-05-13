@@ -50,7 +50,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    player.colliderXOffset = xOffset;
    player.colliderYOffset = yOffset;
    player.setCollider(&AABB(player.x + xOffset, player.y + yOffset, width, height));
-   player.isColliderDrawn = true;
+   player.isColliderDrawn = false;
 
 
    // Animations
@@ -458,19 +458,18 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
          int newY = (sprite->collider.y + 1) + sprite->collider.h - player->colliderYOffset;
          player->updatePosition(player->posX, (float)newY);
       }
-      else if (sides[LEFT]) // Correct
+      else if (sides[LEFT])
       {
          player->speedX = 0;
          int newX = (sprite->collider.x - 1) - (player->colliderXOffset + player->collider.w);
          player->updatePosition((float)newX, player->posY);
       }
-      else if (sides[RIGHT]) // Correct
+      else if (sides[RIGHT])
       {
          player->speedX = 0;
          int newX = (sprite->collider.x + sprite->width + 1) - player->colliderXOffset;
          player->updatePosition((float)newX, player->posY);
       }
-
       player->updateCamera();
    }
    

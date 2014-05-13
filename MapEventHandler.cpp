@@ -58,7 +58,9 @@ void MapEventHandler::notify(Event* event)
                else
                {
                   pos.x = (*currentLevel)->startX;
-                  pos.y = (*currentLevel)->startY;
+                  
+                  int colliderNegativeYOffset = player->colliderYOffset + player->collider.h;
+                  pos.y = (*currentLevel)->startY - colliderNegativeYOffset;
                }
             }
 
@@ -67,20 +69,16 @@ void MapEventHandler::notify(Event* event)
             int ySpeed = 0;
 
             if (player->speedX > 0)
-               xSpeed = 1;
+               xSpeed = 3;
             else if (player->speedX < 0)
-               xSpeed = -1;
-
+               xSpeed = -3;
             if (player->speedY > 0)
-               ySpeed = 1;
+               ySpeed = 3;
             else if (player->speedY < 0)
-               ySpeed = -1;
+               ySpeed = -3;
 
             // Set position with a little bit extra to clear collider
             player->updatePosition(pos.x + xSpeed, pos.y + ySpeed);
-
-            /*player->posX = pos.x + xSpeed;
-            player->posY = pos.y + ySpeed;*/
          }
       }
    }

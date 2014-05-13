@@ -242,7 +242,8 @@ static void loadSprites()
 	Texture* tex = &g_textures["link"];
 	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &g_eventQueue);
 	int startX = g_currentLevel->startX;
-	int startY = g_currentLevel->startY - g_player.height;
+   int g_colliderNegativeYOffset = g_player.colliderYOffset + g_player.collider.h;
+	int startY = g_currentLevel->startY - g_colliderNegativeYOffset;
 
 	g_player.updatePosition((float) startX, (float) startY);
    g_cam.follow(startX, startY, g_player.width, g_player.height);
@@ -587,7 +588,7 @@ static void keyboard()
    else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
    {
       // TODO remove this
-      battleManager::checkBattle(battleManager::BATTLE_EASY);
+      g_player.updatePosition(594,250 );
    }
 }
 /*-----------------------------------------------*/
