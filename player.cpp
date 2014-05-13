@@ -497,17 +497,14 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       {
          if (sprite->type == BATTLE_EASY)
          {
-            //currently bugged
             battleManager::checkBattle(battleManager::BATTLE_EASY);
          }
          else if (sprite->type == BATTLE_MEDIUM)
          {
-            //currently bugged
             battleManager::checkBattle(battleManager::BATTLE_MEDIUM);
          }
          else if (sprite->type == BATTLE_HARD)
          {
-            //currently bugged
             battleManager::checkBattle(battleManager::BATTLE_HARD);
          }
 
