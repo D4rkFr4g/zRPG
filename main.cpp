@@ -591,7 +591,7 @@ static void keyboard()
    {
       // TODO remove this
       //g_player.updatePosition(594,250 );
-      battleManager::checkBattle(0);
+      battleManager::checkBattle(battleManager::BATTLE_YES);
    }
 }
 /*-----------------------------------------------*/
