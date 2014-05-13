@@ -24,7 +24,7 @@ private:
 public:
    // Constructors
    BattleSprite();
-   BattleSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
+   BattleSprite(GLuint* texture, int x, int y, int texWidth, int texHeight, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
    virtual ~BattleSprite();
    virtual void update(int ms) override;
    virtual void notify(Event* event) override;

@@ -240,7 +240,7 @@ static void loadSprites()
 
 	// Create and place player on map
 	Texture* tex = &g_textures["link"];
-	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &g_eventQueue);
+ 	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &g_eventQueue);
 	int startX = g_currentLevel->startX;
    int g_colliderNegativeYOffset = g_player.colliderYOffset + g_player.collider.h;
 	int startY = g_currentLevel->startY - g_colliderNegativeYOffset;
@@ -275,6 +275,8 @@ static void makeChicken()
 	int yOffset = 25;
 	int width = 20;
 	int height = 20;
+   float uSize = 0.5;
+   float vSize = 1;
 	sprite_chicken.colliderXOffset = xOffset;
 	sprite_chicken.colliderYOffset = yOffset;
 	sprite_chicken.setCollider(&AABB(sprite_chicken.x + xOffset, sprite_chicken.y + yOffset, width, height));
@@ -283,15 +285,15 @@ static void makeChicken()
 	int numFrames = 2;
 	int timeToNextFrame = 300;
 	AnimationFrame* frames_walking = new AnimationFrame[numFrames];
-	frames_walking[0] = AnimationFrame(0,0,0.5,1);
-	frames_walking[1] = AnimationFrame(0.5,0,0.5,1);
+	frames_walking[0] = AnimationFrame(0,0,uSize,vSize);
+	frames_walking[1] = AnimationFrame(0.5,0,uSize,vSize);
 	Animation animation_walking = Animation("Walking", frames_walking, numFrames);
 	sprite_chicken.animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
 
 	// Idle Animation
 	numFrames = 1;
 	AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-	frames_idle[0] = AnimationFrame(0,0,0.5,1);
+	frames_idle[0] = AnimationFrame(0,0,uSize,vSize);
 	Animation animation_idle = Animation("Idle", frames_idle, numFrames);
 	sprite_chicken.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 	sprite_chicken.setAnimation("Walking");

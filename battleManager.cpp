@@ -78,6 +78,8 @@ void battleManager::initPlayer()
    battlePlayer = BattleSprite(&tex->texture, 20, 100, tex->cellWidth, tex->cellHeight,
       0 * tex->uSize, 0 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
 
+   battlePlayer.isColliderDrawn = true;
+
    // Setup animations
    float uSize = tex->uSize;
    float vSize = tex->vSize;
