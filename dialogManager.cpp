@@ -381,8 +381,9 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
 
       int rows = 2;
       int cols = 5;
-      int yOffset = DialogContainer::texture->cellHeight * (rows-1);
-      int x = enemy->x;
+      int xOffset = DialogContainer::texture->cellWidth * (cols - 1);
+      int yOffset = DialogContainer::texture->cellHeight * (rows - 1);
+      int x = enemy->x + enemy->width - xOffset;
       int y = enemy->y - yOffset;
 
        dialogQueue->push_back(DialogContainer(x, y, rows, cols, "^", false , false));

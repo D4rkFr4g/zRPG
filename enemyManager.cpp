@@ -22,11 +22,11 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    //enemy.level = 1;
    
    Texture* tex = &(*textures)["chicken_battle"];
-   BattleSprite enemy = BattleSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
+   BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    enemy.isAnimated = false; // TODO Remove once animations are setup
    enemy.name = "chicken";
    enemy.level = 1;
-   enemy.isColliderDrawn = false;
+   enemy.isColliderDrawn = true;
 
    //// Setup animations
    float uSize = 0.5;

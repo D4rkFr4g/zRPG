@@ -445,11 +445,12 @@ void battleManager::initBattle()
       }
       spriteQueue.push_back(enemy);
 
+      int staggerDistance = 75;
       // Stagger enemy positions
       if (i == 1)
-         spriteQueue[i+1]->posY -= 75;
+         spriteQueue[i+1]->posY -= staggerDistance;
       else if (i == 2)
-         spriteQueue[i+1]->posY += 75;
+         spriteQueue[i+1]->posY += staggerDistance;
    }
 
    menus["enemy"] = Menu(numEnemies);
@@ -470,6 +471,7 @@ void battleManager::battleCleanup()
    player->isAlive = true;
    *currentLevel = previousLevel;
    isBattle = false;
+   spriteQueue[0]->updatePosition(spriteQueue[0]->x, spriteQueue[0]->startY);
 
    // Write back items
    player->items = spriteQueue[0]->items;
@@ -570,14 +572,11 @@ void battleManager::executeSelection()
    {
       int choice = menus["enemy"].getSelection();
       spriteQueue[0]->targetUUID = spriteQueue[choice + 1]->getUUID();
-     
-      // Adjust to be on same track as enemy
-      if (choice == 1)
-         spriteQueue[0]->posY -= 75;
-      else if (choice == 2)
-         spriteQueue[0]->posY += 75;
 
-      spriteQueue[0]->setAnimation("Attack");
+      // Adjust to be on same track as enemy
+     spriteQueue[0]->posY = spriteQueue[choice + 1]->posY;
+
+     spriteQueue[0]->setAnimation("Attack");
    }
    else if (battleState == STATE_DEFEND)
    {
