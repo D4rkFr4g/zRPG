@@ -15,5 +15,6 @@ public:
    // Functions
    virtual void update(int ms) override;
    virtual void notify(Event* event) override;
+   virtual void takeTurn() override;
 };
 

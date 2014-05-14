@@ -85,7 +85,12 @@ void BattleChicken::AI()
 /*-----------------------------------------------*/
 void BattleChicken::update(int ms)
 {
+   // TODO remove if unused
    BattleSprite::update(ms);
+}
+/*-----------------------------------------------*/
+void BattleChicken::takeTurn()
+{
    AI();
 }
 /*-----------------------------------------------*/

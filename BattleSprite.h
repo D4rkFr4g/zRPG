@@ -29,6 +29,7 @@ public:
    virtual ~BattleSprite();
    virtual void update(int ms) override;
    virtual void notify(Event* event) override;
+   virtual void takeTurn();
    void registerListeners(EventQueue* eventQueue);
    std::string getUUID();
    bool operator==(BattleSprite rhs);

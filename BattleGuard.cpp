@@ -88,6 +88,10 @@ void BattleGuard::AI()
 void BattleGuard::update(int ms)
 {
    BattleSprite::update(ms);
+}
+/*-----------------------------------------------*/
+void BattleGuard::takeTurn()
+{
    AI();
 }
 /*-----------------------------------------------*/

@@ -52,6 +52,10 @@ void BattleGanon::AI()
 void BattleGanon::update(int ms)
 {
    BattleSprite::update(ms);
+}
+/*-----------------------------------------------*/
+void BattleGanon::takeTurn()
+{
    AI();
 }
 /*-----------------------------------------------*/

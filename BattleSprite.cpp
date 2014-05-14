@@ -156,6 +156,11 @@ void BattleSprite::update(int ms)
    }
 }
 /*-----------------------------------------------*/
+void BattleSprite::takeTurn()
+{
+
+}
+/*-----------------------------------------------*/
 void BattleSprite::getNewUUID()
 {
    /* PURPOSE:    requests for new UUID
