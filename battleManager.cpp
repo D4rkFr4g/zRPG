@@ -46,6 +46,11 @@ void battleManager::init()
    enemyManager::init(textures, &enemies);
 
    // Setup Loot
+   loot[BATTLE_EASY].reserve(20);
+   loot[BATTLE_MEDIUM].reserve(20);
+   loot[BATTLE_HARD].reserve(20);
+   loot[BATTLE_BOSS].reserve(20);
+
    loot[BATTLE_EASY].push_back("Rupees");
    loot[BATTLE_EASY].push_back("Red Potion");
    loot[BATTLE_MEDIUM].push_back("Rupees");
@@ -55,6 +60,7 @@ void battleManager::init()
    loot[BATTLE_HARD].push_back("Red Potion");
    loot[BATTLE_HARD].push_back("Blue Potion");
    loot[BATTLE_HARD].push_back("Green Potion");
+   loot[BATTLE_BOSS].push_back("Jack");
 
    // Setup statBoost
    statBoost[0] = "STR";
