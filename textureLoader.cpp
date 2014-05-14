@@ -77,3 +77,4 @@ Texture* textureLoader::getTexture(std::string name)
 
    return texture;
 }
+/*-----------------------------------------------*/

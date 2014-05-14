@@ -29,6 +29,12 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
    maxScreenHeight = g_maxScreenHeight;
 
    initChickens();
+
+   // Setup map structure so they are not null
+   // Should probably send the filnames and load them that way in one place
+   levelSprites["dungeon_1"];
+   levelSprites["overworld"];
+
 }
 /*-----------------------------------------------*/
 void spriteManager::saveLevelSprites(std::string levelName)
@@ -96,7 +102,7 @@ void spriteManager::initChickens()
       RECEIVES:	spriteBuckets - vector to be filled for a particular level
       RETURNS:
       REMARKS:
-   */
+      */
 
    int initialChickens = 20;
 
@@ -115,10 +121,5 @@ void spriteManager::initChickens()
 
       levelSprites["overworld"].push_back(chicken);
    }
-
-   levelSprites["dungeon_1"];
-   // TODO Remove later after second map has sprites.
-   /*Chicken* chicken = new Chicken();
-   chicken->updatePosition(x, y);*/
 }
 /*-----------------------------------------------*/

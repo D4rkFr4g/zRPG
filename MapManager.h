@@ -7,30 +7,31 @@
 #include "PlayerSprite.h"
 #include "spriteManager.h"
 
-class MapEventHandler : public EventListener
+class MapManager : public EventListener
 {
 protected:
 
 private:
-
-public:
-   MapEventHandler();
-   ~MapEventHandler();
-
    struct Vec
    {
       int x;
       int y;
    };
 
+   std::unordered_map<std::string, Vec> locations;
+
+public:
+   MapManager();
+   ~MapManager();
+
    // Functions
    virtual void notify(Event* event) override;
    void registerListeners(EventQueue* eventQueue);
+   static std::vector<Sprite*> getCollidableTileType(std::string levelName, int tileType);
 
    // Variables
    PlayerSprite* player;
    TileLevel** currentLevel;
-   std::unordered_map<std::string, TileLevel>* levels;
-   std::unordered_map<std::string, Vec> locations;
+   static std::unordered_map<std::string, TileLevel>* levels;
 };
 

@@ -1,16 +1,16 @@
-#include "MapEventHandler.h"
+#include "MapManager.h"
 
-
+std::unordered_map<std::string, TileLevel>* MapManager::levels;
 /*-----------------------------------------------*/
-MapEventHandler::MapEventHandler()
+MapManager::MapManager()
 {
 }
 /*-----------------------------------------------*/
-MapEventHandler::~MapEventHandler()
+MapManager::~MapManager()
 {
 }
 /*-----------------------------------------------*/
-void MapEventHandler::notify(Event* event)
+void MapManager::notify(Event* event)
 {
    /* PURPOSE: EventListener callback function
       RECEIVES: event - Event from the eventQueue
@@ -89,7 +89,7 @@ void MapEventHandler::notify(Event* event)
    }
 }
 /*-----------------------------------------------*/
-void MapEventHandler::registerListeners(EventQueue* eventQueue)
+void MapManager::registerListeners(EventQueue* eventQueue)
 {
    /* PURPOSE: Registers all relevant Map related listeners with the eventQueue
       RECEIVES:
@@ -98,5 +98,32 @@ void MapEventHandler::registerListeners(EventQueue* eventQueue)
    */
 
    eventQueue->addEventListener(Event::ET_LEVEL_LOAD, this);
+}
+/*-----------------------------------------------*/
+std::vector<Sprite*> MapManager::getCollidableTileType(std::string levelName, int tileType)
+{
+   std::vector<Sprite*> tiles;
+
+   std::unordered_map<std::string, TileLevel>::iterator itr = levels->find(levelName);
+   std::unordered_map<std::string, TileLevel>::iterator end;
+
+   if (itr != end)
+   {
+      TileLevel* level = &levels->find(levelName)->second;
+      for (int i = 0; i < (int)level->collidableTiles.size(); i++)
+      {
+         int index = level->collidableTiles[i];
+         Sprite* tile = &level->tileArray[index];
+         int type = tile->type;
+         if (type == tileType)
+         {
+            tiles.push_back(tile);
+         }
+      }
+   }
+   else
+      tiles.assign(1, &Sprite());
+
+   return tiles;
 }
 /*-----------------------------------------------*/

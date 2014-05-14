@@ -147,14 +147,14 @@ static void initBattleManager()
    battleManager::init();
 }
 /*-----------------------------------------------*/
-static void initMapEventHandler()
+static void initMapManager()
 {
-   g_mapEventHandler = MapEventHandler();
-   g_mapEventHandler.player = &g_player;
-   g_mapEventHandler.levels = &g_levels;
-   g_mapEventHandler.currentLevel = &g_currentLevel;
+   g_MapManager = MapManager();
+   g_MapManager.player = &g_player;
+   g_MapManager.levels = &g_levels;
+   g_MapManager.currentLevel = &g_currentLevel;
 
-   g_mapEventHandler.registerListeners(&g_eventQueue);
+   g_MapManager.registerListeners(&g_eventQueue);
 }
 /*-----------------------------------------------*/
 static void updateCheckBuckets()
@@ -562,7 +562,7 @@ static void onInit()
    init2D();
    clearBackground();
 	loadLevel();
-   initMapEventHandler();
+   initMapManager();
 	initCamera();
    initAudio();
    initBuckets();

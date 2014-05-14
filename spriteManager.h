@@ -7,6 +7,7 @@
 #include "textureLoader.h"
 #include "Chicken.h"
 #include "bucketManager.h"
+#include "MapManager.h"
 
 class spriteManager
 {

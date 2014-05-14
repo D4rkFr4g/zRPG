@@ -28,7 +28,7 @@
 #include "dialogManager.h"
 #include "textureLoader.h"
 #include "battleManager.h"
-#include "MapEventHandler.h"
+#include "MapManager.h"
 #include "Chicken.h"
 #include "spriteManager.h"
 #include "bucketManager.h"
@@ -70,4 +70,4 @@ DialogManager g_dialogManager;
 static EventQueue g_eventQueue;
 std::vector<DialogContainer> g_dialogBoxes;
 static bool g_isInputRequired = false;
-MapEventHandler g_mapEventHandler;
+MapManager g_MapManager;
