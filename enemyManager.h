@@ -19,5 +19,13 @@ public:
    // Functions
    static void init(std::unordered_map<std::string, Texture>* textures, std::unordered_map<int, std::vector<BattleSprite>>* enemies);
    static void updateEnemy(BattleSprite* enemy);
+   static void initChickens();
+   static void initGuards();
+   static void initKnights();
+   static void initGanon();
+
+   // Variables
+   static std::unordered_map<std::string, Texture>* textures;
+   static std::unordered_map<int, std::vector<BattleSprite>>* enemies;
 };
 

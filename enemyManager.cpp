@@ -1,5 +1,7 @@
 #include "enemyManager.h"
 
+std::unordered_map<std::string, Texture>* enemyManager::textures;
+std::unordered_map<int, std::vector<BattleSprite>>* enemyManager::enemies;
 
 /*-----------------------------------------------*/
 enemyManager::enemyManager()
@@ -10,10 +12,20 @@ enemyManager::~enemyManager()
 {
 }
 /*-----------------------------------------------*/
-void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std::unordered_map<int, std::vector<BattleSprite>>* enemies)
+void enemyManager::init(std::unordered_map<std::string, Texture>* _textures, std::unordered_map<int, std::vector<BattleSprite>>* _enemies)
 {
    // Initialize all enemies
-   
+   textures = _textures;
+   enemies = _enemies;
+
+   initChickens();
+   initGuards();
+   initKnights();
+   initGanon();
+}
+/*-----------------------------------------------*/
+void enemyManager::initChickens()
+{
    Texture* tex = &(*textures)["chicken_battle"];
    BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    enemy.isAnimated = true; // TODO Remove once animations are setup
@@ -33,8 +45,8 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames.assign(numFrames, AnimationFrame());
 
    frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_idle = Animation("Idle", frames, numFrames);
-   enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
+   Animation animation = Animation("Idle", frames, numFrames);
+   enemy.animations[animation.name] = AnimationData(animation, timeToNextFrame, false);
 
    // Attack Animation
    numFrames = 12;
@@ -52,10 +64,10 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames[9] = AnimationFrame(0 * uSize, 2 * vSize, 1 * uSize, 1 * vSize);
    frames[10] = AnimationFrame(0 * uSize, 1 * vSize, 1 * uSize, 1 * vSize);
    frames[11] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_attack = Animation("Attack", frames, numFrames);
-   AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
+   animation = Animation("Attack", frames, numFrames);
+   AnimationData animData = AnimationData(animation, timeToNextFrame, false);
    animData.eventFrame = 7;
-   enemy.animations[animation_attack.name] = animData;
+   enemy.animations[animation.name] = animData;
 
    // Damaged Animation
    numFrames = 13;
@@ -76,71 +88,78 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames[10] = frames[1];
    frames[11] = frames[2];
    frames[12] = frames[0];
-   Animation animation_damaged = Animation("Damaged", frames, numFrames);
-   animData = AnimationData(animation_damaged, timeToNextFrame, false);
-   enemy.animations[animation_damaged.name] = animData;
+   animation = Animation("Damaged", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   enemy.animations[animation.name] = animData;
 
    enemy.setAnimation("Idle");
    (*enemies)[BATTLE_EASY].push_back(enemy);
-
-
+}
+/*-----------------------------------------------*/
+void enemyManager::initGuards()
+{
    //Medium enemy
-   tex = &(*textures)["guard_battle"];
-   enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
+   Texture* tex = &(*textures)["guard_battle"];
+   BattleSprite enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
    enemy.isAnimated = false; // TODO Remove once animations are setup
    enemy.name = "guard";
    enemy.level = 5;
 
    // Setup animations
-   uSize = tex->uSize;
-   vSize = tex->vSize;
+   float uSize = tex->uSize;
+   float vSize = tex->vSize;
+   std::vector<AnimationFrame> frames;
 
    // Animations
-   numFrames = 1;
-   timeToNextFrame = 100;
+   int numFrames = 1;
+   int timeToNextFrame = 100;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
    // Idle Animation
    frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   animation_idle = Animation("Idle", frames, numFrames);
-   enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
+   Animation animation = Animation("Idle", frames, numFrames);
+   enemy.animations[animation.name] = AnimationData(animation, timeToNextFrame, false);
 
    // Attack Animation
    numFrames = 20;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
    //frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   animation_attack = Animation("Attack", frames, numFrames);
-   animData = AnimationData(animation_attack, timeToNextFrame, false);
+   animation = Animation("Attack", frames, numFrames);
+   AnimationData animData = AnimationData(animation, timeToNextFrame, false);
    //animData.eventFrame = 13;
-   enemy.animations[animation_attack.name] = animData;
+   enemy.animations[animation.name] = animData;
 
    enemy.setAnimation("Idle");
 
    (*enemies)[BATTLE_MEDIUM].push_back(enemy);
-
+}
+/*-----------------------------------------------*/
+void enemyManager::initKnights()
+{
    //Hard enemy
-   tex = &(*textures)["knight_battle"];
-   enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
+   Texture* tex = &(*textures)["knight_battle"];
+   BattleSprite enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
    enemy.isAnimated = false; //TODO Remove once animations are setup
    enemy.name = "knight";
    enemy.level = 10;
 
    // Setup animations
-   uSize = tex->uSize;
-   vSize = tex->vSize;
+   float uSize = tex->uSize;
+   float vSize = tex->vSize;
+   std::vector<AnimationFrame> frames;
 
    // Animations
-   numFrames = 1;
-   timeToNextFrame = 100;
+   int numFrames = 1;
+   int timeToNextFrame = 100;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
    //// Idle Animation
    //frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   animation_idle = Animation("Idle", frames, numFrames);
-   enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
+   Animation animation = Animation("Idle", frames, numFrames);
+   enemy.animations[animation.name] = AnimationData(animation, timeToNextFrame, false);
 
    // Attack Animation
    numFrames = 20;
@@ -148,36 +167,40 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames.assign(numFrames, AnimationFrame());
    //frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 
-   animation_attack = Animation("Attack", frames, numFrames);
-   animData = AnimationData(animation_attack, timeToNextFrame, false);
+   animation = Animation("Attack", frames, numFrames);
+   AnimationData animData = AnimationData(animation, timeToNextFrame, false);
    //animData.eventFrame = 13;
-   enemy.animations[animation_attack.name] = animData;
+   enemy.animations[animation.name] = animData;
 
    enemy.setAnimation("Idle");
 
    (*enemies)[BATTLE_HARD].push_back(enemy);
-   
+}
+/*-----------------------------------------------*/
+void enemyManager::initGanon()
+{
    //Boss enemy
-   tex = &(*textures)["ganon_battle"];
-   enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, 1, 1);
+   Texture* tex = &(*textures)["ganon_battle"];
+   BattleSprite enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, 1, 1);
    enemy.isAnimated = false; //TODO Remove once animations are setup
    enemy.name = "Ganon";
    enemy.level = 11;
-   
+
    // Setup animations
-   uSize = tex->uSize;
-   vSize = tex->vSize;
+   float uSize = tex->uSize;
+   float vSize = tex->vSize;
+   std::vector<AnimationFrame> frames;
 
    // Animations
-   numFrames = 1;
-   timeToNextFrame = 100;
+   int numFrames = 1;
+   int timeToNextFrame = 100;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
    //// Idle Animation
    //frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   animation_idle = Animation("Idle", frames, numFrames);
-   enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
+   Animation animation = Animation("Idle", frames, numFrames);
+   enemy.animations[animation.name] = AnimationData(animation, timeToNextFrame, false);
 
    // Attack Animation
    numFrames = 20;
@@ -185,10 +208,10 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames.assign(numFrames, AnimationFrame());
    //frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 
-   animation_attack = Animation("Attack", frames, numFrames);
-   animData = AnimationData(animation_attack, timeToNextFrame, false);
+   animation = Animation("Attack", frames, numFrames);
+   AnimationData animData = AnimationData(animation, timeToNextFrame, false);
    //animData.eventFrame = 13;
-   enemy.animations[animation_attack.name] = animData;
+   enemy.animations[animation.name] = animData;
 
    enemy.setAnimation("Idle");
 
