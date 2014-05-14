@@ -86,25 +86,25 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    (*enemies)[BATTLE_EASY].push_back(enemy);
 
    ////Medium enemy
-   //tex = &(*textures)["guard_battle"];
-   //enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
-   //enemy.isAnimated = false; // TODO Remove once animations are setup
-   //enemy.name = "guard";
-   //enemy.level = 5;
+   tex = &(*textures)["guard_battle"];
+   enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
+   enemy.isAnimated = false; // TODO Remove once animations are setup
+   enemy.name = "guard";
+   enemy.level = 5;
 
    //// Setup animations
-   //uSize = tex->uSize;
-   //vSize = tex->vSize;
+   uSize = tex->uSize;
+   vSize = tex->vSize;
 
    //// Animations
-   //numFrames = 1;
-   //timeToNextFrame = 100;
+   numFrames = 1;
+   timeToNextFrame = 100;
 
    ////// Idle Animation
-   //frames_idle = new AnimationFrame[numFrames];
-   ////frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   //animation_idle = Animation("Idle", frames_idle, numFrames);
-   //enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
+   frames_idle = new AnimationFrame[numFrames];
+   frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   animation_idle = Animation("Idle", frames_idle, numFrames);
+   enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
 
    //// Attack Animation
    //numFrames = 20;
@@ -118,7 +118,7 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
 
    //enemy.setAnimation("Idle");
 
-   //(*enemies)[BATTLE_MEDIUM].push_back(enemy);
+   (*enemies)[BATTLE_MEDIUM].push_back(enemy);
 
    ////Hard enemy
    //tex = &(*textures)["knight_battle"];

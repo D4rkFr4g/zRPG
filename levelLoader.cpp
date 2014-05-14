@@ -23,6 +23,8 @@ void levelLoader::loadLevels(std::unordered_map<std::string, TileLevel>* levels,
    // Set all filnames to be used
    filenames.push_back("overworld");
    filenames.push_back("battle_test");
+   filenames.push_back("battle_medium");
+   filenames.push_back("battle_hard");
    filenames.push_back("dungeon_1");
 
    for (int i = 0; i < (int)filenames.size(); i++)

@@ -17,6 +17,9 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    GLuint texture = glTexImageTGAFile("./Sprites/link_Sprites.tga", width, height);
    (*g_textures)["link"] = Texture(texture, *width, *height, 32, 32);
 
+   texture - glTexImageTGAFile("./Sprites/kakariko_villagers.tga", width, height);
+   (*g_textures)["friendly_npcs"] = Texture(texture, *width, *height, 32, 32);
+
    texture = glTexImageTGAFile("./Sprites/spriteSheet_chicken.tga", width, height);
    (*g_textures)["chicken"] = Texture(texture, 64, 64, 32, 32);
 
@@ -50,7 +53,5 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    texture = glTexImageTGAFile("./Sprites/lttp_font2x2.tga", width, height);
    (*g_textures)["font"] = Texture(texture, *width, *height, 2, 2);
 
-   texture - glTexImageTGAFile("./Sprites/kakariko_villagers.tga", width, height);
-   (*g_textures)[""]
 }
 /*-----------------------------------------------*/
