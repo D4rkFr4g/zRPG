@@ -95,35 +95,38 @@ void battleManager::initPlayer()
    int timeToNextFrame = 100;
 
    //// Idle Animation
-   AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-   frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_idle = Animation("Idle", frames_idle, numFrames);
+   std::vector<AnimationFrame> frames;
+   frames.assign(numFrames, AnimationFrame());
+   frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_idle = Animation("Idle", frames, numFrames);
    battlePlayer.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
    
    // Attack Animation
    numFrames = 20;
-   AnimationFrame* frames_attack = new AnimationFrame[numFrames];
-   frames_attack[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[1] = AnimationFrame(0 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[2] = AnimationFrame(0 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[3] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[4] = AnimationFrame(0 * uSize, 15 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[5] = AnimationFrame(0 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[6] = AnimationFrame(0 * uSize, 13 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[7] = AnimationFrame(0 * uSize, 12 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[8] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[9] = AnimationFrame(0 * uSize, 10 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[10] = AnimationFrame(0 * uSize, 9 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[11] = AnimationFrame(0 * uSize, 8 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[12] = AnimationFrame(0 * uSize, 7 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[13] = AnimationFrame(0 * uSize, 6 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[14] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[15] = AnimationFrame(0 * uSize, 4 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[16] = AnimationFrame(0 * uSize, 3 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[17] = AnimationFrame(0 * uSize, 2 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[18] = AnimationFrame(0 * uSize, 1 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[19] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_attack = Animation("Attack", frames_attack, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(0 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(0 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(0 * uSize, 15 * vSize, 1 * uSize, 1 * vSize);
+   frames[5] = AnimationFrame(0 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   frames[6] = AnimationFrame(0 * uSize, 13 * vSize, 1 * uSize, 1 * vSize);
+   frames[7] = AnimationFrame(0 * uSize, 12 * vSize, 1 * uSize, 1 * vSize);
+   frames[8] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   frames[9] = AnimationFrame(0 * uSize, 10 * vSize, 1 * uSize, 1 * vSize);
+   frames[10] = AnimationFrame(0 * uSize, 9 * vSize, 1 * uSize, 1 * vSize);
+   frames[11] = AnimationFrame(0 * uSize, 8 * vSize, 1 * uSize, 1 * vSize);
+   frames[12] = AnimationFrame(0 * uSize, 7 * vSize, 1 * uSize, 1 * vSize);
+   frames[13] = AnimationFrame(0 * uSize, 6 * vSize, 1 * uSize, 1 * vSize);
+   frames[14] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   frames[15] = AnimationFrame(0 * uSize, 4 * vSize, 1 * uSize, 1 * vSize);
+   frames[16] = AnimationFrame(0 * uSize, 3 * vSize, 1 * uSize, 1 * vSize);
+   frames[17] = AnimationFrame(0 * uSize, 2 * vSize, 1 * uSize, 1 * vSize);
+   frames[18] = AnimationFrame(0 * uSize, 1 * vSize, 1 * uSize, 1 * vSize);
+   frames[19] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_attack = Animation("Attack", frames, numFrames);
    AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
    animData.eventFrame = 13;
    battlePlayer.animations[animation_attack.name] = animData;

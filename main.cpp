@@ -89,8 +89,6 @@ static void initCamera()
 	g_windowOriginalWidth = g_windowWidth;
 	g_windowOriginalHeight = g_windowHeight;
 
-	//TileLevel* currentLevel = g_currentLevel;
-
 	g_windowMaxWidth = (g_currentLevel->width * g_currentLevel->tilesWidth);
 	g_windowMaxHeight = (g_currentLevel->height * g_currentLevel->tilesHeight);
 
@@ -98,7 +96,6 @@ static void initCamera()
 	g_cam.updateResolution(g_windowWidth, g_windowHeight);
 
 	g_cam.isFollowing = true;
-   //g_cam.follow(g_player.x, g_player.y, g_player.width, g_player.height);
 }
 /*-----------------------------------------------*/
 static void initAudio()
@@ -358,7 +355,6 @@ static void loadLevel()
 		REMARKS:		Determines starting position for player
 	*/
 
-   g_currentLevel = new TileLevel();
    levelLoader::loadLevels(&g_levels, &g_currentLevel);
    
    Event ev = Event(Event::ET_LEVEL_BEGIN, "level", g_currentLevel->name);
@@ -532,6 +528,17 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
 	}
 }
 /*-----------------------------------------------*/
+static void onQuit()
+{
+   fmodSystem->close();
+   fmodSystem->release();
+
+   
+   for (int i = 0; i < (int)g_spriteBuckets.size(); i++)
+      g_spriteBuckets[i].clear();
+   g_spriteBuckets.clear();
+}
+/*-----------------------------------------------*/
 static void onLoop()
 {
    /*	PURPOSE:		Handles all once per SDL loop calls 
@@ -610,8 +617,7 @@ int main( void )
       onLoop();
 	}
 
-   fmodSystem->close();
-   fmodSystem->release();
+   onQuit();
 	SDL_Quit();
    
 	return 0;

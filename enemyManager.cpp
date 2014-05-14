@@ -29,49 +29,54 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    int timeToNextFrame = 100;
 
    // Idle Animation
-   AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-   frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_idle = Animation("Idle", frames_idle, numFrames);
+   std::vector<AnimationFrame> frames;
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_idle = Animation("Idle", frames, numFrames);
    enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
 
    // Attack Animation
-   numFrames = 11;
-   AnimationFrame* frames_attack = new AnimationFrame[numFrames];
-   frames_attack[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[1] = AnimationFrame(0 * uSize, 10 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[2] = AnimationFrame(0 * uSize, 9 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[3] = AnimationFrame(0 * uSize, 8 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[4] = AnimationFrame(0 * uSize, 7 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[5] = AnimationFrame(0 * uSize, 6 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[6] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[7] = AnimationFrame(0 * uSize, 4 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[8] = AnimationFrame(0 * uSize, 3 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[9] = AnimationFrame(0 * uSize, 2 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[10] = AnimationFrame(0 * uSize, 1 * vSize, 1 * uSize, 1 * vSize);
-   frames_attack[11] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_attack = Animation("Attack", frames_attack, numFrames);
+   numFrames = 12;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   frames[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(0 * uSize, 10 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(0 * uSize, 9 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(0 * uSize, 8 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(0 * uSize, 7 * vSize, 1 * uSize, 1 * vSize);
+   frames[5] = AnimationFrame(0 * uSize, 6 * vSize, 1 * uSize, 1 * vSize);
+   frames[6] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   frames[7] = AnimationFrame(0 * uSize, 4 * vSize, 1 * uSize, 1 * vSize);
+   frames[8] = AnimationFrame(0 * uSize, 3 * vSize, 1 * uSize, 1 * vSize);
+   frames[9] = AnimationFrame(0 * uSize, 2 * vSize, 1 * uSize, 1 * vSize);
+   frames[10] = AnimationFrame(0 * uSize, 1 * vSize, 1 * uSize, 1 * vSize);
+   frames[11] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_attack = Animation("Attack", frames, numFrames);
    AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
    //animData.eventFrame = 7; // This line breaks the engine???? // TODO Comprehend
-   animData.eventFrame = 6;
-   animData.eventFrame++;
+   //animData.eventFrame = 6;
+   //animData.eventFrame++;
    enemy.animations[animation_attack.name] = animData;
 
    // Damaged Animation
    numFrames = 12;
-   AnimationFrame* frames_damaged = new AnimationFrame[numFrames];
-   frames_damaged[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
-   frames_damaged[1] = AnimationFrame(0 * uSize, 12 * vSize, 1 * uSize, 1 * vSize);
-   frames_damaged[2] = AnimationFrame(0 * uSize, 13 * vSize, 1 * uSize, 1 * vSize);
-   frames_damaged[3] = frames_damaged[0];
-   frames_damaged[4] = frames_damaged[1];
-   frames_damaged[5] = frames_damaged[2];
-   frames_damaged[6] = frames_damaged[0];
-   frames_damaged[7] = frames_damaged[1];
-   frames_damaged[8] = frames_damaged[2];
-   frames_damaged[9] = frames_damaged[0];
-   frames_damaged[10] = frames_damaged[1];
-   frames_damaged[11] = frames_damaged[2];
-   Animation animation_damaged = Animation("Damaged", frames_damaged, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(0 * uSize, 12 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(0 * uSize, 13 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = frames[0];
+   frames[4] = frames[1];
+   frames[5] = frames[2];
+   frames[6] = frames[0];
+   frames[7] = frames[1];
+   frames[8] = frames[2];
+   frames[9] = frames[0];
+   frames[10] = frames[1];
+   frames[11] = frames[2];
+   Animation animation_damaged = Animation("Damaged", frames, numFrames);
    animData = AnimationData(animation_damaged, timeToNextFrame, true);
    enemy.animations[animation_damaged.name] = animData;
 
@@ -93,21 +98,22 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    // Animations
    numFrames = 1;
    timeToNextFrame = 100;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
 
    // Idle Animation
-   frames_idle = new AnimationFrame[numFrames];
-   frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   animation_idle = Animation("Idle", frames_idle, numFrames);
+   frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   animation_idle = Animation("Idle", frames, numFrames);
    enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
 
    // Attack Animation
    numFrames = 20;
-   //AnimationFrame* frames_attack;
-   frames_attack = new AnimationFrame[numFrames];
-   //frames_attack[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   animation_attack = Animation("Attack", frames_attack, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   //frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   animation_attack = Animation("Attack", frames, numFrames);
    animData = AnimationData(animation_attack, timeToNextFrame, false);
-   animData.eventFrame = 13;
+   //animData.eventFrame = 13;
    enemy.animations[animation_attack.name] = animData;
 
    enemy.setAnimation("Idle");
@@ -128,21 +134,23 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    // Animations
    numFrames = 1;
    timeToNextFrame = 100;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
 
    //// Idle Animation
-   frames_idle = new AnimationFrame[numFrames];
-   //frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   animation_idle = Animation("Idle", frames_idle, numFrames);
+   //frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   animation_idle = Animation("Idle", frames, numFrames);
    enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
 
    // Attack Animation
    numFrames = 20;
-   frames_attack = new AnimationFrame[numFrames];
-   //frames_attack[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   //frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 
-   animation_attack = Animation("Attack", frames_attack, numFrames);
+   animation_attack = Animation("Attack", frames, numFrames);
    animData = AnimationData(animation_attack, timeToNextFrame, false);
-   animData.eventFrame = 13;
+   //animData.eventFrame = 13;
    enemy.animations[animation_attack.name] = animData;
 
    enemy.setAnimation("Idle");
@@ -163,21 +171,23 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    // Animations
    numFrames = 1;
    timeToNextFrame = 100;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
 
    //// Idle Animation
-   frames_idle = new AnimationFrame[numFrames];
-   //frames_idle[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   animation_idle = Animation("Idle", frames_idle, numFrames);
+   //frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   animation_idle = Animation("Idle", frames, numFrames);
    enemy.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
 
    // Attack Animation
    numFrames = 20;
-   frames_attack = new AnimationFrame[numFrames];
-   //frames_attack[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   //frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
 
-   animation_attack = Animation("Attack", frames_attack, numFrames);
+   animation_attack = Animation("Attack", frames, numFrames);
    animData = AnimationData(animation_attack, timeToNextFrame, false);
-   animData.eventFrame = 13;
+   //animData.eventFrame = 13;
    enemy.animations[animation_attack.name] = animData;
 
    enemy.setAnimation("Idle");

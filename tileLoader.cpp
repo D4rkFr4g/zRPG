@@ -222,5 +222,8 @@ void tileLoader::loadTiles(const char* filename, TileLevel *level)
 
 	// Cleanup
 	infile.close();
-	//delete[] tilesRead;
+	delete[] tilesRead;
+   delete[] tileTypes;
+   delete tileMapWidth;
+   delete tileMapHeight;
 }

@@ -455,20 +455,20 @@ void DialogManager::battleRewards(std::vector<std::string> loot)
    REMARKS:
    */
 
-   int* x = new int;
-   int* y = new int;
-   int* rows = new int;
-   int* cols = new int;
+   int x = 0;
+   int y = 0;
+   int rows = 0;
+   int cols = 0;
 
-   sizeDialogBox(rows, cols, 1, "Found Green Potion x10000");
-   center(x, y, *rows, *cols);
+   sizeDialogBox(&rows, &cols, 1, "Found Green Potion x10000");
+   center(&x, &y, rows, cols);
    std::string text = "";
    std::vector<DialogContainer> dBoxes;
 
    for (int i = 0; i < (int)loot.size(); i++)
    {
       text = loot[i];
-      dBoxes.push_back(DialogContainer(*x, *y, *rows, *cols, text, true, true));
+      dBoxes.push_back(DialogContainer(x, y, rows, cols, text, true, true));
    }
 
    loadDialogQueue(dBoxes, false);

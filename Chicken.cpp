@@ -24,17 +24,21 @@ Chicken::Chicken()
    // Walking Animation
    int numFrames = 2;
    int timeToNextFrame = 300;
-   AnimationFrame* frames_walking = new AnimationFrame[numFrames];
-   frames_walking[0] = AnimationFrame(0, 0, uSize, vSize);
-   frames_walking[1] = AnimationFrame(0.5, 0, uSize, vSize);
-   Animation animation_walking = Animation("Walking", frames_walking, numFrames);
+   std::vector<AnimationFrame> frames;
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0, 0, uSize, vSize);
+   frames[1] = AnimationFrame(0.5, 0, uSize, vSize);
+   Animation animation_walking = Animation("Walking", frames, numFrames);
    animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
 
    // Idle Animation
    numFrames = 1;
-   AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-   frames_idle[0] = AnimationFrame(0, 0, uSize, vSize);
-   Animation animation_idle = Animation("Idle", frames_idle, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   
+   frames[0] = AnimationFrame(0, 0, uSize, vSize);
+   Animation animation_idle = Animation("Idle", frames, numFrames);
    animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
    
    setAnimation("Walking");

@@ -58,81 +58,92 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    int timeToNextFrame = 100;
 
    // Idle Animation
-   AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-   frames_idle[0] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_idle = Animation("Idle", frames_idle, numFrames);
+   //AnimationFrame* frames_idle = new AnimationFrame[numFrames];
+   std::vector<AnimationFrame> frames;
+   frames.assign(numFrames,AnimationFrame());
+   frames[0] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_idle = Animation("Idle", frames, numFrames);
    player.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 
    // Walking Down Animation
    numFrames = 7;
-   AnimationFrame* frames_walkingDown = new AnimationFrame[numFrames];
-   frames_walkingDown[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDown[1] = AnimationFrame(1 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDown[2] = AnimationFrame(2 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDown[3] = AnimationFrame(3 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDown[4] = AnimationFrame(4 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDown[5] = AnimationFrame(5 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDown[6] = AnimationFrame(6 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_walkingDown = Animation("Walking Down", frames_walkingDown, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+ 
+   frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(1 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(2 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(3 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(4 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[5] = AnimationFrame(5 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[6] = AnimationFrame(6 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_walkingDown = Animation("Walking Down", frames, numFrames);
    player.animations[animation_walkingDown.name] = AnimationData(animation_walkingDown, timeToNextFrame, true);
 
    // Walking Up Animation
    numFrames = 6;
-   AnimationFrame* frames_walkingUp = new AnimationFrame[numFrames];
-   frames_walkingUp[0] = AnimationFrame(0 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingUp[1] = AnimationFrame(1 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingUp[2] = AnimationFrame(2 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingUp[3] = AnimationFrame(3 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingUp[4] = AnimationFrame(4 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingUp[5] = AnimationFrame(5 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_walkingUp = Animation("Walking Up", frames_walkingUp, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(1 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(2 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(3 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(4 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames[5] = AnimationFrame(5 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_walkingUp = Animation("Walking Up", frames, numFrames);
    player.animations[animation_walkingUp.name] = AnimationData(animation_walkingUp, timeToNextFrame, true);
 
    // Walking Left & Right Animation
    numFrames = 6;
-   AnimationFrame* frames_walkingLR = new AnimationFrame[numFrames];
-   frames_walkingLR[0] = AnimationFrame(0 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingLR[1] = AnimationFrame(1 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingLR[2] = AnimationFrame(2 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingLR[3] = AnimationFrame(3 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingLR[4] = AnimationFrame(4 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingLR[5] = AnimationFrame(5 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
 
-   Animation animation_walkingLR = Animation("Walking LR", frames_walkingLR, numFrames);
+   frames[0] = AnimationFrame(0 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(1 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(2 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(3 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(4 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames[5] = AnimationFrame(5 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_walkingLR = Animation("Walking LR", frames, numFrames);
    player.animations[animation_walkingLR.name] = AnimationData(animation_walkingLR, timeToNextFrame, true);
 
    // Walking Diag facing down animation
    numFrames = 5;
-   AnimationFrame* frames_walkingDiagDown = new AnimationFrame[numFrames];
-   frames_walkingDiagDown[0] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagDown[1] = AnimationFrame(1 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagDown[2] = AnimationFrame(2 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagDown[3] = AnimationFrame(3 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagDown[4] = AnimationFrame(4 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
-
-   Animation animation_walkingDiagDown = Animation("Walking DiagDown", frames_walkingDiagDown, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   
+   frames[0] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(1 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(2 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(3 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(4 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_walkingDiagDown = Animation("Walking DiagDown", frames, numFrames);
    player.animations[animation_walkingDiagDown.name] = AnimationData(animation_walkingDiagDown, timeToNextFrame, true);
 
    // Walking Diag facing up animation
    numFrames = 6;
-   AnimationFrame* frames_walkingDiagUp = new AnimationFrame[numFrames];
-   frames_walkingDiagUp[0] = AnimationFrame(0 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagUp[1] = AnimationFrame(1 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagUp[2] = AnimationFrame(2 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagUp[3] = AnimationFrame(3 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagUp[4] = AnimationFrame(4 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-   frames_walkingDiagUp[5] = AnimationFrame(5 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-
-   Animation animation_walkingDiagUp = Animation("Walking DiagUp", frames_walkingDiagUp, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   
+   frames[0] = AnimationFrame(0 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(1 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(2 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(3 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(4 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   frames[5] = AnimationFrame(5 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
+   Animation animation_walkingDiagUp = Animation("Walking DiagUp", frames, numFrames);
    player.animations[animation_walkingDiagUp.name] = AnimationData(animation_walkingDiagUp, timeToNextFrame, true);
 
    // Death Animation
    numFrames = 2;
    timeToNextFrame = 150;
-   AnimationFrame* frames_death = new AnimationFrame[numFrames];
-   frames_death[0] = AnimationFrame(21 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-   frames_death[1] = AnimationFrame(24 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
-   Animation animation_death = Animation("Death", frames_death, numFrames);
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+   
+   frames[0] = AnimationFrame(21 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
+   frames[1] = AnimationFrame(24 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
+   Animation animation_death = Animation("Death", frames, numFrames);
    player.animations[animation_death.name] = AnimationData(animation_death, timeToNextFrame, false);
 
    // Initialize animation and return

@@ -5,7 +5,7 @@ Animation::Animation(void)
 {
 }
 /*-----------------------------------------------*/
-Animation::Animation(std::string name, AnimationFrame* frames, int numFrames)
+Animation::Animation(std::string name, std::vector<AnimationFrame> frames, int numFrames)
 {
 	this->name = name;
 	this->frames = frames;
