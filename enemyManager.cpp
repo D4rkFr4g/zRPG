@@ -26,7 +26,6 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    enemy.isAnimated = false; // TODO Remove once animations are setup
    enemy.name = "chicken";
    enemy.level = 1;
-   enemy.isColliderDrawn = true;
 
    //// Setup animations
    float uSize = 0.5;
