@@ -41,11 +41,6 @@ static float getSpeed();
 
 // Constants
 const int camSpeed = 10;
-const int g_numOfLevels = 1; // TODO see if still necessary
-const int spriteSize = 64;    // TODO should be moved to sprite manager
-const int spriteReserve = 50000; // TODO should be moved to sprite manager
-//const int initialChickens = 20;  // TODO should be moved to sprite manager
-const int chickenSpeed = 50;  // TODO should be moved to sprite manager
 const unsigned char* kbState = NULL;
 const int g_numOfCheckBuckets = 9;
 

@@ -188,7 +188,7 @@ static void initBuckets()
 		REMARKS:		Each screen is a bucket
 	*/
 
-   bucketManager::init(&g_windowWidth, &g_windowHeight, &g_windowMaxWidth, &g_windowMaxHeight);
+   bucketManager::init(&g_spriteBuckets, &g_windowWidth, &g_windowHeight, &g_windowMaxWidth, &g_windowMaxHeight);
 	g_checkBuckets = new int [g_numOfCheckBuckets];
 
 	// Initialize spriteBuckets
@@ -340,21 +340,6 @@ static void drawDialogBoxes()
    }
 }
 /*-----------------------------------------------*/
-static float getSpeed()
-{
-	/* PURPOSE:		Randomly selects a set speed that is positive or negative 
-		RECEIVES:	 
-		RETURNS:		a float corresponding to the speed 
-		REMARKS:		 
-	*/
-
-	int speed = rand() % 2;
-	int negation = rand() % 2;
-	if (negation)
-		speed *= -1;
-	return (float) speed * chickenSpeed;
-}
-/*-----------------------------------------------*/
 static void loadLevel()
 {
 	/* PURPOSE:		Loads the tile map from flare.txt file
@@ -460,7 +445,6 @@ static void keyboard()
    else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
    {
       // TODO remove this
-      //g_player.updatePosition(594,250 );
       battleManager::checkBattle(battleManager::BATTLE_YES);
    }
 }

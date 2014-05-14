@@ -37,6 +37,8 @@ void MapEventHandler::notify(Event* event)
             pos.y = player->y;
 
             locations[name] = pos;
+            // Save all sprites
+            spriteManager::saveLevelSprites(name);
 
             // Set currentLevel
             (*currentLevel) = &levels->find(event->strParams.find("level")->second)->second;
@@ -79,6 +81,9 @@ void MapEventHandler::notify(Event* event)
 
             // Set position with a little bit extra to clear collider
             player->updatePosition(pos.x + xSpeed, pos.y + ySpeed);
+
+            // Load sprites for the level
+            spriteManager::loadLevelSprites(name);
          }
       }
    }

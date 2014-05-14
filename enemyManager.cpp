@@ -16,13 +16,13 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    
    Texture* tex = &(*textures)["chicken_battle"];
    BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
-   enemy.isAnimated = false; // TODO Remove once animations are setup
+   enemy.isAnimated = true; // TODO Remove once animations are setup
    enemy.name = "chicken";
    enemy.level = 1;
 
    // Setup animations
-   float uSize = 0.5;
-   float vSize = 1;
+   float uSize = tex->uSize;
+   float vSize = tex->vSize;
 
    // Animations
    int numFrames = 1;
@@ -70,10 +70,10 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames_damaged[10] = frames_damaged[1];
    frames_damaged[11] = frames_damaged[2];
    Animation animation_damaged = Animation("Damaged", frames_damaged, numFrames);
-   animData = AnimationData(animation_damaged, timeToNextFrame, false);
+   animData = AnimationData(animation_damaged, timeToNextFrame, true);
    enemy.animations[animation_damaged.name] = animData;
 
-   //enemy.setAnimation("Idle");
+   enemy.setAnimation("Damaged");
    
    (*enemies)[BATTLE_EASY].push_back(enemy);
 

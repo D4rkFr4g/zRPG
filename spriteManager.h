@@ -19,6 +19,7 @@ private:
 public:
    ~spriteManager();
    static void init(std::vector<std::vector<Sprite*>>* spriteBuckets, std::unordered_map<std::string, Texture>* textures, int* maxScreenWidth, int* maxScreenHeight);
+   static void saveLevelSprites(std::string levelName);
    static void loadLevelSprites(std::string levelName);
    static void initChickens();
 

@@ -31,6 +31,31 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
    initChickens();
 }
 /*-----------------------------------------------*/
+void spriteManager::saveLevelSprites(std::string levelName)
+{
+   /* PURPOSE:		Saves all the sprites for the current level
+      RECEIVES:	levelName - name of the level which sprites come from
+      RETURNS:
+      REMARKS:
+   */
+
+   std::unordered_map<std::string, std::vector<Sprite*>>::iterator itr = levelSprites.find(levelName);
+   std::unordered_map<std::string, std::vector<Sprite*>>::iterator end = levelSprites.end();
+
+   if (itr != end)
+   {
+      // Clear out levelSprites to make room for new sprites
+      levelSprites.find(levelName)->second.clear();
+
+      // Save level sprites for later
+      for (int i = 0; i < (int)spriteBuckets->size(); i++)
+      {
+         for (int j = 0; j < (int)(*spriteBuckets)[i].size(); j++)
+            levelSprites[levelName].push_back((*spriteBuckets)[i][j]);
+      }
+   }
+}
+/*-----------------------------------------------*/
 void spriteManager::loadLevelSprites(std::string levelName)
 {
    /* PURPOSE:		Loads all the sprites for the current level
@@ -52,7 +77,6 @@ void spriteManager::loadLevelSprites(std::string levelName)
 
       for (int i = 0; i < (int)levelSprites[levelName].size(); i++)
       {
-         // Load all into first bucket since next update will sort them to the correct buckets
          Sprite* sprite = (*sprites)[i];
          (*spriteBuckets)[bucketManager::whichBucket(sprite->x, sprite->y)].push_back(sprite);
       }
@@ -84,5 +108,10 @@ void spriteManager::initChickens()
 
       levelSprites["overworld"].push_back(chicken);
    }
+
+   levelSprites["dungeon_1"];
+   // TODO Remove later after second map has sprites.
+   /*Chicken* chicken = new Chicken();
+   chicken->updatePosition(x, y);*/
 }
 /*-----------------------------------------------*/
