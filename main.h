@@ -56,7 +56,7 @@ int g_windowMaxWidth = 0;
 int g_windowMaxHeight = 0;
 Camera g_cam;
 TileLevel* g_currentLevel;
-int* g_checkBuckets;
+std::vector<int> g_checkBuckets;
 std::unordered_map<std::string, TileLevel> g_levels;
 std::vector<std::vector<Sprite*>> g_spriteBuckets;
 std::unordered_map<std::string, Texture> g_textures;

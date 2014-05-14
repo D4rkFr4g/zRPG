@@ -189,7 +189,7 @@ static void initBuckets()
 	*/
 
    bucketManager::init(&g_spriteBuckets, &g_windowWidth, &g_windowHeight, &g_windowMaxWidth, &g_windowMaxHeight);
-	g_checkBuckets = new int [g_numOfCheckBuckets];
+   g_checkBuckets.assign(g_numOfCheckBuckets, 0);
 
 	// Initialize spriteBuckets
 	int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
@@ -329,10 +329,7 @@ static void drawSprites()
 			{
 				// Only draw if sprite is on screen
 				if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j]->collider))
-				{
 					g_spriteBuckets[bucket][j]->drawUV(g_cam.x, g_cam.y);
-					//g_spriteBuckets[bucket][j].drawCollider(g_cam.x, g_cam.y);
-				}
 			}
 		}
 	}
@@ -439,7 +436,13 @@ static void keyboard()
       // TODO Remove
       Chicken* chicken = new Chicken();
       chicken->updatePosition(1000, 1000);
-      g_spriteBuckets[bucketManager::whichBucket(chicken->x, chicken->y)].push_back(chicken);
+
+      int bucket = bucketManager::whichBucket(chicken->x, chicken->y);
+      if (bucket < 0)
+         bucket = 0;
+      else if (bucket >= g_spriteBuckets.size() - 1)
+         bucket = g_spriteBuckets.size() - 1;
+      g_spriteBuckets[bucket].push_back(chicken);
 	}
 	else if (kbState[SDL_SCANCODE_MINUS] || kbState[SDL_SCANCODE_KP_MINUS])
 	{
@@ -607,8 +610,9 @@ int main( void )
       onLoop();
 	}
 
-	SDL_Quit();
    fmodSystem->close();
    fmodSystem->release();
+	SDL_Quit();
+   
 	return 0;
 }

@@ -51,7 +51,7 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames_attack[11] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    Animation animation_attack = Animation("Attack", frames_attack, numFrames);
    AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
-   //animData.eventFrame = 7; // This line breaks the engine????
+   //animData.eventFrame = 7; // This line breaks the engine???? // TODO Comprehend
    animData.eventFrame = 6;
    animData.eventFrame++;
    enemy.animations[animation_attack.name] = animData;
@@ -75,7 +75,7 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    animData = AnimationData(animation_damaged, timeToNextFrame, true);
    enemy.animations[animation_damaged.name] = animData;
 
-   enemy.setAnimation("Damaged");
+   enemy.setAnimation("Idle");
    (*enemies)[BATTLE_EASY].push_back(enemy);
 
 

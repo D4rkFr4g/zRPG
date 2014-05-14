@@ -35,7 +35,7 @@ int bucketManager::whichBucket(int x, int y)
    /* PURPOSE:		Calculates which Bucket the coordinates relate to
       RECEIVES:   x - x position of the sprite
                   y - y position of the sprite
-      RETURNS:
+      RETURNS:    bucket position or -1 if out of bounds
       REMARKS:
    */
 
@@ -45,9 +45,9 @@ int bucketManager::whichBucket(int x, int y)
 
    int bucket = (row * bucketWidth) + column;
    
-   if (bucket < 0 || bucket > spriteBuckets->size())
+   if (bucket < 0 || bucket >= spriteBuckets->size()-1)
    {
-      bucket = 0;
+      bucket = -1;
    }
 
    return bucket;

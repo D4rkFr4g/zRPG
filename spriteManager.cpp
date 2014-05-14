@@ -78,7 +78,14 @@ void spriteManager::loadLevelSprites(std::string levelName)
       for (int i = 0; i < (int)levelSprites[levelName].size(); i++)
       {
          Sprite* sprite = (*sprites)[i];
-         (*spriteBuckets)[bucketManager::whichBucket(sprite->x, sprite->y)].push_back(sprite);
+         
+         int bucket = bucketManager::whichBucket(sprite->x, sprite->y);
+         
+         if (bucket < 0)
+            bucket = 0;
+         else if (bucket >= spriteBuckets->size() - 1)
+            bucket = spriteBuckets->size() - 1;
+         (*spriteBuckets)[bucket].push_back(sprite);
       }
    }
 }

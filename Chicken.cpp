@@ -85,7 +85,7 @@ void Chicken::AI()
    {
       // Randomly stop chickens
       int willStop = rand() % 250;
-      if (!willStop)
+      if (willStop == 0)
       {
          speedX = 0;
          speedY = 0;
