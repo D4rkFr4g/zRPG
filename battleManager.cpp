@@ -338,15 +338,14 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       REMARKS:
    */
 
-   if (rand() % 4 == 0)
-   {
-      currentBattle = battle;
-      initBattle();
-   }
-   
    if (battle == battleManager::BATTLE_YES)
    {
       currentBattle = battleManager::BATTLE_EASY;
+      initBattle();
+   }
+   else if (rand() % 4 == 0)
+   {
+      currentBattle = battle;
       initBattle();
    }
 }
