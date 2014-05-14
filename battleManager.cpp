@@ -9,7 +9,7 @@ EventQueue* battleManager::eventQueue;
 DialogManager* battleManager::dialogManager;
 std::vector<BattleSprite*> battleManager::spriteQueue;
 std::unordered_map<std::string, TileLevel>* battleManager::levels;
-std::unordered_map<int, std::vector<BattleSprite>> battleManager::enemies;
+std::unordered_map<int, std::vector<BattleSprite*>> battleManager::enemies;
 std::unordered_map<int, std::vector<std::string>> battleManager::loot;
 TileLevel** battleManager::currentLevel;
 TileLevel* battleManager::previousLevel;
@@ -475,7 +475,7 @@ void battleManager::initBattle()
       int choice = rand() % numTypesEnemy;
 
       BattleSprite* enemy = new BattleSprite;
-      *enemy = enemies[currentBattle][choice];
+      *enemy = *enemies[currentBattle][choice];
       enemy->getNewUUID();
       enemy->registerListeners(eventQueue);
 

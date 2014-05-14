@@ -51,7 +51,7 @@ public:
    static EventQueue* eventQueue;
    static DialogManager* dialogManager;
    static std::unordered_map<std::string, TileLevel>* levels;
-   static std::unordered_map<int, std::vector<BattleSprite>> enemies;
+   static std::unordered_map<int, std::vector<BattleSprite*>> enemies;
    static std::unordered_map<int, std::vector<std::string>> loot;
    static TileLevel** currentLevel;
    static TileLevel* previousLevel;

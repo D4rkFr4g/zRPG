@@ -16,11 +16,32 @@
     <Filter Include="Sprites">
       <UniqueIdentifier>{1856c5d1-807a-446d-940d-5f29b7e6e60c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sprites\Headers">
-      <UniqueIdentifier>{2732634a-34a2-453d-8396-188608f8f94c}</UniqueIdentifier>
+    <Filter Include="Static">
+      <UniqueIdentifier>{161ceb44-3331-417d-9cf2-979d9fac28da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sprites\Source">
-      <UniqueIdentifier>{03445554-bd18-419f-98d5-1ee3b4a40d3b}</UniqueIdentifier>
+    <Filter Include="Static\Headers">
+      <UniqueIdentifier>{d3669781-8eec-4340-a240-cb8701c2e22a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Static\Source">
+      <UniqueIdentifier>{52863c92-2120-49d4-a2bb-b6ec109c830f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites\Abstract">
+      <UniqueIdentifier>{0a512d2c-14a0-4ae2-9caf-5b495250ceba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites\Abstract\Headers">
+      <UniqueIdentifier>{b2e16094-db24-445f-9796-8a4fc635ab83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites\Abstract\Source">
+      <UniqueIdentifier>{bd00ee45-bf84-4232-8610-56c2b797b741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites\Final">
+      <UniqueIdentifier>{ab22168f-de8f-4ef5-97fb-8f40dd4afafc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites\Final\Headers">
+      <UniqueIdentifier>{245c40fb-c4de-4bef-8d39-a6b19d502e38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites\Final\Source">
+      <UniqueIdentifier>{41a477ee-70a7-4ad5-8638-5faeb1e70b83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,19 +51,10 @@
     <ClCompile Include="DrawUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileLevel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tileLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimatedSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AnimationData.cpp">
@@ -57,12 +69,6 @@
     <ClCompile Include="AABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,9 +76,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="textureLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
@@ -84,38 +87,59 @@
     <ClCompile Include="DialogManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="levelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="battleManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MapEventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="uuidManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DialogContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="spriteManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Chicken.cpp">
-      <Filter>Sprites\Source</Filter>
+    <ClCompile Include="battleManager.cpp">
+      <Filter>Static\Source</Filter>
     </ClCompile>
     <ClCompile Include="bucketManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="levelLoader.cpp">
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteManager.cpp">
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="textureLoader.cpp">
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="tileLoader.cpp">
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="uuidManager.cpp">
+      <Filter>Static\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSprite.cpp">
+      <Filter>Sprites\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Sprites\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleSprite.cpp">
+      <Filter>Sprites\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSprite.cpp">
+      <Filter>Sprites\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleChicken.cpp">
+      <Filter>Sprites\Final\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Chicken.cpp">
+      <Filter>Sprites\Final\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,19 +158,10 @@
     <ClInclude Include="DrawUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TileLevel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tileLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatedSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AnimationData.h">
@@ -159,12 +174,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AABB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
@@ -182,9 +191,6 @@
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="textureLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -194,38 +200,59 @@
     <ClInclude Include="DialogManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="levelLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="battleManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MapEventHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="uuidManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DialogContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="spriteManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Chicken.h">
-      <Filter>Sprites\Headers</Filter>
+    <ClInclude Include="battleManager.h">
+      <Filter>Static\Headers</Filter>
     </ClInclude>
     <ClInclude Include="bucketManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="levelLoader.h">
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteManager.h">
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="textureLoader.h">
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="tileLoader.h">
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="uuidManager.h">
+      <Filter>Static\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedSprite.h">
+      <Filter>Sprites\Abstract\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleSprite.h">
+      <Filter>Sprites\Abstract\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSprite.h">
+      <Filter>Sprites\Abstract\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Sprites\Abstract\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleChicken.h">
+      <Filter>Sprites\Final\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Chicken.h">
+      <Filter>Sprites\Final\Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
