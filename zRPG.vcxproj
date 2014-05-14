@@ -19,6 +19,7 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="battleManager.cpp" />
     <ClCompile Include="BattleSprite.cpp" />
+    <ClCompile Include="bucketManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chicken.cpp" />
     <ClCompile Include="DialogContainer.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="battleManager.h" />
     <ClInclude Include="BattleSprite.h" />
+    <ClInclude Include="bucketManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chicken.h" />
     <ClInclude Include="DialogContainer.h" />

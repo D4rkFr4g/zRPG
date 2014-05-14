@@ -4,6 +4,9 @@
 #include "Sprite.h"
 #include "AnimatedSprite.h"
 #include "Texture.h"
+#include "textureLoader.h"
+#include "Chicken.h"
+#include "bucketManager.h"
 
 class spriteManager
 {
@@ -11,22 +14,18 @@ protected:
    spriteManager();
 
 private:
-   void initChickens();
-   void initGuards();
-   void initGanon();
-   void initChests();
-   void initPrincess();
+
 
 public:
    ~spriteManager();
-   void init(std::vector<std::vector<Sprite*>>* spriteBuckets, std::unordered_map<std::string, Texture>* textures);
-   
-
+   static void init(std::vector<std::vector<Sprite*>>* spriteBuckets, std::unordered_map<std::string, Texture>* textures, int* maxScreenWidth, int* maxScreenHeight);
+   static void loadLevelSprites(std::string levelName);
+   static void initChickens();
 
    // Variables
-  static std::unordered_map<std::string, std::vector<Sprite>> levelSprites;
-  static std::unordered_map<std::string, Sprite> spriteBase;
+  static std::unordered_map<std::string, std::vector<Sprite*>> levelSprites;
   static std::vector<std::vector<Sprite*>>* spriteBuckets;
   static std::unordered_map<std::string, Texture>* textures;
+  static int *maxScreenWidth, *maxScreenHeight;
 };
 

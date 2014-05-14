@@ -71,18 +71,14 @@ void Chicken::AI()
    if (speedX == 0 && speedY == 0)
    {
       int willRestart = rand() % 100;
-      if (!willRestart)
+      if (willRestart == 0)
       {
          // Set speed and animation
          speedX = randomSpeed();
          speedY = randomSpeed();
          setAnimation("Walking");
 
-         // Set sprite direction
-         if (speedX < 0)
-            isFlippedX = true;
-         else if (speedX > 0)
-            isFlippedX = false;
+         updateDirection(speedX, speedY);
       }
    }
    else
@@ -102,10 +98,41 @@ void Chicken::AI()
 /*-----------------------------------------------*/
 float Chicken::randomSpeed()
 {
+   /* PURPOSE:		returns a random speed the chicken can move
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+
    int speed = rand() % 2;
    int negation = rand() % 2;
    if (negation)
       speed *= -1;
    return (float)speed * maxSpeed;
+}
+/*-----------------------------------------------*/
+void Chicken::setRandomMovement()
+{
+   /* PURPOSE:		Sets a random speed for both x and y directions
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+
+   setSpeed(randomSpeed(), randomSpeed());
+}
+/*-----------------------------------------------*/
+void Chicken::updateDirection(float speedX, float speedY)
+{
+   /* PURPOSE:		Turns chicken so it faces the correct direction
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+
+   if (speedX < 0)
+      isFlippedX = true;
+   else if (speedX > 0)
+      isFlippedX = false;
 }
 /*-----------------------------------------------*/

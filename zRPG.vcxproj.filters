@@ -114,6 +114,9 @@
     <ClCompile Include="Chicken.cpp">
       <Filter>Sprites\Source</Filter>
     </ClCompile>
+    <ClCompile Include="bucketManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="Chicken.h">
       <Filter>Sprites\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="bucketManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
