@@ -280,17 +280,20 @@ void updateSprites(int diff_time)
 				// Check for Collisions
 				if (g_player.collider.AABBIntersect(&sprite->collider))
 					player::collisionResolution(&g_player, sprite);
-
-				// Rebucket if necessary
-				int newBucket = bucketManager::whichBucket(sprite->x, sprite->y);
-				if (newBucket >= 0 && newBucket < spriteBucketSize && newBucket != bucket)
-				{
-					g_spriteBuckets[newBucket].push_back(sprite);
-					g_spriteBuckets[bucket].erase(g_spriteBuckets[bucket].begin() + j);
-					j--;
-					bucketSize--;
-				}
 			}
+         for (int j = 0; j < bucketSize; j++)
+         {
+            // Rebucket if necessary
+            Sprite* sprite = g_spriteBuckets[bucket][j];
+            int newBucket = bucketManager::whichBucket(sprite->x, sprite->y);
+            if (newBucket >= 0 && newBucket < spriteBucketSize && newBucket != bucket)
+            {
+               g_spriteBuckets[newBucket].push_back(sprite);
+               g_spriteBuckets[bucket].erase(g_spriteBuckets[bucket].begin() + j);
+               j--;
+               bucketSize--;
+            }
+         }
 		}
 	}
 }

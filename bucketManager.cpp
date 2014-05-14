@@ -32,6 +32,13 @@ void bucketManager::init(std::vector<std::vector<Sprite*>>* _spriteBuckets, int*
 /*-----------------------------------------------*/
 int bucketManager::whichBucket(int x, int y)
 {
+   /* PURPOSE:		Calculates which Bucket the coordinates relate to
+      RECEIVES:   x - x position of the sprite
+                  y - y position of the sprite
+      RETURNS:
+      REMARKS:
+   */
+
    int column = (int)floor((float)x / *windowWidth);
    int row = (int)floor((float)y / (*windowHeight));
    int bucketWidth = (int)floor((float)*windowMaxWidth / *windowWidth);
