@@ -444,6 +444,7 @@ void battleManager::initBattle()
    battlePlayer.xp = player->xp;
    battlePlayer.isDefending = false;
    battlePlayer.setAnimation("Idle");
+   battlePlayer.isAlive = true;
 
    spriteQueue.push_back(&battlePlayer);
    spriteQueue[0]->registerListeners(eventQueue);
@@ -562,13 +563,12 @@ void battleManager::updateBattle(int ms)
 
    for (int i = 0; i < (int) spriteQueue.size(); i++)
    {
-      if (spriteQueue[i]->isAlive)
-         spriteQueue[i]->update(ms);
+      spriteQueue[i]->update(ms);
       
       // Remove enemy if dead
       if (i != 0) // TODO This might cause an issue where enemy isn't destroyed till after player's turn
       {
-         if (spriteQueue[i]->isAlive && spriteQueue[i]->curAnimation.isFinished)
+         if (!spriteQueue[i]->isAlive && spriteQueue[i]->curAnimation.isFinished)
          {
             spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
 
@@ -586,8 +586,11 @@ void battleManager::updateBattle(int ms)
    {
       // In case enemy was destroyed
       if (currentTurn < spriteQueue.size())
-         enemyManager::updateEnemy(spriteQueue[currentTurn]);
-      updateCurrentTurn();
+         spriteQueue[currentTurn]->takeTurn();
+      
+      // TODO might need to add timing otherwise it might switch to player
+      // to quickly to see full animation of enemy
+      updateCurrentTurn(); 
    }
 }
 /*-----------------------------------------------*/
