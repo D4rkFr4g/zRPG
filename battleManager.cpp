@@ -126,11 +126,46 @@ void battleManager::initPlayer()
    frames[17] = AnimationFrame(0 * uSize, 2 * vSize, 1 * uSize, 1 * vSize);
    frames[18] = AnimationFrame(0 * uSize, 1 * vSize, 1 * uSize, 1 * vSize);
    frames[19] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
-   Animation animation_attack = Animation("Attack", frames, numFrames);
-   AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
+   Animation animation = Animation("Attack", frames, numFrames);
+   AnimationData animData = AnimationData(animation, timeToNextFrame, false);
    animData.eventFrame = 13;
-   battlePlayer.animations[animation_attack.name] = animData;
+   battlePlayer.animations[animation.name] = animData;
    
+   // Damaged Animation
+   numFrames = 13;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 23 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(0 * uSize, 22 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(0 * uSize, 21 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(0 * uSize, 20 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = frames[0];
+   frames[5] = frames[1];
+   frames[6] = frames[2];
+   frames[7] = frames[3];
+   frames[8] = frames[0];
+   frames[9] = frames[1];
+   frames[10] = frames[2];
+   frames[11] = frames[3];
+   frames[12] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Damaged", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animData.eventFrame = 0;
+   battlePlayer.animations[animation.name] = animData;
+
+   // Defend Animation
+   numFrames = 1;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 24 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Defend", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animData.eventFrame = 0;
+   battlePlayer.animations[animation.name] = animData;
+
+
    battlePlayer.setAnimation("Idle");
 
    player->maxLevel = 10;
@@ -201,6 +236,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             prevBattleState = battleState;
             menus["player"].setActive(true);
             spriteQueue[0]->isDefending = false;
+            spriteQueue[0]->setAnimation("Idle");
          }
 
          // Check for new Transition
@@ -564,7 +600,9 @@ void battleManager::updateCurrentTurn()
 
    currentTurn++;
    if (currentTurn >= spriteQueue.size())
+   {
       currentTurn = 0;
+   }
 }
 /*-----------------------------------------------*/
 void battleManager::executeSelection()
@@ -589,6 +627,7 @@ void battleManager::executeSelection()
    else if (battleState == STATE_DEFEND)
    {
       spriteQueue[0]->isDefending = true;
+      spriteQueue[0]->setAnimation("Defend");
    }
    else if (battleState == STATE_FLEE)
    {
@@ -609,9 +648,8 @@ void battleManager::executeSelection()
          useItem(itr->first);
       }
    }
-
-   updateCurrentTurn();
    battleState = STATE_IDLE;
+   updateCurrentTurn();
 }
 /*-----------------------------------------------*/
 void battleManager::useItem(std::string item)

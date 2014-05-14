@@ -16,7 +16,7 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    
    Texture* tex = &(*textures)["chicken_battle"];
    BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
-   enemy.isAnimated = false; // TODO Remove once animations are setup
+   enemy.isAnimated = true; // TODO Remove once animations are setup
    enemy.name = "chicken";
    enemy.level = 1;
 
@@ -54,13 +54,12 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames[11] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    Animation animation_attack = Animation("Attack", frames, numFrames);
    AnimationData animData = AnimationData(animation_attack, timeToNextFrame, false);
-   //animData.eventFrame = 7; // This line breaks the engine???? // TODO Comprehend
-   //animData.eventFrame = 6;
-   //animData.eventFrame++;
+   animData.eventFrame = 7;
    enemy.animations[animation_attack.name] = animData;
 
    // Damaged Animation
-   numFrames = 12;
+   numFrames = 13;
+   timeToNextFrame = 100;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
@@ -76,8 +75,9 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* textures, std:
    frames[9] = frames[0];
    frames[10] = frames[1];
    frames[11] = frames[2];
+   frames[12] = frames[0];
    Animation animation_damaged = Animation("Damaged", frames, numFrames);
-   animData = AnimationData(animation_damaged, timeToNextFrame, true);
+   animData = AnimationData(animation_damaged, timeToNextFrame, false);
    enemy.animations[animation_damaged.name] = animData;
 
    enemy.setAnimation("Idle");
