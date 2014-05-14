@@ -29,6 +29,7 @@
 #include "textureLoader.h"
 #include "battleManager.h"
 #include "MapEventHandler.h"
+#include "Chicken.h"
 
 
 // Forward Declarations
@@ -39,18 +40,18 @@ static float getSpeed();
 
 // Constants
 const int camSpeed = 10;
-const int g_numOfLevels = 1;
-const int spriteSize = 64;
-const int spriteReserve = 50000;
-const int initialChickens = 20;
-const int chickenSpeed = 50;
+const int g_numOfLevels = 1; // TODO see if still necessary
+const int spriteSize = 64;    // TODO should be moved to sprite manager
+const int spriteReserve = 50000; // TODO should be moved to sprite manager
+const int initialChickens = 20;  // TODO should be moved to sprite manager
+const int chickenSpeed = 50;  // TODO should be moved to sprite manager
 const unsigned char* kbState = NULL;
-const int g_numOfCheckBuckets = 9; 
+const int g_numOfCheckBuckets = 9;
 
 // Global Variables
 SDL_Window* g_window;
 float color[] = {0,0,0};
-float currentDirection = 1;
+float currentDirection = 1;   // TODO verify use
 int g_windowWidth = 640;
 int g_windowOriginalWidth;
 int g_windowHeight = 480;
@@ -61,7 +62,7 @@ Camera g_cam;
 TileLevel* g_currentLevel;
 int* g_checkBuckets;
 std::unordered_map<std::string, TileLevel> g_levels;
-std::vector<std::vector<AnimatedSprite>> g_spriteBuckets;
+std::vector<std::vector<Sprite*>> g_spriteBuckets;
 std::unordered_map<std::string, Texture> g_textures;
 unsigned char kbPrevState[SDL_NUM_SCANCODES] = {0};
 bool shouldExit = false;

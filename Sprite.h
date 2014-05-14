@@ -38,6 +38,7 @@ public:
 	GLfloat tu, tv;
 	GLfloat tSizeX, tSizeY;
 	float speedX, speedY;
+   float maxSpeed;
 	float posX, posY;
 	bool isFlippedX;
 	bool isFlippedY;

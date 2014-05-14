@@ -219,7 +219,7 @@ static void initBuckets()
 	
 	for (int i = 0; i < numOfBuckets; i++)
 	{
-		vector<AnimatedSprite> temp;
+		vector<Sprite*> temp;
 		g_spriteBuckets.push_back(temp);
 	}
 }
@@ -266,109 +266,22 @@ static void makeChicken()
 	int x = rand() % (g_windowMaxWidth - spriteSize);
 	int y = rand() % (g_windowMaxHeight - spriteSize);
 
-	Texture* tex = &g_textures["chicken"];
-	AnimatedSprite sprite_chicken = AnimatedSprite(&tex->texture, x, y, tex->width, tex->height, 0, 0, 0.5, 1);
-	sprite_chicken.type = 1;
-
-	//Setup Collider
-	int xOffset = 20;
-	int yOffset = 25;
-	int width = 20;
-	int height = 20;
-   float uSize = 0.5;
-   float vSize = 1;
-	sprite_chicken.colliderXOffset = xOffset;
-	sprite_chicken.colliderYOffset = yOffset;
-	sprite_chicken.setCollider(&AABB(sprite_chicken.x + xOffset, sprite_chicken.y + yOffset, width, height));
-
-	// Walking Animation
-	int numFrames = 2;
-	int timeToNextFrame = 300;
-	AnimationFrame* frames_walking = new AnimationFrame[numFrames];
-	frames_walking[0] = AnimationFrame(0,0,uSize,vSize);
-	frames_walking[1] = AnimationFrame(0.5,0,uSize,vSize);
-	Animation animation_walking = Animation("Walking", frames_walking, numFrames);
-	sprite_chicken.animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
-
-	// Idle Animation
-	numFrames = 1;
-	AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-	frames_idle[0] = AnimationFrame(0,0,uSize,vSize);
-	Animation animation_idle = Animation("Idle", frames_idle, numFrames);
-	sprite_chicken.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
-	sprite_chicken.setAnimation("Walking");
+   Chicken* sprite_chicken = new Chicken();
+   sprite_chicken->updatePosition(x, y);
 	
 	// Set Chicken direction
-	sprite_chicken.setSpeed(getSpeed(), getSpeed());
+	sprite_chicken->setSpeed(getSpeed(), getSpeed());
 
 	// Set direction
-	if (sprite_chicken.speedX < 0)
-		sprite_chicken.isFlippedX = true;
-	else if (sprite_chicken.speedX > 0)
-		sprite_chicken.isFlippedX = false;
+	if (sprite_chicken->speedX < 0)
+		sprite_chicken->isFlippedX = true;
+	else if (sprite_chicken->speedX > 0)
+		sprite_chicken->isFlippedX = false;
 
 	// Load sprite into bucket
-	x = sprite_chicken.x;
-	y = sprite_chicken.y;
-	g_spriteBuckets[whichBucket(x, y)].push_back(sprite_chicken);
-}
-/*-----------------------------------------------*/
-void chickenAI(int diff_time)
-{
-	/* PURPOSE:		Control chicken movements based on probabilities 
-		RECEIVES:	diff_time - milliseconds since last frame 
-		RETURNS:		 
-		REMARKS:		 
-	*/
-
-	updateCheckBuckets();
-	int numOfBuckets = g_spriteBuckets.size();
-
-	for (int i = 0; i < g_numOfCheckBuckets; i++)
-	{
-		if (g_checkBuckets[i] >= 0 && g_checkBuckets[i] < numOfBuckets)
-		{
-			int bucket = g_checkBuckets[i];
-			for (int j = 0; j < (int) g_spriteBuckets[bucket].size(); j++)
-			{
-				AnimatedSprite* chicken = &g_spriteBuckets[bucket][j];
-				float speedX = chicken->speedX;
-				float speedY = chicken->speedY;
-
-				// If stopped Restart Chicken Maybe
-				if (speedX == 0 && speedY == 0)
-				{
-					int willRestart = rand() % 100;
-					if (!willRestart)
-					{
-						// Set speed and animation
-						speedX = getSpeed();
-						speedY = getSpeed();
-						chicken->setAnimation("Walking");
-
-						// Set sprite direction
-						if (speedX < 0)
-							chicken->isFlippedX = true;
-						else if (speedX > 0)
-							chicken->isFlippedX = false;
-					}
-				}
-				else
-				{
-					// Randomly stop chickens
-					int willStop = rand() % 250;
-					if (!willStop)
-					{
-						speedX = 0;
-						speedY = 0;
-						chicken->setAnimation("Idle");
-					}
-				}
-
-				chicken->setSpeed(speedX, speedY);
-			}
-		}
-	}
+	x = sprite_chicken->x;
+	y = sprite_chicken->y;
+   g_spriteBuckets[whichBucket(x, y)].push_back(sprite_chicken);
 }
 /*-----------------------------------------------*/
 void updateSprites(int diff_time)
@@ -407,7 +320,7 @@ void updateSprites(int diff_time)
 			int bucketSize = g_spriteBuckets[bucket].size();
 			for (int j = 0; j < bucketSize; j++)
 			{
-				AnimatedSprite* sprite = &g_spriteBuckets[bucket][j];
+				Sprite* sprite = g_spriteBuckets[bucket][j];
 				sprite->update(diff_time);
 
 				// Check for Collisions
@@ -418,7 +331,7 @@ void updateSprites(int diff_time)
 				int newBucket = whichBucket(sprite->x, sprite->y);
 				if (newBucket >= 0 && newBucket < spriteBucketSize && newBucket != bucket)
 				{
-					g_spriteBuckets[newBucket].push_back(*sprite);
+					g_spriteBuckets[newBucket].push_back(sprite);
 					g_spriteBuckets[bucket].erase(g_spriteBuckets[bucket].begin() + j);
 					j--;
 					bucketSize--;
@@ -448,9 +361,9 @@ static void drawSprites()
 			for (int j = 0; j < (int) g_spriteBuckets[bucket].size(); j++)
 			{
 				// Only draw if sprite is on screen
-				if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j].collider))
+				if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j]->collider))
 				{
-					g_spriteBuckets[bucket][j].drawUV(g_cam.x, g_cam.y);
+					g_spriteBuckets[bucket][j]->drawUV(g_cam.x, g_cam.y);
 					//g_spriteBuckets[bucket][j].drawCollider(g_cam.x, g_cam.y);
 				}
 			}
@@ -651,7 +564,6 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
 		// Update physics
       if (!battleManager::isBattle)
       {
-         chickenAI(ticksPerPhysics);
          updateSprites(ticksPerPhysics);
          player::updatePhysics(&g_player, ticksPerPhysics);
       }

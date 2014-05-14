@@ -10,8 +10,8 @@ AnimatedSprite::AnimatedSprite(GLuint* texture, int x, int y, int width, int hei
 {
 	this->curAnimation = AnimationData();
 	this->isAnimated = true;
-	maxSpeedX = 0;
-	maxSpeedY = 0;
+	this->maxSpeedX = 0;
+	this->maxSpeedY = 0;
 }
 /*-----------------------------------------------*/
 AnimatedSprite::~AnimatedSprite(void)
@@ -105,3 +105,4 @@ void AnimatedSprite::setCurrentFrame(int index)
    tSizeX = frame.tWidth;
    tSizeY = frame.tHeight;
 }
+/*-----------------------------------------------*/
