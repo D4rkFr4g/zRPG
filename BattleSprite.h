@@ -17,6 +17,7 @@ private:
    //Functions
    void applyDamage(int damage);
    void sendDamage(std::string uuid);
+   void checkRemovable();
 
    // Variables
    std::string uuid;
@@ -28,7 +29,7 @@ public:
    BattleSprite(GLuint* texture, int x, int y, int texWidth, int texHeight, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
    
    // Enums
-   enum BATTLE_STATE { STATE_IDLE, STATE_PLAYER, STATE_ACTION, STATE_ENEMY, STATE_ITEMS, STATE_FLEE, STATE_DEFEND };
+   enum BATTLE_STATE { STATE_IDLE, STATE_PLAYER, STATE_ACTION, STATE_ENEMY, STATE_ITEMS, STATE_FLEE, STATE_DEFEND, STATE_ATTACK };
 
    // Functions
    virtual ~BattleSprite();
@@ -51,8 +52,12 @@ public:
    int magic;
    int maxMagic;
    int startY;
+   int opponentY;
    std::string targetUUID;
    bool isDefending;
    bool isAlive;
+   bool isRemovable;
+   BATTLE_STATE state;
+   BATTLE_STATE prevState;
 };
 

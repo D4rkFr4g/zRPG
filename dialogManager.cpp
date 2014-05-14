@@ -346,7 +346,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    // Check for killed enemies
    for (int i = 0; i < (int)enemies.size(); i++)
    {
-      if (!enemies[i]->isAlive && enemies[i]->curAnimation.isFinished)
+      if (enemies[i]->isRemovable)
          enemies.erase(remove(enemies.begin(), enemies.end(), enemies[i]));
    }
 

@@ -216,6 +216,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             }
          }
 
+         // Reset player to original yPosition
          if (spriteQueue[0]->posY != spriteQueue[0]->startY &&
             spriteQueue[0]->curAnimation.def.name.compare("Attack") == 0 &&
             spriteQueue[0]->curAnimation.isFinished)
@@ -346,6 +347,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          dialogManager->updateBattleDialog(menus);
    }
 
+   // Handle button input when battle is over
    if (!isPlayerAlive && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
    {
          playerDeath();
@@ -355,21 +357,28 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
       if (dialogManager->dialogQueue->size() > 2)
          dialogManager->dialogQueue->pop_back();
    }
+
+
+   // Keyboard buttons for Debugging Battle // TODO Remove at end
+   //---------------------------------------------------------------//
+   
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
+      // End battle
       battleCleanup(); // TODO Remove when unnecessary
    }
    if (kbState[SDL_SCANCODE_I] && !kbPrevState[SDL_SCANCODE_I])
    {
+      // Kill all enemies
       // TODO Remove when unnecessary
       for (int i = 1; i < (int)spriteQueue.size(); i++)
          spriteQueue[i]->health = 0;
 
       if (dialogManager->dialogQueue->size() > 2)
-      {
          dialogManager->dialogQueue->pop_back();
-      }
    }
+   //---------------------------------------------------------------//
+
 
    if (isBattleWon && dialogManager->dialogQueue->size() <= 2)
       battleCleanup();
@@ -479,6 +488,8 @@ void battleManager::initBattle()
       *enemy = *enemies[currentBattle][choice];
       enemy->getNewUUID();
       enemy->registerListeners(eventQueue);
+      enemy->targetUUID = spriteQueue[0]->getUUID();
+      enemy->opponentY = spriteQueue[0]->y;
 
       totalLevel += enemy->level;
       
@@ -568,7 +579,10 @@ void battleManager::updateBattle(int ms)
       // Remove enemy if dead
       if (i != 0) // TODO This might cause an issue where enemy isn't destroyed till after player's turn
       {
-         if (!spriteQueue[i]->isAlive && spriteQueue[i]->curAnimation.isFinished)
+         // Reduce rewards if enemy flees
+
+
+         if (spriteQueue[i]->isRemovable)
          {
             spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
 

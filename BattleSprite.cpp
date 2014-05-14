@@ -28,6 +28,9 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
    isDefending = false;
    initStats(1, 1, 1, 1, 1);
    startY = y;
+   state = STATE_IDLE;
+   prevState = STATE_DEFEND;
+   isRemovable = false;
 
    uuid = uuidManager::newUUID();
 }
@@ -154,11 +157,19 @@ void BattleSprite::update(int ms)
       sendDamage(targetUUID);
       targetUUID = "";
    }
+
+   checkRemovable();
 }
 /*-----------------------------------------------*/
 void BattleSprite::takeTurn()
 {
 
+}
+/*-----------------------------------------------*/
+void BattleSprite::checkRemovable()
+{
+   if (!isAlive && curAnimation.isFinished)
+      isRemovable = true;
 }
 /*-----------------------------------------------*/
 void BattleSprite::getNewUUID()

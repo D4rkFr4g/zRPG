@@ -82,7 +82,77 @@ BattleGuard::~BattleGuard()
 /*-----------------------------------------------*/
 void BattleGuard::AI()
 {
+   if (isAlive)
+   {
+      // Battle States
+      // Idle State
+      if (state == STATE_IDLE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
 
+            isDefending = false;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Attack Player State
+      if (state == STATE_PLAYER)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Item State
+      else if (state == STATE_ITEMS)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Flee State
+      else if (state == STATE_FLEE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Defend State
+      else if (state == STATE_DEFEND)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+   }
 }
 /*-----------------------------------------------*/
 void BattleGuard::update(int ms)
