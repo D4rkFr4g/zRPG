@@ -475,9 +475,9 @@ void DialogManager::battleRewards(std::vector<std::string> loot)
 void DialogManager::battleCleanup()
 {
    /* PURPOSE:    Reset all data used in battle to ready for next
-   RECEIVES:
-   RETURNS:
-   REMARKS:
+      RECEIVES:
+      RETURNS:
+      REMARKS:
    */
 
    actionStrings.clear();

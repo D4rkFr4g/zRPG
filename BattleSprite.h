@@ -26,6 +26,11 @@ public:
    // Constructors
    BattleSprite();
    BattleSprite(GLuint* texture, int x, int y, int texWidth, int texHeight, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
+   
+   // Enums
+   enum BATTLE_STATE { STATE_IDLE, STATE_PLAYER, STATE_ACTION, STATE_ENEMY, STATE_ITEMS, STATE_FLEE, STATE_DEFEND };
+
+   // Functions
    virtual ~BattleSprite();
    virtual void update(int ms) override;
    virtual void notify(Event* event) override;
@@ -34,8 +39,6 @@ public:
    std::string getUUID();
    bool operator==(BattleSprite rhs);
    void getNewUUID();
-   
-   // Functions
    void initStats(int STR, int CON, int DEX, int INT, int LCK);
 
    // Variables
