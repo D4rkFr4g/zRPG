@@ -5,6 +5,7 @@
 #include "EventQueue.h"
 #include "TileLevel.h"
 #include "PlayerSprite.h"
+#include "spriteManager.h"
 
 class MapEventHandler : public EventListener
 {
