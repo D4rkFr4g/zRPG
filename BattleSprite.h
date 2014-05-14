@@ -49,5 +49,6 @@ public:
    int startY;
    std::string targetUUID;
    bool isDefending;
+   bool isAlive;
 };
 

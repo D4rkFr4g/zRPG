@@ -562,12 +562,13 @@ void battleManager::updateBattle(int ms)
 
    for (int i = 0; i < (int) spriteQueue.size(); i++)
    {
-      spriteQueue[i]->update(ms);
+      if (spriteQueue[i]->isAlive)
+         spriteQueue[i]->update(ms);
       
       // Remove enemy if dead
-      if (i != 0)
+      if (i != 0) // TODO This might cause an issue where enemy isn't destroyed till after player's turn
       {
-         if (spriteQueue[i]->health <= 0)
+         if (spriteQueue[i]->isAlive && spriteQueue[i]->curAnimation.isFinished)
          {
             spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
 

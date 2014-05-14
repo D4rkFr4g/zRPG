@@ -23,6 +23,7 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
    maxHealth = 100;
    maxMagic = 10;
    health = maxHealth;
+   isAlive = true;
    magic = maxMagic;
    isDefending = false;
    initStats(1, 1, 1, 1, 1);
@@ -75,8 +76,12 @@ void BattleSprite::applyDamage(int damage)
       defense *= 2;
 
    health -= (damage - defense);
+   setAnimation("Damaged");
 
-   isDefending = false;
+   if (health <= 0)
+      isAlive = false;
+
+   //isDefending = false; // Good for one attack or the rest of turn?
 }
 /*-----------------------------------------------*/
 void BattleSprite::sendDamage(std::string uuid)

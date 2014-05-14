@@ -148,7 +148,7 @@
       <Filter>Sprites\Final\Source</Filter>
     </ClCompile>
     <ClCompile Include="BattleGanon.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Sprites\Final\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,7 +270,7 @@
       <Filter>Sprites\Final\Headers</Filter>
     </ClInclude>
     <ClInclude Include="BattleGanon.h">
-      <Filter>Header Files</Filter>
+      <Filter>Sprites\Final\Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
