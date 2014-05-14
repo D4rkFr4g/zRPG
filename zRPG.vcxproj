@@ -18,6 +18,9 @@
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="BattleChicken.cpp" />
+    <ClCompile Include="BattleGanon.cpp" />
+    <ClCompile Include="BattleGuard.cpp" />
+    <ClCompile Include="BattleKnight.cpp" />
     <ClCompile Include="battleManager.cpp" />
     <ClCompile Include="BattleSprite.cpp" />
     <ClCompile Include="bucketManager.cpp" />
@@ -58,6 +61,9 @@
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="BattleChicken.h" />
+    <ClInclude Include="BattleGanon.h" />
+    <ClInclude Include="BattleGuard.h" />
+    <ClInclude Include="BattleKnight.h" />
     <ClInclude Include="battleManager.h" />
     <ClInclude Include="BattleSprite.h" />
     <ClInclude Include="bucketManager.h" />

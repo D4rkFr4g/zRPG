@@ -7,7 +7,7 @@ BattleChicken::BattleChicken()
    Texture* tex = textureLoader::getTexture("chicken_battle");
    BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    *this = BattleChicken((BattleChicken&)enemy);
-   isAnimated = true; // TODO Remove once animations are setup
+   //isAnimated = true; // TODO Remove once animations are setup
    name = "chicken";
    level = 1;
 
@@ -91,6 +91,6 @@ void BattleChicken::update(int ms)
 /*-----------------------------------------------*/
 void BattleChicken::notify(Event* event)
 {
-   // TODO
+   // TODO Maybe
 }
 /*-----------------------------------------------*/

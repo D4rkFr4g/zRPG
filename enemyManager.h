@@ -3,6 +3,9 @@
 #include "BattleSprite.h"
 #include "Texture.h"
 #include "BattleChicken.h"
+#include "BattleGuard.h"
+#include "BattleKnight.h"
+#include "BattleGanon.h"
 
 
 class enemyManager
@@ -26,7 +29,6 @@ public:
    static void initGanon();
 
    // Variables
-   static std::unordered_map<std::string, Texture>* textures;
    static std::unordered_map<int, std::vector<BattleSprite*>>* enemies;
 };
 

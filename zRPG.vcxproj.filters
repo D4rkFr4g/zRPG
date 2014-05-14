@@ -141,6 +141,15 @@
     <ClCompile Include="Chicken.cpp">
       <Filter>Sprites\Final\Source</Filter>
     </ClCompile>
+    <ClCompile Include="BattleGuard.cpp">
+      <Filter>Sprites\Final\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleKnight.cpp">
+      <Filter>Sprites\Final\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleGanon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll">
@@ -253,6 +262,15 @@
     </ClInclude>
     <ClInclude Include="Chicken.h">
       <Filter>Sprites\Final\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleGuard.h">
+      <Filter>Sprites\Final\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleKnight.h">
+      <Filter>Sprites\Final\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleGanon.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

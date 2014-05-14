@@ -2,18 +2,18 @@
 #include "BattleSprite.h"
 
 
-class BattleChicken :
+class BattleGanon :
    public BattleSprite
 {
 private:
    void AI();
 
 public:
-   BattleChicken();
-   ~BattleChicken();
+   BattleGanon();
+   ~BattleGanon();
 
    // Functions
    virtual void update(int ms) override;
-   virtual void notify(Event* event) override;
+   //virtual void notify(Event* event) override;
 };
 

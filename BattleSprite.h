@@ -7,6 +7,7 @@
 #include "EventListener.h"
 #include "EventQueue.h"
 #include "uuidManager.h"
+#include "textureLoader.h"
 
 
 class BattleSprite :

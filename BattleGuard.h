@@ -1,19 +1,18 @@
 #pragma once
 #include "BattleSprite.h"
 
-
-class BattleChicken :
+class BattleGuard :
    public BattleSprite
 {
 private:
    void AI();
 
 public:
-   BattleChicken();
-   ~BattleChicken();
+   BattleGuard();
+   ~BattleGuard();
 
    // Functions
    virtual void update(int ms) override;
-   virtual void notify(Event* event) override;
+   //virtual void notify(Event* event) override;
 };
 
