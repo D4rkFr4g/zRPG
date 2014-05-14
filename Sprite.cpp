@@ -72,6 +72,7 @@ void Sprite::initialize(GLuint* texture, int x, int y, int offsetX, int offsetY,
 	colliderYOffset = 0;
    isColliderDrawn = false;
    hasCollided = false;
+   maxSpeed = 0;
 }
 /*-----------------------------------------------*/
 void Sprite::draw(void)
@@ -207,3 +208,4 @@ void Sprite::setCollider(AABB *box)
 	collider = *box;
 	prevCollider = AABB(box->x, box->y, box->w, box->h);
 }
+/*-----------------------------------------------*/

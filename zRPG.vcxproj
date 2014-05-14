@@ -19,7 +19,9 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="battleManager.cpp" />
     <ClCompile Include="BattleSprite.cpp" />
+    <ClCompile Include="bucketManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Chicken.cpp" />
     <ClCompile Include="DialogContainer.cpp" />
     <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="DrawUtils.cpp" />
@@ -34,6 +36,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerSprite.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="spriteManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="textureLoader.cpp" />
     <ClCompile Include="TileLevel.cpp" />
@@ -44,9 +47,6 @@
     <None Include="glew32.dll" />
     <None Include="glew32mx.dll" />
     <None Include="SDL2.dll" />
-    <None Include="Sprites\spriteSheet_chicken.tga" />
-    <None Include="Sprites\sprite_chicken.tga" />
-    <None Include="Sprites\zeldaTileset16.tga" />
     <None Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +58,9 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="battleManager.h" />
     <ClInclude Include="BattleSprite.h" />
+    <ClInclude Include="bucketManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Chicken.h" />
     <ClInclude Include="DialogContainer.h" />
     <ClInclude Include="DialogManager.h" />
     <ClInclude Include="DrawUtils.h" />
@@ -74,6 +76,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerSprite.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="spriteManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="textureLoader.h" />
     <ClInclude Include="TileLevel.h" />

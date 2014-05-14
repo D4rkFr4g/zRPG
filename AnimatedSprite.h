@@ -14,7 +14,7 @@ public:
 	virtual ~AnimatedSprite(void);
 	
 	// Functions
-	void update(int ms);
+   virtual void update(int ms) override;
 	void setAnimation(std::string animation);
 	void updatePosition(float x , float y);
    void setCurrentFrame(int index);

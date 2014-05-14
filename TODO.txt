@@ -31,3 +31,8 @@ Code enemy turn state machine
 
 Done - Boss only spawns once
 Done - Create Map Loader that is an EventListener
+
+
+
+// 
+Set num of check buckets based on screen resolution and map size per level rounded up

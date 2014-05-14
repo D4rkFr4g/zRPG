@@ -16,6 +16,12 @@
     <Filter Include="Sprites">
       <UniqueIdentifier>{1856c5d1-807a-446d-940d-5f29b7e6e60c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sprites\Headers">
+      <UniqueIdentifier>{2732634a-34a2-453d-8396-188608f8f94c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprites\Source">
+      <UniqueIdentifier>{03445554-bd18-419f-98d5-1ee3b4a40d3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,17 +108,17 @@
     <ClCompile Include="DialogContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="spriteManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Chicken.cpp">
+      <Filter>Sprites\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="bucketManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sprites\sprite_chicken.tga">
-      <Filter>Sprites</Filter>
-    </None>
-    <None Include="Sprites\zeldaTileset16.tga">
-      <Filter>Sprites</Filter>
-    </None>
-    <None Include="Sprites\spriteSheet_chicken.tga">
-      <Filter>Sprites</Filter>
-    </None>
     <None Include="SDL2.dll">
       <Filter>Resource Files</Filter>
     </None>
@@ -210,6 +216,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DialogContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chicken.h">
+      <Filter>Sprites\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="bucketManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

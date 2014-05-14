@@ -160,22 +160,6 @@ static void initMapEventHandler()
    g_mapEventHandler.registerListeners(&g_eventQueue);
 }
 /*-----------------------------------------------*/
-static int whichBucket(int x, int y)
-{
-	/* PURPOSE:		Determines which bucket corresponds to world coordinates 
-		RECEIVES:	x - Horizontal screen position
-						y - Vertical screen position
-		RETURNS:		Returns index of corresponding bucket 
-		REMARKS:		Determined by screen resolution each screen is one bucket
-	*/
-
-	int column = (int) floor((float) x / g_windowWidth);
-	int row = (int) floor((float) y / g_windowHeight);
-	int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
-
-	return (row * bucketWidth) + column;
-}
-/*-----------------------------------------------*/
 static void updateCheckBuckets()
 {
 	/* PURPOSE:		Determines which buckets to check physics against 
@@ -185,15 +169,15 @@ static void updateCheckBuckets()
 						 
 	*/
 
-	g_checkBuckets[0] = whichBucket(g_cam.x - g_windowWidth, g_cam.y + g_windowHeight);
-	g_checkBuckets[1] = whichBucket(g_cam.x, g_cam.y + g_windowHeight);
-	g_checkBuckets[2] = whichBucket(g_cam.x + g_windowWidth, g_cam.y + g_windowHeight);
-	g_checkBuckets[3] = whichBucket(g_cam.x - g_windowWidth, g_cam.y);
-	g_checkBuckets[4] = whichBucket(g_cam.x, g_cam.y);
-	g_checkBuckets[5] = whichBucket(g_cam.x + g_windowWidth, g_cam.y);
-	g_checkBuckets[6] = whichBucket(g_cam.x - g_windowWidth, g_cam.y - g_windowHeight);
-	g_checkBuckets[7] = whichBucket(g_cam.x, g_cam.y - g_windowHeight);
-	g_checkBuckets[8] = whichBucket(g_cam.x + g_windowWidth, g_cam.y - g_windowHeight);
+	g_checkBuckets[0] = bucketManager::whichBucket(g_cam.x - g_windowWidth, g_cam.y + g_windowHeight);
+   g_checkBuckets[1] = bucketManager::whichBucket(g_cam.x, g_cam.y + g_windowHeight);
+   g_checkBuckets[2] = bucketManager::whichBucket(g_cam.x + g_windowWidth, g_cam.y + g_windowHeight);
+   g_checkBuckets[3] = bucketManager::whichBucket(g_cam.x - g_windowWidth, g_cam.y);
+   g_checkBuckets[4] = bucketManager::whichBucket(g_cam.x, g_cam.y);
+   g_checkBuckets[5] = bucketManager::whichBucket(g_cam.x + g_windowWidth, g_cam.y);
+   g_checkBuckets[6] = bucketManager::whichBucket(g_cam.x - g_windowWidth, g_cam.y - g_windowHeight);
+   g_checkBuckets[7] = bucketManager::whichBucket(g_cam.x, g_cam.y - g_windowHeight);
+   g_checkBuckets[8] = bucketManager::whichBucket(g_cam.x + g_windowWidth, g_cam.y - g_windowHeight);
 }
 /*-----------------------------------------------*/
 static void initBuckets()
@@ -204,6 +188,7 @@ static void initBuckets()
 		REMARKS:		Each screen is a bucket
 	*/
 
+   bucketManager::init(&g_windowWidth, &g_windowHeight, &g_windowMaxWidth, &g_windowMaxHeight);
 	g_checkBuckets = new int [g_numOfCheckBuckets];
 
 	// Initialize spriteBuckets
@@ -219,7 +204,7 @@ static void initBuckets()
 	
 	for (int i = 0; i < numOfBuckets; i++)
 	{
-		vector<AnimatedSprite> temp;
+		vector<Sprite*> temp;
 		g_spriteBuckets.push_back(temp);
 	}
 }
@@ -233,10 +218,8 @@ static void loadSprites()
 	*/
 
 	textureLoader::loadTextures(&g_textures);
-
-	// Load the Initial chickens
-	for (int i = 0; i < initialChickens; i++)
-		makeChicken();
+   spriteManager::init(&g_spriteBuckets, &g_textures, &g_windowMaxWidth, &g_windowMaxHeight);
+   spriteManager::loadLevelSprites(g_currentLevel->name);
 
 	// Create and place player on map
 	Texture* tex = &g_textures["link"];
@@ -253,122 +236,6 @@ static void loadSprites()
    DialogContainer::texture = &g_textures["dialog"];
    Font::texture = &g_textures["font"];
    Font::buildFontMap();
-}
-/*-----------------------------------------------*/
-static void makeChicken()
-{
-	/* PURPOSE:		Create chicken enemy sprite 
-		RECEIVES:	 
-		RETURNS:		 
-		REMARKS:		Sets animations, position, and initial bucket
-	*/
-
-	int x = rand() % (g_windowMaxWidth - spriteSize);
-	int y = rand() % (g_windowMaxHeight - spriteSize);
-
-	Texture* tex = &g_textures["chicken"];
-	AnimatedSprite sprite_chicken = AnimatedSprite(&tex->texture, x, y, tex->width, tex->height, 0, 0, 0.5, 1);
-	sprite_chicken.type = 1;
-
-	//Setup Collider
-	int xOffset = 20;
-	int yOffset = 25;
-	int width = 20;
-	int height = 20;
-   float uSize = 0.5;
-   float vSize = 1;
-	sprite_chicken.colliderXOffset = xOffset;
-	sprite_chicken.colliderYOffset = yOffset;
-	sprite_chicken.setCollider(&AABB(sprite_chicken.x + xOffset, sprite_chicken.y + yOffset, width, height));
-
-	// Walking Animation
-	int numFrames = 2;
-	int timeToNextFrame = 300;
-	AnimationFrame* frames_walking = new AnimationFrame[numFrames];
-	frames_walking[0] = AnimationFrame(0,0,uSize,vSize);
-	frames_walking[1] = AnimationFrame(0.5,0,uSize,vSize);
-	Animation animation_walking = Animation("Walking", frames_walking, numFrames);
-	sprite_chicken.animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
-
-	// Idle Animation
-	numFrames = 1;
-	AnimationFrame* frames_idle = new AnimationFrame[numFrames];
-	frames_idle[0] = AnimationFrame(0,0,uSize,vSize);
-	Animation animation_idle = Animation("Idle", frames_idle, numFrames);
-	sprite_chicken.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
-	sprite_chicken.setAnimation("Walking");
-	
-	// Set Chicken direction
-	sprite_chicken.setSpeed(getSpeed(), getSpeed());
-
-	// Set direction
-	if (sprite_chicken.speedX < 0)
-		sprite_chicken.isFlippedX = true;
-	else if (sprite_chicken.speedX > 0)
-		sprite_chicken.isFlippedX = false;
-
-	// Load sprite into bucket
-	x = sprite_chicken.x;
-	y = sprite_chicken.y;
-	g_spriteBuckets[whichBucket(x, y)].push_back(sprite_chicken);
-}
-/*-----------------------------------------------*/
-void chickenAI(int diff_time)
-{
-	/* PURPOSE:		Control chicken movements based on probabilities 
-		RECEIVES:	diff_time - milliseconds since last frame 
-		RETURNS:		 
-		REMARKS:		 
-	*/
-
-	updateCheckBuckets();
-	int numOfBuckets = g_spriteBuckets.size();
-
-	for (int i = 0; i < g_numOfCheckBuckets; i++)
-	{
-		if (g_checkBuckets[i] >= 0 && g_checkBuckets[i] < numOfBuckets)
-		{
-			int bucket = g_checkBuckets[i];
-			for (int j = 0; j < (int) g_spriteBuckets[bucket].size(); j++)
-			{
-				AnimatedSprite* chicken = &g_spriteBuckets[bucket][j];
-				float speedX = chicken->speedX;
-				float speedY = chicken->speedY;
-
-				// If stopped Restart Chicken Maybe
-				if (speedX == 0 && speedY == 0)
-				{
-					int willRestart = rand() % 100;
-					if (!willRestart)
-					{
-						// Set speed and animation
-						speedX = getSpeed();
-						speedY = getSpeed();
-						chicken->setAnimation("Walking");
-
-						// Set sprite direction
-						if (speedX < 0)
-							chicken->isFlippedX = true;
-						else if (speedX > 0)
-							chicken->isFlippedX = false;
-					}
-				}
-				else
-				{
-					// Randomly stop chickens
-					int willStop = rand() % 250;
-					if (!willStop)
-					{
-						speedX = 0;
-						speedY = 0;
-						chicken->setAnimation("Idle");
-					}
-				}
-
-				chicken->setSpeed(speedX, speedY);
-			}
-		}
-	}
 }
 /*-----------------------------------------------*/
 void updateSprites(int diff_time)
@@ -407,7 +274,7 @@ void updateSprites(int diff_time)
 			int bucketSize = g_spriteBuckets[bucket].size();
 			for (int j = 0; j < bucketSize; j++)
 			{
-				AnimatedSprite* sprite = &g_spriteBuckets[bucket][j];
+				Sprite* sprite = g_spriteBuckets[bucket][j];
 				sprite->update(diff_time);
 
 				// Check for Collisions
@@ -415,10 +282,10 @@ void updateSprites(int diff_time)
 					player::collisionResolution(&g_player, sprite);
 
 				// Rebucket if necessary
-				int newBucket = whichBucket(sprite->x, sprite->y);
+				int newBucket = bucketManager::whichBucket(sprite->x, sprite->y);
 				if (newBucket >= 0 && newBucket < spriteBucketSize && newBucket != bucket)
 				{
-					g_spriteBuckets[newBucket].push_back(*sprite);
+					g_spriteBuckets[newBucket].push_back(sprite);
 					g_spriteBuckets[bucket].erase(g_spriteBuckets[bucket].begin() + j);
 					j--;
 					bucketSize--;
@@ -448,9 +315,9 @@ static void drawSprites()
 			for (int j = 0; j < (int) g_spriteBuckets[bucket].size(); j++)
 			{
 				// Only draw if sprite is on screen
-				if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j].collider))
+				if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j]->collider))
 				{
-					g_spriteBuckets[bucket][j].drawUV(g_cam.x, g_cam.y);
+					g_spriteBuckets[bucket][j]->drawUV(g_cam.x, g_cam.y);
 					//g_spriteBuckets[bucket][j].drawCollider(g_cam.x, g_cam.y);
 				}
 			}
@@ -571,7 +438,10 @@ static void keyboard()
 	}
 	else if (kbState[ SDL_SCANCODE_EQUALS] || kbState[ SDL_SCANCODE_KP_PLUS ])
 	{
-		makeChicken();
+      // TODO Remove
+      Chicken* chicken = new Chicken();
+      chicken->updatePosition(1000, 1000);
+      g_spriteBuckets[bucketManager::whichBucket(chicken->x, chicken->y)].push_back(chicken);
 	}
 	else if (kbState[SDL_SCANCODE_MINUS] || kbState[SDL_SCANCODE_KP_MINUS])
 	{
@@ -651,7 +521,6 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
 		// Update physics
       if (!battleManager::isBattle)
       {
-         chickenAI(ticksPerPhysics);
          updateSprites(ticksPerPhysics);
          player::updatePhysics(&g_player, ticksPerPhysics);
       }

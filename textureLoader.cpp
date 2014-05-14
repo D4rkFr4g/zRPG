@@ -1,5 +1,6 @@
 #include "textureLoader.h"
 
+std::unordered_map<std::string, Texture>* textureLoader::textures;
 
 textureLoader::textureLoader(void)
 {
@@ -11,6 +12,8 @@ textureLoader::~textureLoader(void)
 /*-----------------------------------------------*/
 void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_textures)
 {
+   textures = g_textures;
+
    int* width = new int;
 	int* height = new int;
 
@@ -53,5 +56,24 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    texture = glTexImageTGAFile("./Sprites/lttp_font2x2.tga", width, height);
    (*g_textures)["font"] = Texture(texture, *width, *height, 2, 2);
 
+   /*texture - glTexImageTGAFile("./Sprites/kakariko_villagers.tga", width, height);
+   (*g_textures)[""]*/
+
 }
 /*-----------------------------------------------*/
+Texture* textureLoader::getTexture(std::string name)
+{
+   Texture* texture = NULL;
+   std::unordered_map<std::string, Texture>::iterator itr;
+   std::unordered_map<std::string, Texture>::iterator end;
+
+   itr = textures->find(name);
+   end = textures->end();
+
+   if (itr != end)
+   {
+      texture = &(*textures)[name];
+   }
+
+   return texture;
+}
