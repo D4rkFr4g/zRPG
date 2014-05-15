@@ -346,7 +346,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    // Check for killed enemies
    for (int i = 0; i < (int)enemies.size(); i++)
    {
-      if (!enemies[i]->isAlive && enemies[i]->curAnimation.isFinished)
+      if (enemies[i]->isRemovable)
          enemies.erase(remove(enemies.begin(), enemies.end(), enemies[i]));
    }
 
@@ -453,6 +453,8 @@ void DialogManager::battleRewards(std::vector<std::string> loot)
    REMARKS:
    */
 
+   battleResetDialog();
+   
    int x = 0;
    int y = 0;
    int rows = 0;
@@ -487,3 +489,8 @@ void DialogManager::battleCleanup()
    dialogQueue->clear();
 }
 /*-----------------------------------------------*/
+void DialogManager::battleResetDialog()
+{
+   if (dialogQueue->size() > 2)
+      dialogQueue->pop_back();
+}

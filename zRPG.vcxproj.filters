@@ -43,6 +43,9 @@
     <Filter Include="Sprites\Final\Source">
       <UniqueIdentifier>{41a477ee-70a7-4ad5-8638-5faeb1e70b83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{c686ec51-9260-4479-8813-a7909895fb8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -148,6 +151,9 @@
       <Filter>Sprites\Final\Source</Filter>
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -272,5 +278,19 @@
     <ClInclude Include="MapManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IClonable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="zRPG.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

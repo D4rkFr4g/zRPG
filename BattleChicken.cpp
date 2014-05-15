@@ -10,6 +10,7 @@ BattleChicken::BattleChicken()
    //isAnimated = true; // TODO Remove once animations are setup
    name = "chicken";
    level = 1;
+   maxSpeed = 100;
 
    // Setup animations
    float uSize = tex->uSize;
@@ -50,7 +51,7 @@ BattleChicken::BattleChicken()
 
    // Damaged Animation
    numFrames = 13;
-   timeToNextFrame = 100;
+   timeToNextFrame = 60;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
@@ -70,6 +71,17 @@ BattleChicken::BattleChicken()
    animation = Animation("Damaged", frames, numFrames);
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
+   
+   // Flee Animation
+   numFrames = 1;
+   timeToNextFrame = 1000;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Flee", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animations[animation.name] = animData;
 
    setAnimation("Idle");
 }
@@ -80,22 +92,127 @@ BattleChicken::~BattleChicken()
 /*-----------------------------------------------*/
 void BattleChicken::AI()
 {
-
+   /* PURPOSE:		Determines next state probalistically
+      RECEIVES:
+      RETURNS:
+      REMARKS:
+   */
+   
+   
+   float alpha = (float) health / maxHealth;
+   bool isCriticalHealth = alpha < 0.2;
+   // Flee
+   if (rand() % 10 == 0 && isCriticalHealth)
+      state = STATE_FLEE;
+   // Attack
+   else if (1) // TODO once Defense animation is finished
+      state = STATE_ATTACK;
+   // Defend
+   else if (0)
+      state = STATE_DEFEND;
 }
 /*-----------------------------------------------*/
 void BattleChicken::update(int ms)
 {
-   // TODO remove if unused
    BattleSprite::update(ms);
+
+   // Determine when turn is over
+   if (state != STATE_IDLE && isIdle() && state != STATE_FLEE)
+      state = STATE_IDLE;
+
+   // Move to correct yPosition
+   if (state == STATE_ATTACK)
+      updatePosition(x, opponentY);
+   // Move back to yPosition
+   else if (state == STATE_IDLE)
+      updatePosition(x, startY);
 }
 /*-----------------------------------------------*/
 void BattleChicken::takeTurn()
 {
-   AI();
+   /* PURPOSE:		State machine for enemy turn behaviors
+      RECEIVES:   
+      RETURNS:
+      REMARKS:
+   */
+
+   if (isAlive)
+   {
+      // Battle States
+      // Idle State
+      if (state == STATE_IDLE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+
+            isDefending = false;
+         }
+
+         // Determine next state
+         AI();
+      }
+      // Attack State
+      if (state == STATE_ATTACK)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+
+            setAnimation("Attack");
+         }
+      }
+      // Item State
+      else if (state == STATE_ITEMS)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Chickens can't use items
+         state = STATE_PLAYER;
+      }
+      // Flee State
+      else if (state == STATE_FLEE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+
+            isFlippedX = true;
+            speedX = maxSpeed;
+            updatePosition(width, y);
+         }
+
+         setAnimation("Flee");
+      }
+      // Defend State
+      else if (state == STATE_DEFEND)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         //setAnimation("Defend");
+      }
+   }
 }
 /*-----------------------------------------------*/
 void BattleChicken::notify(Event* event)
 {
+   BattleSprite::notify(event);
    // TODO Maybe
+}
+/*-----------------------------------------------*/
+BattleChicken* BattleChicken::clone() const
+{
+   return new BattleChicken(*this);
 }
 /*-----------------------------------------------*/

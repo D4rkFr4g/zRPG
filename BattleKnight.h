@@ -12,9 +12,10 @@ public:
    BattleKnight();
    ~BattleKnight();
 
-   // Functions
+   // Virtual Functions
    virtual void update(int ms) override;
    //virtual void notify(Event* event) override;
    virtual void takeTurn() override;
+   virtual BattleKnight* clone() const override;
 };
 

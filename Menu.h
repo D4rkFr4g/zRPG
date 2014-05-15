@@ -12,6 +12,7 @@ public:
    void setActive(bool value);
    int getSelection();
    void reset();
+   void resetAll();
 
    // Variables
    bool isActive;

@@ -10,6 +10,7 @@ BattleGuard::BattleGuard()
    isAnimated = false; // TODO Remove once animations are setup
    name = "guard";
    level = 5;
+   maxSpeed = 10;
 
    // Setup animations
    float uSize = tex->uSize;
@@ -73,6 +74,17 @@ BattleGuard::BattleGuard()
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
 
+   // Flee Animation
+   numFrames = 5;
+   timeToNextFrame = 1000;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Flee", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animations[animation.name] = animData;
+
    setAnimation("Idle");
 }
 /*-----------------------------------------------*/
@@ -82,7 +94,77 @@ BattleGuard::~BattleGuard()
 /*-----------------------------------------------*/
 void BattleGuard::AI()
 {
+   if (isAlive)
+   {
+      // Battle States
+      // Idle State
+      if (state == STATE_IDLE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
 
+            isDefending = false;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Attack Player State
+      if (state == STATE_PLAYER)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Item State
+      else if (state == STATE_ITEMS)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Flee State
+      else if (state == STATE_FLEE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+      // Defend State
+      else if (state == STATE_DEFEND)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         // Check for new Transition
+         if (0)
+            state = STATE_PLAYER;
+      }
+   }
 }
 /*-----------------------------------------------*/
 void BattleGuard::update(int ms)
@@ -93,5 +175,10 @@ void BattleGuard::update(int ms)
 void BattleGuard::takeTurn()
 {
    AI();
+}
+/*-----------------------------------------------*/
+BattleGuard* BattleGuard::clone() const
+{
+   return new BattleGuard(*this);
 }
 /*-----------------------------------------------*/
