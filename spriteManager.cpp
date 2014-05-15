@@ -30,6 +30,9 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
    maxScreenHeight = g_maxScreenHeight;
 
    initChickens();
+   initVillagerA();
+   //initVillagerB();
+   //initVillagerC();
 
    // Setup map structure so they are not null
    // Should probably send the filnames and load them that way in one place
@@ -126,16 +129,45 @@ void spriteManager::initChickens()
 /*-----------------------------------------------*/
 void spriteManager::initVillagerA()
 {
+	/* PURPOSE:		Loads all the sprites for the current level
+	RECEIVES:	levelName - name of the level which sprites come from
+	RETURNS:
+	REMARKS:
+	*/
+
+	//int initialVillagerA = 1;
+
+	VillagerA* villager = new VillagerA();
+	villager->updatePosition(100, 100);
+	levelSprites["overworld"].push_back(villager);
 
 }
 /*-----------------------------------------------*/
 void spriteManager::initVillagerB()
 {
+	/* PURPOSE:		Loads all the sprites for the current level
+	RECEIVES:	levelName - name of the level which sprites come from
+	RETURNS:
+	REMARKS:
+	*/
+
+	VillagerB* villager = new VillagerB();
+	villager->updatePosition(300, 100);
+	levelSprites["overworld"].push_back(villager);
 
 }
 /*-----------------------------------------------*/
 void spriteManager::initVillagerC()
 {
+	/* PURPOSE:		Loads all the sprites for the current level
+	RECEIVES:	levelName - name of the level which sprites come from
+	RETURNS:
+	REMARKS:
+	*/
+
+	VillagerC* villager = new VillagerC();
+	villager->updatePosition(100, 300);
+	levelSprites["overworld"].push_back(villager);
 
 }
 /*-----------------------------------------------*/
