@@ -4,10 +4,11 @@
 VillagerA::VillagerA()
 {
 	Texture* tex = textureLoader::getTexture("friendly_npcs");
-	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->width, tex->height, 0, 0, 1, 1);
+	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0*tex->uSize, 7*tex->vSize, 1*tex->uSize, 1*tex->vSize);
 	*this = VillagerA((VillagerA&)sprite);
 	type = 1;
 	name = "villagerA";
+   isAnimated = false;
 
 	//Setup Collider
 	int xOffset = 20;
@@ -41,7 +42,7 @@ VillagerA::VillagerA()
 	Animation animation_idle = Animation("Idle", frames, numFrames);
 	animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 
-	setAnimation("Walking");
+	//setAnimation("Walking");
 }
 /*-----------------------------------------------*/
 VillagerA::~VillagerA()
