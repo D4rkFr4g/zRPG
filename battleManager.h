@@ -15,6 +15,7 @@
 #include "enemyManager.h"
 #include "dialogManager.h"
 #include "Menu.h"
+#include "BattleMenu.h"
 
 
 class battleManager
@@ -69,6 +70,7 @@ public:
    static int prevBattleState;
    static int currentTurn;
    static std::unordered_map<std::string, Menu> menus;
+   static BattleMenu battleMenu;
    static std::unordered_map<int, std::string> statBoost;
 
 protected:

@@ -27,6 +27,7 @@ int battleManager::prevBattleState;
 int battleManager::currentTurn;
 std::unordered_map<int, std::string> battleManager::statBoost;
 std::unordered_map<std::string, Menu> battleManager::menus;
+BattleMenu battleManager::battleMenu;
 
 /*-----------------------------------------------*/
 battleManager::battleManager()
@@ -71,6 +72,9 @@ void battleManager::init()
    statBoost[4] = "LCK";
 
    battleState = STATE_PLAYER;
+
+   battleMenu = BattleMenu(battlePlayer.items.size());
+
    menus["player"] = Menu(1);
    menus["action"] = Menu(4);
    menus["item"] = Menu(battlePlayer.items.size());
@@ -210,8 +214,8 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (battleState != prevBattleState)
          {
             prevBattleState = battleState;
-            std::unordered_map<std::string, Menu>::iterator itr = menus.begin();
-            std::unordered_map<std::string, Menu>::iterator end = menus.end();
+            auto itr = menus.begin();
+            auto end = menus.end();
             for (itr; itr != end; itr++)
                itr->second.resetAll();
          }
