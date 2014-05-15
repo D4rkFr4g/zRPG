@@ -1,4 +1,5 @@
 #include "spriteManager.h"
+#include "MapManager.h"
 
 
 std::unordered_map<std::string, std::vector<Sprite*>> spriteManager::levelSprites;
@@ -121,5 +122,20 @@ void spriteManager::initChickens()
 
       levelSprites["overworld"].push_back(chicken);
    }
+}
+/*-----------------------------------------------*/
+void spriteManager::initVillagerA()
+{
+
+}
+/*-----------------------------------------------*/
+void spriteManager::initVillagerB()
+{
+
+}
+/*-----------------------------------------------*/
+void spriteManager::initVillagerC()
+{
+
 }
 /*-----------------------------------------------*/
