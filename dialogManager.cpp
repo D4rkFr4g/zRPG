@@ -312,7 +312,7 @@ void DialogManager::initBattleDialog(std::vector<BattleSprite*>* battleSprites)
    dialogQueue->push_back(battleBoxes["enemy"]);
 }
 /*-----------------------------------------------*/
-void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> menus)
+void DialogManager::updateBattleDialog(BattleMenu battleMenu)
 {
    /* PURPOSE:    Updates Battle dialogs based on user input
    RECEIVES:   input - keyboard command issued by user
@@ -330,7 +330,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    playerStrings["maxHealth"] = std::to_string(battlePlayer->maxHealth);
    playerStrings["magic"] = std::to_string(battlePlayer->magic);
 
-   if (menus["player"].isActive)
+   if (battleMenu.isActive("player"))
       *playerText += "\t> ";
    else
       *playerText += "\t";
@@ -356,15 +356,15 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    for (int i = 0; i < (int)enemies.size(); i++)
       enemyStrings.push_back(enemies[i]->name);
 
-   int selection = menus["enemy"].getSelection();
-   if (menus["enemy"].isActive)
+   int selection = battleMenu.getSelectedEnemy();
+   if (battleMenu.isActive("enemy"))
    {
       enemyStrings[selection] = "> " + enemyStrings[selection];
    }
 
    for (int i = 0; i < (int)enemyStrings.size(); i++)
    {
-      if (!menus["enemy"].isActive || i != selection)
+      if (!battleMenu.isActive("enemy") || i != selection)
          *enemyText += "\t";
       *enemyText += enemyStrings[i] + "\n";
    }
@@ -373,9 +373,9 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    dialogQueue->push_back(battleBoxes["enemy"]);
 
    // Setup Enemy Highlights
-   if (menus["enemy"].isActive)
+   if (battleMenu.isActive("enemy"))
    {
-      BattleSprite* enemy = enemies[menus["enemy"].getSelection()];
+      BattleSprite* enemy = enemies[battleMenu.getSelectedEnemy()];
 
       int rows = 2;
       int cols = 5;
@@ -388,7 +388,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
    }
 
    // Setup action box
-   if (menus["action"].isActive)
+   if (battleMenu.isActive("action"))
    {
       *actionText = "";
       actionStrings.clear();
@@ -397,7 +397,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
       actionStrings.push_back("Items");
       actionStrings.push_back("Flee");
 
-      int selection = menus["action"].getSelection();
+      int selection = battleMenu.getSelectedAction();
       actionStrings[selection] = "> " + actionStrings[selection];
 
       for (int i = 0; i < (int)actionStrings.size(); i++)
@@ -413,7 +413,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
 
    // Setup item box
    // Setup item strings
-   if (menus["item"].isActive)
+   if (battleMenu.isActive("item"))
    {
       *itemText = "";
       itemStrings.clear();
@@ -422,7 +422,7 @@ void DialogManager::updateBattleDialog(std::unordered_map<std::string, Menu> men
       for (itr; itr != end; itr++)
          itemStrings.push_back(itr->first + " x" + std::to_string(itr->second));
 
-      int selection = menus["item"].getSelection();
+      int selection = battleMenu.getSelectedItem();
       itemStrings[selection] = "> " + itemStrings[selection];
 
       for (int i = 0; i < (int)itemStrings.size(); i += 2)

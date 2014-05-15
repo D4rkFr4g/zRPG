@@ -1,5 +1,5 @@
-Hit above collision resolution
-Non starting sprite spawn
+Done - Hit above collision resolution
+??? - Non starting sprite spawn
 tile collision for sprites
 Modified Colliders for states
 
@@ -21,14 +21,14 @@ Luck == Luck points
 
 
 Initial Stat build at beginning of game / Stat chooser on levelUP
-Simple - Level Up stat increases
 Setup audio for heals, coins, damage, sword swing, link noises, battle
 Make Load Screen
 Make End Screen
 Make End Dialog
-Code enemy turn state machine
 
 
+Done - Simple - Level Up stat increases
+Done - Code enemy turn state machine
 Done - Boss only spawns once
 Done - Create Map Loader that is an EventListener
 

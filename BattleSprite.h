@@ -3,6 +3,7 @@
 #include <string>
 #include <random>
 #include <ctime>
+#include <algorithm>
 #include "AnimatedSprite.h"
 #include "EventListener.h"
 #include "EventQueue.h"
@@ -59,6 +60,7 @@ public:
    int startY;
    int opponentY;
    std::string targetUUID;
+   int targetLevel;
    bool isDefending;
    bool isAlive;
    bool isRemovable;

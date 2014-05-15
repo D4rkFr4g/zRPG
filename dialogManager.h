@@ -9,6 +9,7 @@
 #include "EventListener.h"
 #include "BattleSprite.h"
 #include "Menu.h"
+#include "BattleMenu.h"
 
 class DialogManager : public EventListener
 {
@@ -35,7 +36,7 @@ public:
    virtual void notify(Event* event) override;
    void registerListeners(EventQueue* eventQueue);
    void initBattleDialog(std::vector<BattleSprite*>* battleSprites);
-   void updateBattleDialog(std::unordered_map<std::string, Menu> menus);
+   void updateBattleDialog(BattleMenu battleMenu);
    void battleRewards(std::vector<std::string> loot);
    void battleCleanup();
    void battleResetDialog();

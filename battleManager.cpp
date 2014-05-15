@@ -27,6 +27,7 @@ int battleManager::prevBattleState;
 int battleManager::currentTurn;
 std::unordered_map<int, std::string> battleManager::statBoost;
 std::unordered_map<std::string, Menu> battleManager::menus;
+BattleMenu battleManager::battleMenu;
 
 /*-----------------------------------------------*/
 battleManager::battleManager()
@@ -71,9 +72,8 @@ void battleManager::init()
    statBoost[4] = "LCK";
 
    battleState = STATE_PLAYER;
-   menus["player"] = Menu(1);
-   menus["action"] = Menu(4);
-   menus["item"] = Menu(battlePlayer.items.size());
+
+   battleMenu = BattleMenu(battlePlayer.items.size());
 }
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
@@ -133,7 +133,7 @@ void battleManager::initPlayer()
    battlePlayer.animations[animation.name] = animData;
    
    // Damaged Animation
-   timeToNextFrame = 60;
+   timeToNextFrame = 30;
    numFrames = 13;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
@@ -200,6 +200,15 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    bool isUp = kbState[SDL_SCANCODE_W] && !kbPrevState[SDL_SCANCODE_W];
    bool isDown = kbState[SDL_SCANCODE_S] && !kbPrevState[SDL_SCANCODE_S];   
 
+   BattleSprite* bPlayer = spriteQueue[0];
+   // Reset player to original yPosition
+   if (bPlayer->posY != bPlayer->startY &&
+      bPlayer->curAnimation.def.name.compare("Attack") == 0 &&
+      bPlayer->isIdle())
+   {
+      bPlayer->posY = bPlayer->startY;
+   }
+
    if (isPlayerAlive && !isBattleWon && isEveryoneIdle())
    {
       // Battle States
@@ -210,18 +219,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (battleState != prevBattleState)
          {
             prevBattleState = battleState;
-            std::unordered_map<std::string, Menu>::iterator itr = menus.begin();
-            std::unordered_map<std::string, Menu>::iterator end = menus.end();
-            for (itr; itr != end; itr++)
-               itr->second.resetAll();
-         }
-
-         // Reset player to original yPosition
-         if (spriteQueue[0]->posY != spriteQueue[0]->startY &&
-            spriteQueue[0]->curAnimation.def.name.compare("Attack") == 0 &&
-            spriteQueue[0]->curAnimation.isFinished)
-         {
-            spriteQueue[0]->posY = spriteQueue[0]->startY;
+            battleMenu.resetAll();
          }
 
          // Check for new Transition
@@ -235,7 +233,9 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (battleState != prevBattleState)
          {
             prevBattleState = battleState;
-            menus["player"].setActive(true);
+
+            battleMenu.setActiveMenu("player");
+
             spriteQueue[0]->isDefending = false;
             spriteQueue[0]->setAnimation("Idle");
          }
@@ -246,9 +246,9 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             battleState = STATE_ACTION;
          }
          else if (isUp)
-            menus["player"].previous();
+            battleMenu.previous();
          else if (isDown)
-            menus["player"].next();
+            battleMenu.next();
       }
       // Action State
       else if (battleState == STATE_ACTION)
@@ -257,14 +257,15 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (battleState != prevBattleState)
          {
             prevBattleState = battleState;
-            menus["action"].setActive(true);
+            battleMenu.setActiveMenu("action");
          }
 
          // Check for new Transition
          if (isSelected)
          {
-            int choice = menus["action"].getSelection();
-            menus["action"].setActive(false);
+            int choice = battleMenu.getSelection();
+            battleMenu.turnOff();
+            
             if (choice == ACTION_FIGHT)
                battleState = STATE_ENEMY;
             else if (choice == ACTION_DEFEND)
@@ -281,14 +282,11 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             }
          }
          else if (isCanceled)
-         {
-            menus["action"].setActive(false);
             battleState = STATE_PLAYER;
-         }
          else if (isUp)
-            menus["action"].previous();
+            battleMenu.previous();
          else if (isDown)
-            menus["action"].next();
+            battleMenu.next();
       }
       // Items State
       else if (battleState == STATE_ITEMS)
@@ -297,24 +295,21 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (battleState != prevBattleState)
          {
             prevBattleState = battleState;
-            menus["item"].setActive(true);
+            battleMenu.setActiveMenu("item");
          }
 
          // Check for new Transition
          if (isSelected)
          {
-            menus["item"].setActive(false);
+            battleMenu.turnOff();
             executeSelection();
          }
          else if (isCanceled)
-         {
-            menus["item"].setActive(false);
             battleState = STATE_ACTION;
-         }
          else if (isUp)
-            menus["item"].previous();
+            battleMenu.previous();
          else if (isDown)
-            menus["item"].next();
+            battleMenu.next();
       }
       // Enemy State
       else if (battleState == STATE_ENEMY)
@@ -323,7 +318,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (battleState != prevBattleState)
          {
             prevBattleState = battleState;
-            menus["enemy"].setActive(true);
+            battleMenu.setActiveMenu("enemy");
          }
 
          // Check for new Transition
@@ -333,18 +328,16 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          }
          else if (isCanceled)
          {
-            menus["enemy"].setActive(false);
-            menus["action"].setActive(true);
             battleState = STATE_ACTION;
          }
          else if (isUp)
-            menus["enemy"].previous();
+            battleMenu.previous();
          else if (isDown)
-            menus["enemy"].next();
+            battleMenu.next();
       }
 
       if (isBattle && !isBattleWon)
-         dialogManager->updateBattleDialog(menus);
+         dialogManager->updateBattleDialog(battleMenu);
    }
 
    // Handle button input when battle is over
@@ -488,6 +481,7 @@ void battleManager::initBattle()
       enemy->getNewUUID();
       enemy->registerListeners(eventQueue);
       enemy->targetUUID = spriteQueue[0]->getUUID();
+      enemy->targetLevel = spriteQueue[0]->level;
       enemy->opponentY = spriteQueue[0]->y;
 
       totalLevel += enemy->level;
@@ -516,8 +510,8 @@ void battleManager::initBattle()
       }
    }
 
-   menus["enemy"] = Menu(numEnemies);
-   menus["item"] = Menu(battlePlayer.items.size());
+   battleMenu.updateSize("enemy", numEnemies);
+   battleMenu.updateSize("item", battlePlayer.items.size());
    dialogManager->initBattleDialog(&spriteQueue);
 }
 /*-----------------------------------------------*/
@@ -577,6 +571,9 @@ void battleManager::updateBattle(int ms)
    {
       eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
       isPlayerAlive = false;
+
+      dialogManager->battleResetDialog();
+      dialogManager->updateBattleDialog(battleMenu);
    }
 
    for (int i = 0; i < (int) spriteQueue.size(); i++)
@@ -600,7 +597,7 @@ void battleManager::updateBattle(int ms)
          {
             spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
 
-            menus["enemy"].numOfChoices--;
+            battleMenu.decrementEnemies();
          }
          if (spriteQueue.size() <= 1)
          {
@@ -627,6 +624,9 @@ void battleManager::updateBattle(int ms)
    }
    else
       updateCurrentTurn();
+
+   if (!isBattleWon && isPlayerAlive)
+   dialogManager->updateBattleDialog(battleMenu);
 }
 /*-----------------------------------------------*/
 void battleManager::updateCurrentTurn()
@@ -652,21 +652,23 @@ void battleManager::executeSelection()
       REMARKS:
    */
 
+   BattleSprite* bPlayer = spriteQueue[0];
    // Fighting
    if (battleState == STATE_ENEMY)
    {
-      int choice = menus["enemy"].getSelection();
-      spriteQueue[0]->targetUUID = spriteQueue[choice + 1]->getUUID();
+      int choice = battleMenu.getSelectedEnemy();
+      bPlayer->targetUUID = spriteQueue[choice + 1]->getUUID();
+      bPlayer->targetLevel = spriteQueue[choice + 1]->level;
 
       // Adjust to be on same track as enemy
-     spriteQueue[0]->posY = spriteQueue[choice + 1]->posY;
+     bPlayer->posY = spriteQueue[choice + 1]->posY;
 
-     spriteQueue[0]->setAnimation("Attack");
+     bPlayer->setAnimation("Attack");
    }
    else if (battleState == STATE_DEFEND)
    {
-      spriteQueue[0]->isDefending = true;
-      spriteQueue[0]->setAnimation("Defend");
+      bPlayer->isDefending = true;
+      bPlayer->setAnimation("Defend");
    }
    else if (battleState == STATE_FLEE)
    {
@@ -676,9 +678,10 @@ void battleManager::executeSelection()
    else if (battleState == STATE_ITEMS)
    {
       std::unordered_map<std::string, int>::iterator itr;
-      itr = spriteQueue[0]->items.begin();
+      itr = bPlayer->items.begin();
 
-      for (int i = 0; i < menus["item"].getSelection(); i++)
+      int choice = battleMenu.getSelectedItem();
+      for (int i = 0; i < choice; i++)
          itr++;
 
       if (itr->second > 0)
@@ -689,6 +692,7 @@ void battleManager::executeSelection()
    }
 
    battleState = STATE_IDLE;
+   battleMenu.resetAll();
    updateCurrentTurn();
 }
 /*-----------------------------------------------*/
