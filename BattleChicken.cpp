@@ -11,6 +11,7 @@ BattleChicken::BattleChicken()
    name = "chicken";
    level = 1;
    maxSpeed = 100;
+   health = 30;
 
    // Setup animations
    float uSize = tex->uSize;
@@ -88,6 +89,8 @@ BattleChicken::BattleChicken()
 /*-----------------------------------------------*/
 BattleChicken::~BattleChicken()
 {
+   if (eventQueue)
+      eventQueue->removeEventListener(this);
 }
 /*-----------------------------------------------*/
 void BattleChicken::AI()

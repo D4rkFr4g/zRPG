@@ -27,6 +27,7 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
    magic = maxMagic;
    isDefending = false;
    initStats(1, 1, 1, 1, 1);
+   startX = x;
    startY = y;
    state = STATE_IDLE;
    prevState = STATE_DEFEND;
@@ -67,7 +68,7 @@ void BattleSprite::applyDamage(int damage)
       RETURNS:
       REMARKS:
    */
-
+   
    bool isCrit = (rand() % 10) == 0;
 
    int defense = 2 * stats["CON"];
@@ -90,11 +91,13 @@ void BattleSprite::applyDamage(int damage)
 void BattleSprite::sendDamage(std::string uuid)
 {
    bool isCrit = (rand() % 10) == 0;
-
+   
    int damage = 10 * stats["STR"];
    if (isCrit)
-      damage *= 2;
-
+   {
+      float critMultiplier = ((stats["INT"] * 5) + 5) / 100;
+      damage += floor(damage * critMultiplier);
+   }
    // Accuracy Check
    if (rand() % max(targetLevel - stats["ACC"], 0) == 0)
    {
@@ -117,7 +120,9 @@ void BattleSprite::notify(Event* event)
       if (event->checkStrParam("subject", uuid))
       {
          if (event->checkNumKey("damage"))
+         {
             applyDamage(event->numParams.find("damage")->second);
+         }
       }
    }
 }

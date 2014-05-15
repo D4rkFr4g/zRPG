@@ -15,6 +15,9 @@
 class BattleSprite :
    public AnimatedSprite, public EventListener, public IClonable
 {
+protected:
+   EventQueue* eventQueue;
+
 private:
    //Functions
    void applyDamage(int damage);
@@ -23,7 +26,6 @@ private:
 
    // Variables
    std::string uuid;
-   EventQueue* eventQueue;
 
 public:
    // Constructors
@@ -57,6 +59,7 @@ public:
    int maxHealth;
    int magic;
    int maxMagic;
+   int startX;
    int startY;
    int opponentY;
    std::string targetUUID;

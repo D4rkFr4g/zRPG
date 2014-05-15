@@ -3,6 +3,7 @@
 using std::unordered_map;
 using std::vector;
 using std::find;
+#define DEBUG_EVENT 0
 
 /*-----------------------------------------------*/
 EventQueue::EventQueue(void)
@@ -34,6 +35,17 @@ void EventQueue::queueEvent(Event ev)
 		REMARKS:		 
 	*/
    
+   if (DEBUG_EVENT)
+   {
+      std::cout << "===============================================" << std::endl;
+      std::cout << "Event Queued: " << ev.type << std::endl;
+      for (auto itr = ev.strParams.begin(); itr != ev.strParams.end(); itr++)
+         std::cout << itr->first << " : " << itr->second << std::endl;
+      for (auto itr = ev.numParams.begin(); itr != ev.numParams.end(); itr++)
+         std::cout << itr->first << " : " << itr->second << std::endl;
+      std::cout << "===============================================" << std::endl << std::endl;
+   }
+
    eventQueue.push_back(ev);
 }
 /*-----------------------------------------------*/

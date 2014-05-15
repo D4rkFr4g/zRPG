@@ -40,7 +40,7 @@ battleManager::~battleManager()
 /*-----------------------------------------------*/
 void battleManager::init()
 {
-   srand((unsigned int) time(NULL));
+   srand((unsigned int)time(NULL));
 
    initPlayer();
 
@@ -78,7 +78,7 @@ void battleManager::init()
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
 {
-   player->initStats(5, 1, 1, 1, 1); // TODO Revert to 1 STR
+   player->initStats(1, 1, 1, 1, 1); // TODO Revert to 1 STR
 
    // Setup battlePlayer
    Texture* tex = &(*textures)["link_battle"];
@@ -101,7 +101,7 @@ void battleManager::initPlayer()
    frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    Animation animation_idle = Animation("Idle", frames, numFrames);
    battlePlayer.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, false);
-   
+
    // Attack Animation
    numFrames = 20;
    frames.clear();
@@ -131,7 +131,7 @@ void battleManager::initPlayer()
    AnimationData animData = AnimationData(animation, timeToNextFrame, false);
    animData.eventFrame = 13;
    battlePlayer.animations[animation.name] = animData;
-   
+
    // Damaged Animation
    timeToNextFrame = 30;
    numFrames = 13;
@@ -168,8 +168,21 @@ void battleManager::initPlayer()
    animData.eventFrame = 0;
    battlePlayer.animations[animation.name] = animData;
 
+   // Flee Animation
+   timeToNextFrame = 1000;
+   numFrames = 1;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Flee", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animData.eventFrame = 0;
+   battlePlayer.animations[animation.name] = animData;
 
    battlePlayer.setAnimation("Idle");
+   battlePlayer.registerListeners(eventQueue);
+
 
    player->maxLevel = 10;
    player->xp = 0;
@@ -190,15 +203,15 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
 {
    /* PURPOSE:		Process keyboard input for battles
       RECEIVES:   kbState - current state of the keyboard
-                  kbPrevState - Previous frame state of the keyboard
+      kbPrevState - Previous frame state of the keyboard
       RETURNS:
       REMARKS:
-   */
+      */
 
    bool isSelected = kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J];
    bool isCanceled = kbState[SDL_SCANCODE_K] && !kbPrevState[SDL_SCANCODE_K];
    bool isUp = kbState[SDL_SCANCODE_W] && !kbPrevState[SDL_SCANCODE_W];
-   bool isDown = kbState[SDL_SCANCODE_S] && !kbPrevState[SDL_SCANCODE_S];   
+   bool isDown = kbState[SDL_SCANCODE_S] && !kbPrevState[SDL_SCANCODE_S];
 
    BattleSprite* bPlayer = spriteQueue[0];
    // Reset player to original yPosition
@@ -207,6 +220,12 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
       bPlayer->isIdle())
    {
       bPlayer->posY = bPlayer->startY;
+   }
+
+   //  Flee end animation
+   if (bPlayer->curAnimation.def.name.compare("Flee") == 0 && bPlayer->isIdle())
+   {
+      battleCleanup();
    }
 
    if (isPlayerAlive && !isBattleWon && isEveryoneIdle())
@@ -265,7 +284,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          {
             int choice = battleMenu.getSelection();
             battleMenu.turnOff();
-            
+
             if (choice == ACTION_FIGHT)
                battleState = STATE_ENEMY;
             else if (choice == ACTION_DEFEND)
@@ -343,7 +362,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    // Handle button input when battle is over
    if (!isPlayerAlive && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
    {
-         playerDeath();
+      playerDeath();
    }
    if (isBattleWon && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
    {
@@ -353,11 +372,13 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
 
    // Keyboard buttons for Debugging Battle // TODO Remove at end
    //---------------------------------------------------------------//
-   
+
    if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
    {
       // End battle
       battleCleanup(); // TODO Remove when unnecessary
+      while (spriteQueue.size() > 1)
+         spriteQueue.pop_back();
    }
    if (kbState[SDL_SCANCODE_I] && !kbPrevState[SDL_SCANCODE_I])
    {
@@ -381,7 +402,7 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    if (battle == battleManager::BATTLE_YES)
    {
@@ -401,7 +422,7 @@ void battleManager::stopPlayer()
       RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    player->isAnimated = false;
    player->prevState = player->state;
@@ -417,7 +438,7 @@ void battleManager::initBattle()
       RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    currentTurn = 0;
    isBattle = true;
@@ -433,21 +454,23 @@ void battleManager::initBattle()
    cam->y = 0;
 
    // Player setup
-   battlePlayer.initStats(player->stats["STR"], player->stats["CON"], 
+   battlePlayer.initStats(player->stats["STR"], player->stats["CON"],
       player->stats["DEX"], player->stats["INT"], player->stats["LCK"]);
    battlePlayer.items = player->items;
    battlePlayer.name = player->name;
-   battlePlayer.health = player->health;
-   battlePlayer.maxHealth = player->maxHealth;
+   battlePlayer.health = player->stats["CON"] * 100;
+   battlePlayer.maxHealth = battlePlayer.health;//player->maxHealth;
    battlePlayer.magic = player->magic;
    battlePlayer.maxMagic = player->maxMagic;
    battlePlayer.xp = player->xp;
    battlePlayer.isDefending = false;
    battlePlayer.setAnimation("Idle");
    battlePlayer.isAlive = true;
+   battlePlayer.updatePosition(battlePlayer.startX, battlePlayer.startY);
+   battlePlayer.speedX = 0;
+   battlePlayer.isFlippedX = false;
 
    spriteQueue.push_back(&battlePlayer);
-   spriteQueue[0]->registerListeners(eventQueue);
 
    numEnemies = rand() % 3 + 1;
 
@@ -485,7 +508,7 @@ void battleManager::initBattle()
       enemy->opponentY = spriteQueue[0]->y;
 
       totalLevel += enemy->level;
-      
+
       // Boost random stats based on level
       for (int i = 0; i < enemy->level; i++)
       {
@@ -518,10 +541,10 @@ void battleManager::initBattle()
 void battleManager::battleCleanup()
 {
    /* PURPOSE:		Resets everything to return to normal map mode
-      RECEIVES:	
+      RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    //battlePlayer.health = battlePlayer.maxHealth;
    //battlePlayer.magic = battlePlayer.maxMagic;
@@ -540,17 +563,17 @@ void battleManager::battleCleanup()
 
    cam->x = prevCamX;
    cam->y = prevCamY;
-   
+
    dialogManager->battleCleanup();
 }
 /*-----------------------------------------------*/
 void battleManager::drawSprites()
 {
    /* PURPOSE:		Draws all battle related sprites
-      RECEIVES:   
+      RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    for (int i = 0; i < (int)spriteQueue.size(); i++)
    {
@@ -563,8 +586,8 @@ void battleManager::updateBattle(int ms)
    /* PURPOSE:		Update the battle based on how much time passed
       RECEIVES:   ms - time in milliseconds since last update
       RETURNS:
-      REMARKS: 
-   */
+      REMARKS:
+      */
 
    // End battle if player dead
    if (isPlayerAlive && spriteQueue[0]->health <= 0)
@@ -576,10 +599,10 @@ void battleManager::updateBattle(int ms)
       dialogManager->updateBattleDialog(battleMenu);
    }
 
-   for (int i = 0; i < (int) spriteQueue.size(); i++)
+   for (int i = 0; i < (int)spriteQueue.size(); i++)
    {
       spriteQueue[i]->update(ms);
-      
+
       // Remove enemy if dead
       if (i != 0) // TODO This might cause an issue where enemy isn't destroyed till after player's turn
       {
@@ -606,7 +629,7 @@ void battleManager::updateBattle(int ms)
          }
       }
    }
-   
+
    // In case enemy was destroyed
    if (currentTurn < spriteQueue.size())
    {
@@ -615,7 +638,7 @@ void battleManager::updateBattle(int ms)
       BattleSprite* currentSprite = spriteQueue[currentTurn];
       if (currentSprite->isIdle() && spriteQueue.size() > 0)
       {
-         if (currentTurn != 0 && isEveryoneIdle()) // TODO Remove once Link has a class and a takeTurn() setup
+         if (currentTurn != 0 && isEveryoneIdle() && player->curAnimation.def.name.compare("Flee") != 0) // TODO Remove once Link has a class and a takeTurn() setup
          {
             currentSprite->takeTurn();
             updateCurrentTurn();
@@ -626,16 +649,16 @@ void battleManager::updateBattle(int ms)
       updateCurrentTurn();
 
    if (!isBattleWon && isPlayerAlive)
-   dialogManager->updateBattleDialog(battleMenu);
+      dialogManager->updateBattleDialog(battleMenu);
 }
 /*-----------------------------------------------*/
 void battleManager::updateCurrentTurn()
 {
    /* PURPOSE:		Updates whose turn it is to attack
-      RECEIVES:   
+      RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    currentTurn++;
    if (currentTurn >= spriteQueue.size())
@@ -647,10 +670,10 @@ void battleManager::updateCurrentTurn()
 void battleManager::executeSelection()
 {
    /* PURPOSE:    execute the current battleState selection
-      RECEIVES:   
+      RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    BattleSprite* bPlayer = spriteQueue[0];
    // Fighting
@@ -661,9 +684,9 @@ void battleManager::executeSelection()
       bPlayer->targetLevel = spriteQueue[choice + 1]->level;
 
       // Adjust to be on same track as enemy
-     bPlayer->posY = spriteQueue[choice + 1]->posY;
+      bPlayer->posY = spriteQueue[choice + 1]->posY;
 
-     bPlayer->setAnimation("Attack");
+      bPlayer->setAnimation("Attack");
    }
    else if (battleState == STATE_DEFEND)
    {
@@ -673,7 +696,13 @@ void battleManager::executeSelection()
    else if (battleState == STATE_FLEE)
    {
       if ((rand() % 4) == 0)
-         battleCleanup();
+      {
+         bPlayer->setAnimation("Flee");
+         bPlayer->isFlippedX = true;
+         bPlayer->updatePosition(bPlayer->x - bPlayer->width + 50, bPlayer->y);
+         bPlayer->speedX = -100;
+      }
+      //battleCleanup();
    }
    else if (battleState == STATE_ITEMS)
    {
@@ -691,8 +720,9 @@ void battleManager::executeSelection()
       }
    }
 
-   battleState = STATE_IDLE;
    battleMenu.resetAll();
+
+   battleState = STATE_IDLE;
    updateCurrentTurn();
 }
 /*-----------------------------------------------*/
@@ -707,12 +737,12 @@ void battleManager::useItem(std::string item)
          eventQueue->queueEvent(ev);
       }
    }
-   
+
    if (item.compare("Red Potion") == 0 || item.compare("Green Potion") == 0)
    {
       int maxHealth = spriteQueue[0]->maxHealth;
-      int newHealth = spriteQueue[0]->health + (int) floor(maxHealth / 2);
-      
+      int newHealth = spriteQueue[0]->health + (int)floor(maxHealth / 2);
+
       if (newHealth > maxHealth)
          spriteQueue[0]->health = maxHealth;
       else
@@ -735,7 +765,7 @@ void battleManager::playerDeath()
       RECEIVES:
       RETURNS:
       REMARKS:
-   */
+      */
 
    battleCleanup();
    player->posX = (*currentLevel)->startX;
@@ -748,8 +778,8 @@ void battleManager::battleWin()
       RECEIVES:
       RETURNS:
       REMARKS:
-   */
-   
+      */
+
    BattleSprite* bPlayer = spriteQueue[0];
 
    std::unordered_map<std::string, int> tempReward;
@@ -757,7 +787,7 @@ void battleManager::battleWin()
 
    // Decide rewards
    int numLoots = loot[currentBattle].size();
-   
+
    for (int i = 0; i < numEnemies; i++)
    {
       int numReward = rand() % 2;
@@ -782,7 +812,7 @@ void battleManager::battleWin()
       // Rupees
       if (itr->first.compare("Rupees") == 0)
       {
-          rupees += itr->second * 10;
+         rupees += itr->second * 10;
       }
       else
       {
@@ -802,7 +832,7 @@ void battleManager::battleWin()
    bPlayer->xp += xpGained;
 
    // Check for LevelUp
-   if (bPlayer->xp >= player->xpToNextLevel[bPlayer->level-1])
+   if (bPlayer->xp >= player->xpToNextLevel[bPlayer->level - 1])
    {
       bPlayer->level++;
       bPlayer->stats["STR"]++;  // TODO Remove once Stat Picker is done
@@ -825,7 +855,7 @@ bool battleManager::isEveryoneIdle()
       if (isEveryoneIdle)
          isEveryoneIdle = spriteQueue[i]->isIdle();
    }
-   
+
    return isEveryoneIdle;
 }
 /*-----------------------------------------------*/
