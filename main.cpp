@@ -123,7 +123,7 @@ static void initAudio()
    fmodSystem->createChannelGroup(NULL, &channelEffects);
 
    g_audio = Audio(fmodSystem, channelMusic, channelEffects);
-   //g_audio.registerListeners(&g_eventQueue);  //TODO Uncomment
+   g_audio.registerListeners(&g_eventQueue);  //TODO Uncomment
 }
 /*-----------------------------------------------*/
 static void initDialog()
