@@ -22,7 +22,6 @@
     <ClCompile Include="BattleGuard.cpp" />
     <ClCompile Include="BattleKnight.cpp" />
     <ClCompile Include="battleManager.cpp" />
-    <ClCompile Include="BattleMenu.cpp" />
     <ClCompile Include="BattleSprite.cpp" />
     <ClCompile Include="bucketManager.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -47,6 +46,9 @@
     <ClCompile Include="TileLevel.cpp" />
     <ClCompile Include="tileLoader.cpp" />
     <ClCompile Include="uuidManager.cpp" />
+    <ClCompile Include="VillagerA.cpp" />
+    <ClCompile Include="VillagerB.cpp" />
+    <ClCompile Include="VillagerC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
@@ -66,7 +68,6 @@
     <ClInclude Include="BattleGuard.h" />
     <ClInclude Include="BattleKnight.h" />
     <ClInclude Include="battleManager.h" />
-    <ClInclude Include="BattleMenu.h" />
     <ClInclude Include="BattleSprite.h" />
     <ClInclude Include="bucketManager.h" />
     <ClInclude Include="Camera.h" />
@@ -79,14 +80,12 @@
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="EventListener.h" />
     <ClInclude Include="Font.h" />
-    <ClInclude Include="IClonable.h" />
     <ClInclude Include="levelLoader.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerSprite.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="spriteManager.h" />
     <ClInclude Include="Texture.h" />
@@ -94,9 +93,9 @@
     <ClInclude Include="TileLevel.h" />
     <ClInclude Include="tileLoader.h" />
     <ClInclude Include="uuidManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="zRPG.rc" />
+    <ClInclude Include="VillagerA.h" />
+    <ClInclude Include="VillagerB.h" />
+    <ClInclude Include="VillagerC.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <Keyword>Win32Proj</Keyword>

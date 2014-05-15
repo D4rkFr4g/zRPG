@@ -6,6 +6,9 @@
 #include "Texture.h"
 #include "textureLoader.h"
 #include "Chicken.h"
+#include "VillagerA.h"
+#include "VillagerB.h"
+#include "VillagerC.h"
 #include "bucketManager.h"
 #include "MapManager.h"
 
