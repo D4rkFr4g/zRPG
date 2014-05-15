@@ -6,7 +6,6 @@
 class BattleMenu
 {
 private:
-   std::unordered_map<std::string, Menu>::iterator end;
    Menu* activeMenu;
 
 public:
@@ -23,6 +22,13 @@ public:
    int getNumOfChoices();
    void reset();
    void resetAll();
+   void turnOff();
+   void updateSize(std::string menuName, int size);
+   void decrementEnemies();
+   int getSelectedEnemy();
+   int getSelectedItem();
+   int getSelectedAction();
+   bool isActive(std::string menuName);
 
    // Variables
    std::unordered_map<std::string, Menu> menus;

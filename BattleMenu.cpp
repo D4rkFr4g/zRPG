@@ -14,8 +14,6 @@ BattleMenu::BattleMenu(int numOfItems)
    menus["item"] = Menu(numOfItems);
 
    activeMenu = &menus["player"];
-
-   end = menus.end();
 }
 /*-----------------------------------------------*/
 BattleMenu::~BattleMenu()
@@ -24,14 +22,18 @@ BattleMenu::~BattleMenu()
 /*-----------------------------------------------*/
 void BattleMenu::setActiveMenu(std::string menuName)
 {
-   auto itr = menus.find(menuName);
-
+   std::unordered_map<std::string, Menu>::iterator itr = menus.find(menuName);
+   std::unordered_map<std::string, Menu>::iterator tmp = menus.end();
    // Deactive previousMenu
    activeMenu->isActive = false;
 
    // Set the activeMenu
-   if (itr != end)
+   if (itr != tmp)
+   {
+      //Menu* m = &itr->second;
       activeMenu = &itr->second;
+      activeMenu->isActive = true;
+   }
 }
 /*-----------------------------------------------*/
 void BattleMenu::next()
@@ -56,7 +58,8 @@ void BattleMenu::reset()
 /*-----------------------------------------------*/
 void BattleMenu::resetAll()
 {
-   auto itr = menus.begin();
+   std::unordered_map<std::string, Menu>::iterator itr = menus.begin();
+   std::unordered_map<std::string, Menu>::iterator end = menus.end();
 
    for (itr; itr != end; itr++)
       itr->second.resetAll();
@@ -65,5 +68,40 @@ void BattleMenu::resetAll()
 int BattleMenu::getNumOfChoices()
 {
    return activeMenu->numOfChoices;
+}
+/*-----------------------------------------------*/
+void BattleMenu::turnOff()
+{
+   activeMenu->isActive = false;
+}
+/*-----------------------------------------------*/
+void BattleMenu::updateSize(std::string menuName, int size)
+{
+   menus[menuName] = Menu(size);
+}
+/*-----------------------------------------------*/
+void BattleMenu::decrementEnemies()
+{
+   menus["enemy"].numOfChoices--;
+}
+/*-----------------------------------------------*/
+int BattleMenu::getSelectedEnemy()
+{
+   return menus["enemy"].getSelection();
+}
+/*-----------------------------------------------*/
+int BattleMenu::getSelectedItem()
+{
+   return menus["item"].getSelection();
+}
+/*-----------------------------------------------*/
+int BattleMenu::getSelectedAction()
+{
+   return menus["action"].getSelection();
+}
+/*-----------------------------------------------*/
+bool BattleMenu::isActive(std::string menuName)
+{
+   return menus[menuName].isActive;
 }
 /*-----------------------------------------------*/
