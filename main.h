@@ -73,3 +73,4 @@ static bool g_isInputRequired = false;
 MapManager g_MapManager;
 static Sprite g_titleScreen;
 static bool g_isTitleShowing = true;
+static bool g_isTitlePlaying = false;

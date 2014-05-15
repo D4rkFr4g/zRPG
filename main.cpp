@@ -131,6 +131,7 @@ static void initDialog()
    g_dialogManager.dialogQueue = &g_dialogBoxes;
    g_dialogManager.screenWidth = &g_windowWidth;
    g_dialogManager.screenHeight = &g_windowHeight;
+   g_dialogManager.eventQueue = &g_eventQueue;
    g_dialogManager.initDialogs();
    g_dialogManager.registerListeners(&g_eventQueue);
 }
@@ -152,7 +153,11 @@ static void initMapManager()
    g_MapManager = MapManager();
    g_MapManager.player = &g_player;
    g_MapManager.levels = &g_levels;
+   g_MapManager.camera = &g_cam;
+   g_MapManager.windowWidth = &g_windowWidth;
+   g_MapManager.windowHeight = &g_windowHeight;
    g_MapManager.currentLevel = &g_currentLevel;
+   g_MapManager.eventQueue = &g_eventQueue;
 
    g_MapManager.registerListeners(&g_eventQueue);
 }
@@ -359,10 +364,6 @@ static void loadLevel()
 	*/
 
    levelLoader::loadLevels(&g_levels, &g_currentLevel);
-   
-   Event ev = Event(Event::ET_LEVEL_BEGIN, "level", g_currentLevel->name);
-   ev.strParams["newGame"] = "true";
-   g_eventQueue.queueEvent(ev);
 }
 /*-----------------------------------------------*/
 static void clearBackground()
@@ -468,6 +469,11 @@ static void keyboard()
    if (g_isTitleShowing && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
    {
       g_isTitleShowing = false;
+
+
+      Event ev = Event(Event::ET_LEVEL_LOAD, "level", "overworld");
+      ev.strParams["newGame"] = "true";
+      g_eventQueue.queueEvent(ev);
    }
 }
 /*-----------------------------------------------*/
@@ -603,6 +609,8 @@ int main( void )
 
 	// Read keyboard status
 	kbState = SDL_GetKeyboardState( NULL );
+
+   g_eventQueue.queueEvent(Event(Event::ET_TITLE_SCREEN));
 	
 	// The game loop
 	while( !shouldExit ) 

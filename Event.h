@@ -8,6 +8,7 @@ class Event
 public:
    enum EventType
    {
+      ET_TITLE_SCREEN,
       ET_COLLISION_START,
       ET_COLLISION_END,
       ET_COLLISION_PROJECTILE,
@@ -18,7 +19,9 @@ public:
       ET_DEATH,
       ET_RESTART,
       ET_LEVEL_LOAD,
-      ET_DAMAGE
+      ET_DAMAGE,
+      ET_PAUSED,
+      ET_LEVEL_MUSIC
    };
 
    // Constructors

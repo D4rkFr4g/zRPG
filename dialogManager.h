@@ -57,5 +57,6 @@ public:
    std::string* enemyText;
    std::string* itemText;
    std::unordered_map<std::string, DialogContainer> battleBoxes;
+   static EventQueue* eventQueue;
 };
 

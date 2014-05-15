@@ -33,5 +33,9 @@ public:
    PlayerSprite* player;
    TileLevel** currentLevel;
    static std::unordered_map<std::string, TileLevel>* levels;
+   static Camera* camera;
+   static int* windowWidth;
+   static int* windowHeight;
+   static EventQueue* eventQueue;
 };
 

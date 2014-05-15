@@ -15,6 +15,8 @@ public:
    ~Audio(void);
    virtual void notify(Event* event) override;
    void registerListeners(EventQueue* eventQueue);
+   void stopAllMusic();
+   void stopAllSoundFX();
 
    // Variables
    FMOD_RESULT result;

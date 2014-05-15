@@ -4,6 +4,7 @@
 std::vector<DialogContainer>* DialogManager::dialogQueue;
 int* DialogManager::screenWidth;
 int* DialogManager::screenHeight;
+EventQueue* DialogManager::eventQueue;
 
 /*-----------------------------------------------*/
 DialogManager::DialogManager()
@@ -34,7 +35,7 @@ void DialogManager::initDialogs()
    DialogContainer dBox;
    std::vector<DialogContainer> dBoxes;
 
-   /*-----------------------------------------------*/
+   /*============================================================================*/
    std::string text = "In a stunning turn of original events, the Princess Zelda of Hyrule has been captured by a Dark Lord (surprising, I know).";
    text += "\nLink must set out on a quest to rescue the Princess from the evil clutches of this vile enemy to restore…";
 
@@ -54,7 +55,7 @@ void DialogManager::initDialogs()
    dBoxes.push_back(dBox);
 
    dialogs["intro"] = dBoxes;
-   /*-----------------------------------------------*/
+   /*============================================================================*/
    dBoxes.clear();
 
    sizeDialogBox(&rows, &cols, 2, "\bRETURN OF GANON");
@@ -66,7 +67,21 @@ void DialogManager::initDialogs()
    dBoxes.push_back(dBox);
 
    dialogs["death"] = dBoxes;
-   /*-----------------------------------------------*/
+   /*============================================================================*/
+
+   dBoxes.clear();
+   sizeDialogBox(&rows, &cols, 1, "Paused");
+   center(&x, &y, rows, cols);
+
+   text = "\b\bPaused";
+   
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["pause"] = dBoxes;
+   /*============================================================================*/
+
+
+   //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
 
    /*dBoxes.clear();
    rows = stdRows;
@@ -99,18 +114,13 @@ void DialogManager::dialogKeyboard(const unsigned char* kbState, unsigned char* 
    {
       if (!isPaused)
       {
-         int rows = 10;
-         int cols = 30;
-         int x = 0;
-         int y = 10;
-
-         center(&x, &y, rows, cols);
-         dialogQueue->push_back(DialogContainer(x, y, rows, cols, "\t\tPause this Game \"Yo!\" ( @ ) \n\bChoose: \n> Save\n\tExit", true, true));
-         //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
+         loadDialogQueue(dialogs["pause"], true);
          isPaused = true;
+         eventQueue->queueEvent(Event(Event::ET_PAUSED));
       }
       else
       {
+         eventQueue->queueEvent(Event(Event::ET_LEVEL_MUSIC));
          dialogQueue->pop_back();
          isPaused = false;
       }
@@ -235,7 +245,7 @@ void DialogManager::notify(Event* event)
    REMARKS:
    */
 
-   if (event->type == Event::ET_LEVEL_BEGIN)
+   if (event->type == Event::ET_LEVEL_LOAD)
    {
       if (event->checkStrParam("level", "overworld") && event->checkStrParam("newGame", "true"))
          loadDialogQueue(dialogs["intro"], true);

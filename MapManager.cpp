@@ -1,6 +1,10 @@
 #include "MapManager.h"
 
 std::unordered_map<std::string, TileLevel>* MapManager::levels;
+Camera* MapManager::camera;
+int* MapManager::windowWidth;
+int* MapManager::windowHeight;
+EventQueue* MapManager::eventQueue;
 /*-----------------------------------------------*/
 MapManager::MapManager()
 {
@@ -84,8 +88,22 @@ void MapManager::notify(Event* event)
 
             // Load sprites for the level
             spriteManager::loadLevelSprites(name);
+
+            // Update camer for new level
+            
+            int windowMaxWidth = ((*currentLevel)->width * (*currentLevel)->tilesWidth);
+            int windowMaxHeight = ((*currentLevel)->height * (*currentLevel)->tilesHeight);
+
+            camera->maxX = windowMaxWidth - *windowWidth;
+            camera->maxY = windowMaxHeight - *windowHeight;
          }
       }
+   }
+
+   if (event->type == Event::ET_LEVEL_MUSIC && !event->checkStrKey("level"))
+   {
+      // Listen for messages to load music from Objects that don't know what level it is.
+      eventQueue->queueEvent(Event(Event::ET_LEVEL_MUSIC, "level", (*currentLevel)->name));
    }
 }
 /*-----------------------------------------------*/
@@ -98,6 +116,8 @@ void MapManager::registerListeners(EventQueue* eventQueue)
    */
 
    eventQueue->addEventListener(Event::ET_LEVEL_LOAD, this);
+   eventQueue->addEventListener(Event::ET_LEVEL_MUSIC, this);
+
 }
 /*-----------------------------------------------*/
 std::vector<Sprite*> MapManager::getCollidableTileType(std::string levelName, int tileType)
