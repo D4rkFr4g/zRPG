@@ -23,6 +23,9 @@ public:
    static void saveLevelSprites(std::string levelName);
    static void loadLevelSprites(std::string levelName);
    static void initChickens();
+   static void initVillagerA();
+   static void initVillagerB();
+   static void initVillagerC();
 
    // Variables
   static std::unordered_map<std::string, std::vector<Sprite*>> levelSprites;
