@@ -161,6 +161,10 @@ void BattleSprite::update(int ms)
       sendDamage(targetUUID);
    }
 
+   //Reapply Defend animation if attacked
+   if (isDefending && curAnimation.def.name.compare("Defend") != 0 && curAnimation.isFinished)
+      setAnimation("Defend");
+
    checkRemovable();
 }
 /*-----------------------------------------------*/
