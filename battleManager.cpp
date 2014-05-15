@@ -133,7 +133,7 @@ void battleManager::initPlayer()
    battlePlayer.animations[animation.name] = animData;
    
    // Damaged Animation
-   timeToNextFrame = 60;
+   timeToNextFrame = 30;
    numFrames = 13;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
