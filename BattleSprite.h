@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <random>
-#include <time.h>
+#include <ctime>
 #include "AnimatedSprite.h"
 #include "EventListener.h"
 #include "EventQueue.h"

@@ -78,7 +78,7 @@ void battleManager::init()
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
 {
-   player->initStats(20, 1, 1, 1, 1); // TODO Revert to 1 STR
+   player->initStats(5, 1, 1, 1, 1); // TODO Revert to 1 STR
 
    // Setup battlePlayer
    Texture* tex = &(*textures)["link_battle"];
@@ -133,6 +133,7 @@ void battleManager::initPlayer()
    battlePlayer.animations[animation.name] = animData;
    
    // Damaged Animation
+   timeToNextFrame = 60;
    numFrames = 13;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
@@ -156,6 +157,7 @@ void battleManager::initPlayer()
    battlePlayer.animations[animation.name] = animData;
 
    // Defend Animation
+   timeToNextFrame = 100;
    numFrames = 1;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
@@ -506,9 +508,17 @@ void battleManager::initBattle()
       int staggerDistance = 75;
       // Stagger enemy positions
       if (i == 1)
-         spriteQueue[i+1]->posY -= staggerDistance;
+      {
+         BattleSprite* bSprite = spriteQueue[i + 1];
+         bSprite->posY -= staggerDistance;
+         bSprite->startY = bSprite->posY;
+      }
       else if (i == 2)
-         spriteQueue[i+1]->posY += staggerDistance;
+      {
+         BattleSprite* bSprite = spriteQueue[i + 1];
+         bSprite->posY += staggerDistance;
+         bSprite->startY = bSprite->posY;
+      }
    }
 
    menus["enemy"] = Menu(numEnemies);
@@ -605,10 +615,17 @@ void battleManager::updateBattle(int ms)
       }
    }
    
+   bool isEveryoneIdle = true;
+   for (int i = 0; i < spriteQueue.size(); i++)
+   {
+
+   }
+
+
    // In case enemy was destroyed
    if (currentTurn < spriteQueue.size())
    {
-
+      // Check if it's time for the next sprite to take it's turn.
       BattleSprite* player = spriteQueue[0];
       BattleSprite* currentSprite = spriteQueue[currentTurn];
       if (currentSprite->isIdle() && spriteQueue.size() > 0)

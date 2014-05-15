@@ -155,7 +155,6 @@ void BattleSprite::update(int ms)
       curAnimation.elapsedTime == 0)
    {
       sendDamage(targetUUID);
-      targetUUID = "";
    }
 
    checkRemovable();

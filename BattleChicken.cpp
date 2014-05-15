@@ -51,7 +51,7 @@ BattleChicken::BattleChicken()
 
    // Damaged Animation
    numFrames = 13;
-   timeToNextFrame = 100;
+   timeToNextFrame = 60;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
@@ -97,8 +97,19 @@ void BattleChicken::AI()
       RETURNS:
       REMARKS:
    */
-
-
+   
+   
+   float alpha = (float) health / maxHealth;
+   bool isCriticalHealth = alpha < 0.2;
+   // Flee
+   if (rand() % 10 == 0 && isCriticalHealth)
+      state = STATE_FLEE;
+   // Attack
+   else if (1) // TODO once Defense animation is finished
+      state = STATE_ATTACK;
+   // Defend
+   else if (0)
+      state = STATE_DEFEND;
 }
 /*-----------------------------------------------*/
 void BattleChicken::update(int ms)
@@ -106,15 +117,15 @@ void BattleChicken::update(int ms)
    BattleSprite::update(ms);
 
    // Determine when turn is over
-   /*if ( && state != STATE_FLEE)
-      state = STATE_IDLE;*/
+   if (state != STATE_IDLE && isIdle() && state != STATE_FLEE)
+      state = STATE_IDLE;
 
    // Move to correct yPosition
    if (state == STATE_ATTACK)
       updatePosition(x, opponentY);
-
    // Move back to yPosition
-   //updatePosition(x, startY);
+   else if (state == STATE_IDLE)
+      updatePosition(x, startY);
 }
 /*-----------------------------------------------*/
 void BattleChicken::takeTurn()
@@ -124,9 +135,6 @@ void BattleChicken::takeTurn()
       RETURNS:
       REMARKS:
    */
-
-   state = STATE_FLEE;
-   prevState = STATE_IDLE;
 
    if (isAlive)
    {
