@@ -1,4 +1,5 @@
 #include "battleManager.h"
+#include <typeinfo>
 
 
 bool battleManager::isBattle = false;
@@ -77,7 +78,7 @@ void battleManager::init()
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
 {
-   player->initStats(10, 1, 1, 1, 1); // TODO Revert to 1 STR
+   player->initStats(20, 1, 1, 1, 1); // TODO Revert to 1 STR
 
    // Setup battlePlayer
    Texture* tex = &(*textures)["link_battle"];
@@ -484,8 +485,9 @@ void battleManager::initBattle()
       int numTypesEnemy = enemies[currentBattle].size();
       int choice = rand() % numTypesEnemy;
 
-      BattleSprite* enemy = new BattleSprite;
-      *enemy = *enemies[currentBattle][choice];
+      BattleSprite* baseEnemy = enemies[currentBattle][choice];
+      BattleSprite* enemy = baseEnemy->clone();
+      *enemy = *baseEnemy;
       enemy->getNewUUID();
       enemy->registerListeners(eventQueue);
       enemy->targetUUID = spriteQueue[0]->getUUID();
@@ -580,7 +582,14 @@ void battleManager::updateBattle(int ms)
       if (i != 0) // TODO This might cause an issue where enemy isn't destroyed till after player's turn
       {
          // Reduce rewards if enemy flees
-
+         BattleSprite* enemy = spriteQueue[i];
+         if (enemy->state == BattleSprite::STATE_FLEE && enemy->isIdle())
+         {
+            numEnemies--;
+            totalLevel -= enemy->level;
+            enemy->isAlive = true;
+            enemy->isRemovable = true;
+         }
 
          if (spriteQueue[i]->isRemovable)
          {
@@ -595,17 +604,24 @@ void battleManager::updateBattle(int ms)
          }
       }
    }
-
-   if (currentTurn != 0 && spriteQueue.size() > 0)
+   
+   // In case enemy was destroyed
+   if (currentTurn < spriteQueue.size())
    {
-      // In case enemy was destroyed
-      if (currentTurn < spriteQueue.size())
-         spriteQueue[currentTurn]->takeTurn();
-      
-      // TODO might need to add timing otherwise it might switch to player
-      // to quickly to see full animation of enemy
-      updateCurrentTurn(); 
+
+      BattleSprite* player = spriteQueue[0];
+      BattleSprite* currentSprite = spriteQueue[currentTurn];
+      if (currentSprite->isIdle() && spriteQueue.size() > 0)
+      {
+         if (currentTurn != 0 && player->isIdle() && currentSprite->isIdle()) // TODO Remove once Link has a class and a takeTurn() setup
+         {
+            currentSprite->takeTurn();
+            updateCurrentTurn();
+         }
+      }
    }
+   else
+      updateCurrentTurn();
 }
 /*-----------------------------------------------*/
 void battleManager::updateCurrentTurn()
@@ -666,6 +682,7 @@ void battleManager::executeSelection()
          useItem(itr->first);
       }
    }
+
    battleState = STATE_IDLE;
    updateCurrentTurn();
 }
@@ -767,7 +784,8 @@ void battleManager::battleWin()
    }
    bPlayer->items["Rupees"] += rupees;
 
-   rewards.push_back("Found " + std::to_string(rupees) + " Rupees");
+   if (rupees > 0)
+      rewards.push_back("Found " + std::to_string(rupees) + " Rupees");
 
    // XP Rewards
 
@@ -783,7 +801,8 @@ void battleManager::battleWin()
       rewards.push_back(player->name + " Leveled Up!");
    }
 
-   rewards.push_back("Got " + std::to_string(xpGained) + " XP");
+   if (xpGained > 0)
+      rewards.push_back("Got " + std::to_string(xpGained) + " XP");
 
    dialogManager->battleRewards(rewards);
 }

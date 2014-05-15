@@ -10,6 +10,7 @@ BattleChicken::BattleChicken()
    //isAnimated = true; // TODO Remove once animations are setup
    name = "chicken";
    level = 1;
+   maxSpeed = 100;
 
    // Setup animations
    float uSize = tex->uSize;
@@ -70,6 +71,17 @@ BattleChicken::BattleChicken()
    animation = Animation("Damaged", frames, numFrames);
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
+   
+   // Flee Animation
+   numFrames = 1;
+   timeToNextFrame = 1000;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Flee", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animations[animation.name] = animData;
 
    setAnimation("Idle");
 }
@@ -98,7 +110,7 @@ void BattleChicken::update(int ms)
       state = STATE_IDLE;*/
 
    // Move to correct yPosition
-   if (state = STATE_ATTACK)
+   if (state == STATE_ATTACK)
       updatePosition(x, opponentY);
 
    // Move back to yPosition
@@ -112,6 +124,9 @@ void BattleChicken::takeTurn()
       RETURNS:
       REMARKS:
    */
+
+   state = STATE_FLEE;
+   prevState = STATE_IDLE;
 
    if (isAlive)
    {
@@ -160,9 +175,13 @@ void BattleChicken::takeTurn()
          if (state != prevState)
          {
             prevState = state;
+
+            isFlippedX = true;
+            speedX = maxSpeed;
+            updatePosition(width, y);
          }
 
-         //setAnimation("Flee");
+         setAnimation("Flee");
       }
       // Defend State
       else if (state == STATE_DEFEND)
@@ -180,6 +199,12 @@ void BattleChicken::takeTurn()
 /*-----------------------------------------------*/
 void BattleChicken::notify(Event* event)
 {
+   BattleSprite::notify(event);
    // TODO Maybe
+}
+/*-----------------------------------------------*/
+BattleChicken* BattleChicken::clone() const
+{
+   return new BattleChicken(*this);
 }
 /*-----------------------------------------------*/

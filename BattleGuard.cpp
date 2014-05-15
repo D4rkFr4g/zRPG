@@ -10,6 +10,7 @@ BattleGuard::BattleGuard()
    isAnimated = false; // TODO Remove once animations are setup
    name = "guard";
    level = 5;
+   maxSpeed = 10;
 
    // Setup animations
    float uSize = tex->uSize;
@@ -70,6 +71,17 @@ BattleGuard::BattleGuard()
    frames[11] = frames[3];
    frames[12] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    animation = Animation("Damaged", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animations[animation.name] = animData;
+
+   // Flee Animation
+   numFrames = 5;
+   timeToNextFrame = 1000;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Flee", frames, numFrames);
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
 
@@ -163,5 +175,10 @@ void BattleGuard::update(int ms)
 void BattleGuard::takeTurn()
 {
    AI();
+}
+/*-----------------------------------------------*/
+BattleGuard* BattleGuard::clone() const
+{
+   return new BattleGuard(*this);
 }
 /*-----------------------------------------------*/

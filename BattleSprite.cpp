@@ -192,3 +192,12 @@ bool BattleSprite::operator==(BattleSprite other)
 
 }
 /*-----------------------------------------------*/
+bool BattleSprite::isIdle()
+{
+   return curAnimation.isFinished;
+}
+/*-----------------------------------------------*/
+BattleSprite* BattleSprite::clone() const
+{
+   return new BattleSprite(*this);
+}
