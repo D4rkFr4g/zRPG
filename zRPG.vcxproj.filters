@@ -159,6 +159,9 @@
     <ClCompile Include="VillagerC.cpp">
       <Filter>Sprites\Final\Source</Filter>
     </ClCompile>
+    <ClCompile Include="BattleMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll">
@@ -289,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="VillagerC.h">
       <Filter>Sprites\Final\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleMenu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
