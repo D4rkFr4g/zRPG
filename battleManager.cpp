@@ -615,12 +615,13 @@ void battleManager::updateBattle(int ms)
       }
    }
    
+   // Test to make sure all sprites are idle
    bool isEveryoneIdle = true;
    for (int i = 0; i < spriteQueue.size(); i++)
    {
-
+      if (isEveryoneIdle)
+         isEveryoneIdle = spriteQueue[i]->isIdle();
    }
-
 
    // In case enemy was destroyed
    if (currentTurn < spriteQueue.size())
@@ -630,7 +631,7 @@ void battleManager::updateBattle(int ms)
       BattleSprite* currentSprite = spriteQueue[currentTurn];
       if (currentSprite->isIdle() && spriteQueue.size() > 0)
       {
-         if (currentTurn != 0 && player->isIdle() && currentSprite->isIdle()) // TODO Remove once Link has a class and a takeTurn() setup
+         if (currentTurn != 0 && isEveryoneIdle) // TODO Remove once Link has a class and a takeTurn() setup
          {
             currentSprite->takeTurn();
             updateCurrentTurn();
