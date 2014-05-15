@@ -1,23 +1,18 @@
-PROJECT TITLE: TileEngine
-PURPOSE OF PROJECT: Creating a reusable 2D Tile Engine for building games
-VERSION or DATE: 2/17/2014
-HOW TO START THIS PROJECT: Unzip EXE files folder and open TileEngine.exe
-AUTHORS: Zane Melcho
+PROJECT TITLE: zRPG
+PURPOSE OF PROJECT: Create a full game using my TileEngine
+VERSION or DATE: 5/01/2014
+HOW TO START THIS PROJECT: Unzip EXE files folder and open zRPG.exe
+AUTHORS: Zane Melcho & Trevor Uyeda
+
 USER INSTRUCTIONS:
 
 WASD - Controls Movement
-Direction Keys - Camera scrolling
-J - Shooting Animation (No bullets yet)
-K - Jump
-R - Restart the Level
+J - Selection / Menu progression
+K - Cancel
 Esc - Quit
 
-Avoid radioactive goo and flying chickens to make it to the exit of the level.
-
+A Legend of Zelda RPG that will consist of adventure elements with battles done in side-view, turn-based fashion.
 
 Known issues:	
-? Shooting animation frame is slightly clipped
-? Player Collider box doesn't shrink when jumping to match animation
-? On falling there is no bottom so player continually falls and can cause camera scrolling
-? Chickens currently can spawn over starting location causing instant death.
-? Collision with goo tiles seems to trigger too soon when walking towards it
+? Chickens don't check for collisions so they walk over everything instead.
+? Stat balancing for battles might be slightly off at higher levels
