@@ -237,8 +237,9 @@ void DialogManager::notify(Event* event)
 
    if (event->type == Event::ET_LEVEL_BEGIN)
    {
-      if (event->checkStrParam("level", "overworld") && event->checkStrParam("newGame", "true"))
-         loadDialogQueue(dialogs["intro"], true);
+      // TODO Renable
+      /*if (event->checkStrParam("level", "overworld") && event->checkStrParam("newGame", "true"))
+         loadDialogQueue(dialogs["intro"], true);*/
    }
 
    if (event->type == Event::ET_DEATH)
