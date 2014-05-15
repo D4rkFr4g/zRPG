@@ -42,6 +42,7 @@ public:
    static void useItem(std::string item);
    static void playerDeath();
    static void battleWin();
+   static bool isEveryoneIdle();
 
    // Variables 
    static bool isBattle;

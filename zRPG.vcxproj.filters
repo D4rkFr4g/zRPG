@@ -153,6 +153,9 @@
     <ClCompile Include="MapManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BattleMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll">
@@ -280,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="IClonable.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleMenu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

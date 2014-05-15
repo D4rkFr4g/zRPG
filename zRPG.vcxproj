@@ -22,6 +22,7 @@
     <ClCompile Include="BattleGuard.cpp" />
     <ClCompile Include="BattleKnight.cpp" />
     <ClCompile Include="battleManager.cpp" />
+    <ClCompile Include="BattleMenu.cpp" />
     <ClCompile Include="BattleSprite.cpp" />
     <ClCompile Include="bucketManager.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="BattleGuard.h" />
     <ClInclude Include="BattleKnight.h" />
     <ClInclude Include="battleManager.h" />
+    <ClInclude Include="BattleMenu.h" />
     <ClInclude Include="BattleSprite.h" />
     <ClInclude Include="bucketManager.h" />
     <ClInclude Include="Camera.h" />

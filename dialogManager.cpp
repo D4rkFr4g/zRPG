@@ -453,6 +453,8 @@ void DialogManager::battleRewards(std::vector<std::string> loot)
    REMARKS:
    */
 
+   battleResetDialog();
+   
    int x = 0;
    int y = 0;
    int rows = 0;
@@ -487,3 +489,8 @@ void DialogManager::battleCleanup()
    dialogQueue->clear();
 }
 /*-----------------------------------------------*/
+void DialogManager::battleResetDialog()
+{
+   if (dialogQueue->size() > 2)
+      dialogQueue->pop_back();
+}

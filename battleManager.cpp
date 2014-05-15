@@ -200,7 +200,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    bool isUp = kbState[SDL_SCANCODE_W] && !kbPrevState[SDL_SCANCODE_W];
    bool isDown = kbState[SDL_SCANCODE_S] && !kbPrevState[SDL_SCANCODE_S];   
 
-   if (isPlayerAlive && !isBattleWon)
+   if (isPlayerAlive && !isBattleWon && isEveryoneIdle())
    {
       // Battle States
       // Idle State
@@ -213,10 +213,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             std::unordered_map<std::string, Menu>::iterator itr = menus.begin();
             std::unordered_map<std::string, Menu>::iterator end = menus.end();
             for (itr; itr != end; itr++)
-            {
-               itr->second.reset();
-               itr->second.setActive(false);
-            }
+               itr->second.resetAll();
          }
 
          // Reset player to original yPosition
@@ -357,8 +354,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    }
    if (isBattleWon && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
    {
-      if (dialogManager->dialogQueue->size() > 2)
-         dialogManager->dialogQueue->pop_back();
+      dialogManager->battleResetDialog();
    }
 
 
@@ -377,8 +373,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
       for (int i = 1; i < (int)spriteQueue.size(); i++)
          spriteQueue[i]->health = 0;
 
-      if (dialogManager->dialogQueue->size() > 2)
-         dialogManager->dialogQueue->pop_back();
+      dialogManager->battleResetDialog();
    }
    //---------------------------------------------------------------//
 
@@ -615,14 +610,6 @@ void battleManager::updateBattle(int ms)
       }
    }
    
-   // Test to make sure all sprites are idle
-   bool isEveryoneIdle = true;
-   for (int i = 0; i < spriteQueue.size(); i++)
-   {
-      if (isEveryoneIdle)
-         isEveryoneIdle = spriteQueue[i]->isIdle();
-   }
-
    // In case enemy was destroyed
    if (currentTurn < spriteQueue.size())
    {
@@ -631,7 +618,7 @@ void battleManager::updateBattle(int ms)
       BattleSprite* currentSprite = spriteQueue[currentTurn];
       if (currentSprite->isIdle() && spriteQueue.size() > 0)
       {
-         if (currentTurn != 0 && isEveryoneIdle) // TODO Remove once Link has a class and a takeTurn() setup
+         if (currentTurn != 0 && isEveryoneIdle()) // TODO Remove once Link has a class and a takeTurn() setup
          {
             currentSprite->takeTurn();
             updateCurrentTurn();
@@ -823,5 +810,18 @@ void battleManager::battleWin()
       rewards.push_back("Got " + std::to_string(xpGained) + " XP");
 
    dialogManager->battleRewards(rewards);
+}
+/*-----------------------------------------------*/
+bool battleManager::isEveryoneIdle()
+{
+   // Test to make sure all sprites are idle
+   bool isEveryoneIdle = true;
+   for (int i = 0; i < spriteQueue.size(); i++)
+   {
+      if (isEveryoneIdle)
+         isEveryoneIdle = spriteQueue[i]->isIdle();
+   }
+   
+   return isEveryoneIdle;
 }
 /*-----------------------------------------------*/
