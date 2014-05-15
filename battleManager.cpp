@@ -74,11 +74,6 @@ void battleManager::init()
    battleState = STATE_PLAYER;
 
    battleMenu = BattleMenu(battlePlayer.items.size());
-
-   // TODO remove once battleMenu works
-   /*menus["player"] = Menu(1);
-   menus["action"] = Menu(4);
-   menus["item"] = Menu(battlePlayer.items.size());*/
 }
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
@@ -205,6 +200,15 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    bool isUp = kbState[SDL_SCANCODE_W] && !kbPrevState[SDL_SCANCODE_W];
    bool isDown = kbState[SDL_SCANCODE_S] && !kbPrevState[SDL_SCANCODE_S];   
 
+   BattleSprite* bPlayer = spriteQueue[0];
+   // Reset player to original yPosition
+   if (bPlayer->posY != bPlayer->startY &&
+      bPlayer->curAnimation.def.name.compare("Attack") == 0 &&
+      bPlayer->isIdle())
+   {
+      bPlayer->posY = bPlayer->startY;
+   }
+
    if (isPlayerAlive && !isBattleWon && isEveryoneIdle())
    {
       // Battle States
@@ -215,21 +219,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          if (battleState != prevBattleState)
          {
             prevBattleState = battleState;
-            
             battleMenu.resetAll();
-            //// TODO Remove once menus work.
-            //auto itr = menus.begin();
-            //auto end = menus.end();
-            //for (itr; itr != end; itr++)
-            //   itr->second.resetAll();
-         }
-
-         // Reset player to original yPosition
-         if (spriteQueue[0]->posY != spriteQueue[0]->startY &&
-            spriteQueue[0]->curAnimation.def.name.compare("Attack") == 0 &&
-            spriteQueue[0]->curAnimation.isFinished)
-         {
-            spriteQueue[0]->posY = spriteQueue[0]->startY;
          }
 
          // Check for new Transition
@@ -245,8 +235,6 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             prevBattleState = battleState;
 
             battleMenu.setActiveMenu("player");
-            // TODO remove once done
-            //menus["player"].setActive(true);
 
             spriteQueue[0]->isDefending = false;
             spriteQueue[0]->setAnimation("Idle");
@@ -259,11 +247,8 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          }
          else if (isUp)
             battleMenu.previous();
-         //menus["player"].previous();
-
          else if (isDown)
             battleMenu.next();
-         //menus["player"].next();
       }
       // Action State
       else if (battleState == STATE_ACTION)
@@ -273,7 +258,6 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          {
             prevBattleState = battleState;
             battleMenu.setActiveMenu("action");
-            //menus["action"].setActive(true);
          }
 
          // Check for new Transition
@@ -281,9 +265,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          {
             int choice = battleMenu.getSelection();
             battleMenu.turnOff();
-            // TODO Remove
-            //int choice = menus["action"].getSelection();
-            //menus["action"].setActive(false);
+            
             if (choice == ACTION_FIGHT)
                battleState = STATE_ENEMY;
             else if (choice == ACTION_DEFEND)
@@ -300,16 +282,11 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
             }
          }
          else if (isCanceled)
-         {
-            //menus["action"].setActive(false);
             battleState = STATE_PLAYER;
-         }
          else if (isUp)
             battleMenu.previous();
-         //menus["action"].previous();
          else if (isDown)
             battleMenu.next();
-            //menus["action"].next();
       }
       // Items State
       else if (battleState == STATE_ITEMS)
@@ -319,27 +296,20 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          {
             prevBattleState = battleState;
             battleMenu.setActiveMenu("item");
-            //menus["item"].setActive(true);
          }
 
          // Check for new Transition
          if (isSelected)
          {
             battleMenu.turnOff();
-            //menus["item"].setActive(false);
             executeSelection();
          }
          else if (isCanceled)
-         {
-            //menus["item"].setActive(false);
             battleState = STATE_ACTION;
-         }
          else if (isUp)
             battleMenu.previous();
-         //menus["item"].previous();
          else if (isDown)
             battleMenu.next();
-            //menus["item"].next();
       }
       // Enemy State
       else if (battleState == STATE_ENEMY)
@@ -349,7 +319,6 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          {
             prevBattleState = battleState;
             battleMenu.setActiveMenu("enemy");
-            //menus["enemy"].setActive(true);
          }
 
          // Check for new Transition
@@ -359,16 +328,12 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          }
          else if (isCanceled)
          {
-            //menus["enemy"].setActive(false);
-            //menus["action"].setActive(true);
             battleState = STATE_ACTION;
          }
          else if (isUp)
             battleMenu.previous();
-         //menus["enemy"].previous();
          else if (isDown)
             battleMenu.next();
-            //menus["enemy"].next();
       }
 
       if (isBattle && !isBattleWon)
@@ -547,8 +512,6 @@ void battleManager::initBattle()
 
    battleMenu.updateSize("enemy", numEnemies);
    battleMenu.updateSize("item", battlePlayer.items.size());
-   //menus["enemy"] = Menu(numEnemies);
-   //menus["item"] = Menu(battlePlayer.items.size());
    dialogManager->initBattleDialog(&spriteQueue);
 }
 /*-----------------------------------------------*/
@@ -608,6 +571,9 @@ void battleManager::updateBattle(int ms)
    {
       eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
       isPlayerAlive = false;
+
+      dialogManager->battleResetDialog();
+      dialogManager->updateBattleDialog(battleMenu);
    }
 
    for (int i = 0; i < (int) spriteQueue.size(); i++)
@@ -632,7 +598,6 @@ void battleManager::updateBattle(int ms)
             spriteQueue.erase(remove(spriteQueue.begin(), spriteQueue.end(), spriteQueue[i]));
 
             battleMenu.decrementEnemies();
-            //menus["enemy"].numOfChoices--;
          }
          if (spriteQueue.size() <= 1)
          {
@@ -659,6 +624,9 @@ void battleManager::updateBattle(int ms)
    }
    else
       updateCurrentTurn();
+
+   if (!isBattleWon && isPlayerAlive)
+   dialogManager->updateBattleDialog(battleMenu);
 }
 /*-----------------------------------------------*/
 void battleManager::updateCurrentTurn()
@@ -688,7 +656,6 @@ void battleManager::executeSelection()
    // Fighting
    if (battleState == STATE_ENEMY)
    {
-      //int choice = menus["enemy"].getSelection();
       int choice = battleMenu.getSelectedEnemy();
       bPlayer->targetUUID = spriteQueue[choice + 1]->getUUID();
       bPlayer->targetLevel = spriteQueue[choice + 1]->level;
@@ -725,6 +692,7 @@ void battleManager::executeSelection()
    }
 
    battleState = STATE_IDLE;
+   battleMenu.resetAll();
    updateCurrentTurn();
 }
 /*-----------------------------------------------*/

@@ -330,7 +330,6 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
    playerStrings["maxHealth"] = std::to_string(battlePlayer->maxHealth);
    playerStrings["magic"] = std::to_string(battlePlayer->magic);
 
-   //if (menus["player"].isActive)
    if (battleMenu.isActive("player"))
       *playerText += "\t> ";
    else
@@ -357,9 +356,7 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
    for (int i = 0; i < (int)enemies.size(); i++)
       enemyStrings.push_back(enemies[i]->name);
 
-   //int selection = menus["enemy"].getSelection();
    int selection = battleMenu.getSelectedEnemy();
-   //if (menus["enemy"].isActive)
    if (battleMenu.isActive("enemy"))
    {
       enemyStrings[selection] = "> " + enemyStrings[selection];
@@ -367,8 +364,7 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
 
    for (int i = 0; i < (int)enemyStrings.size(); i++)
    {
-      //if (!menus["enemy"].isActive || i != selection)
-      if (!battleMenu.isActive("enemy"))
+      if (!battleMenu.isActive("enemy") || i != selection)
          *enemyText += "\t";
       *enemyText += enemyStrings[i] + "\n";
    }
@@ -377,10 +373,8 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
    dialogQueue->push_back(battleBoxes["enemy"]);
 
    // Setup Enemy Highlights
-   //if (menus["enemy"].isActive)
    if (battleMenu.isActive("enemy"))
    {
-      //BattleSprite* enemy = enemies[menus["enemy"].getSelection()];
       BattleSprite* enemy = enemies[battleMenu.getSelectedEnemy()];
 
       int rows = 2;
@@ -394,7 +388,6 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
    }
 
    // Setup action box
-   //if (menus["action"].isActive)
    if (battleMenu.isActive("action"))
    {
       *actionText = "";
@@ -404,7 +397,6 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
       actionStrings.push_back("Items");
       actionStrings.push_back("Flee");
 
-      //int selection = menus["action"].getSelection();
       int selection = battleMenu.getSelectedAction();
       actionStrings[selection] = "> " + actionStrings[selection];
 
@@ -421,7 +413,6 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
 
    // Setup item box
    // Setup item strings
-   //if (menus["item"].isActive)
    if (battleMenu.isActive("item"))
    {
       *itemText = "";
@@ -431,7 +422,6 @@ void DialogManager::updateBattleDialog(BattleMenu battleMenu)
       for (itr; itr != end; itr++)
          itemStrings.push_back(itr->first + " x" + std::to_string(itr->second));
 
-      //int selection = menus["item"].getSelection();
       int selection = battleMenu.getSelectedItem();
       itemStrings[selection] = "> " + itemStrings[selection];
 
