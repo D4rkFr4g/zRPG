@@ -492,6 +492,7 @@ void battleManager::initBattle()
       enemy->getNewUUID();
       enemy->registerListeners(eventQueue);
       enemy->targetUUID = spriteQueue[0]->getUUID();
+      enemy->targetLevel = spriteQueue[0]->level;
       enemy->opponentY = spriteQueue[0]->y;
 
       totalLevel += enemy->level;
@@ -656,21 +657,23 @@ void battleManager::executeSelection()
       REMARKS:
    */
 
+   BattleSprite* bPlayer = spriteQueue[0];
    // Fighting
    if (battleState == STATE_ENEMY)
    {
       int choice = menus["enemy"].getSelection();
-      spriteQueue[0]->targetUUID = spriteQueue[choice + 1]->getUUID();
+      bPlayer->targetUUID = spriteQueue[choice + 1]->getUUID();
+      bPlayer->targetLevel = spriteQueue[choice + 1]->level;
 
       // Adjust to be on same track as enemy
-     spriteQueue[0]->posY = spriteQueue[choice + 1]->posY;
+     bPlayer->posY = spriteQueue[choice + 1]->posY;
 
-     spriteQueue[0]->setAnimation("Attack");
+     bPlayer->setAnimation("Attack");
    }
    else if (battleState == STATE_DEFEND)
    {
-      spriteQueue[0]->isDefending = true;
-      spriteQueue[0]->setAnimation("Defend");
+      bPlayer->isDefending = true;
+      bPlayer->setAnimation("Defend");
    }
    else if (battleState == STATE_FLEE)
    {
@@ -680,7 +683,7 @@ void battleManager::executeSelection()
    else if (battleState == STATE_ITEMS)
    {
       std::unordered_map<std::string, int>::iterator itr;
-      itr = spriteQueue[0]->items.begin();
+      itr = bPlayer->items.begin();
 
       for (int i = 0; i < menus["item"].getSelection(); i++)
          itr++;

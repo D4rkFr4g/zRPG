@@ -95,9 +95,13 @@ void BattleSprite::sendDamage(std::string uuid)
    if (isCrit)
       damage *= 2;
 
-   Event ev = Event(Event::ET_DAMAGE, "subject", uuid);
-   ev.numParams["damage"] = damage;
-   eventQueue->queueEvent(ev);
+   // Accuracy Check
+   if (rand() % max(targetLevel - stats["ACC"], 0) == 0)
+   {
+      Event ev = Event(Event::ET_DAMAGE, "subject", uuid);
+      ev.numParams["damage"] = damage;
+      eventQueue->queueEvent(ev);
+   }
 }
 /*-----------------------------------------------*/
 void BattleSprite::notify(Event* event)
