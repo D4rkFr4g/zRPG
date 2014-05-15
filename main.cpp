@@ -218,6 +218,9 @@ static void loadSprites()
    spriteManager::init(&g_spriteBuckets, &g_textures, &g_windowMaxWidth, &g_windowMaxHeight);
    spriteManager::loadLevelSprites(g_currentLevel->name);
 
+   Texture* title = &g_textures["title"];
+   g_titleScreen = Sprite(&title->texture, 0, 0, title->width, title->height);
+
 	// Create and place player on map
 	Texture* tex = &g_textures["link"];
  	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &g_eventQueue);
@@ -364,71 +367,73 @@ static void loadLevel()
 /*-----------------------------------------------*/
 static void clearBackground()
 {
-	/* PURPOSE:		Clears the background to a set color 
-		RECEIVES:	 
-		RETURNS:		 
-		REMARKS:		Black color currently
-	*/
+   /* PURPOSE:		Clears the background to a set color
+      RECEIVES:
+      RETURNS:
+      REMARKS:		Black color currently
+      */
 
-	float r,g,b;
-	r = 0;
-	g = 0;
-	b = 0;
+   float r, g, b;
+   r = 0;
+   g = 0;
+   b = 0;
 
-	glClearColor(r,g,b,1);
-	glClear(GL_COLOR_BUFFER_BIT);
+   glClearColor(r, g, b, 1);
+   glClear(GL_COLOR_BUFFER_BIT);
    SDL_GL_SwapWindow(g_window);
 }
 /*-----------------------------------------------*/
 static void keyboard()
 {
-	/* PURPOSE:		Handles keyboard presses by user 
-		RECEIVES:	 
-		RETURNS:		 
-		REMARKS:		Player related controls are handled through player class
-	*/
+   /* PURPOSE:		Handles keyboard presses by user
+      RECEIVES:
+      RETURNS:
+      REMARKS:		Player related controls are handled through player class
+      */
 
-   if (!g_isInputRequired)
-      player::playerKeyboard(&g_player, kbState, kbPrevState);
-   else
-      player::stopPlayer(&g_player);
+   if (!g_isTitleShowing)
+   {
+      if (!g_isInputRequired)
+         player::playerKeyboard(&g_player, kbState, kbPrevState);
+      else
+         player::stopPlayer(&g_player);
 
-   if (battleManager::isBattle)
-      battleManager::keyboard(kbState, kbPrevState);
-   else
-      g_dialogManager.dialogKeyboard(kbState, kbPrevState);
-
+      if (battleManager::isBattle)
+         battleManager::keyboard(kbState, kbPrevState);
+      else
+         g_dialogManager.dialogKeyboard(kbState, kbPrevState);
+   }
    // Reset camera to following if it has been moved around
-	if (g_cam.isFollowing && (kbState[SDL_SCANCODE_UP] | kbState[SDL_SCANCODE_DOWN] | kbState[SDL_SCANCODE_LEFT] | kbState[SDL_SCANCODE_RIGHT]))
-		g_cam.isFollowing = false;
-	else if (!g_cam.isFollowing)
-	{
-		if (kbState[SDL_SCANCODE_W] | kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_D])
-			g_cam.isFollowing = true;
-	}
+   if (g_cam.isFollowing && (kbState[SDL_SCANCODE_UP] | kbState[SDL_SCANCODE_DOWN] | kbState[SDL_SCANCODE_LEFT] | kbState[SDL_SCANCODE_RIGHT]))
+      g_cam.isFollowing = false;
+   else if (!g_cam.isFollowing)
+   {
+      if (kbState[SDL_SCANCODE_W] | kbState[SDL_SCANCODE_A] | kbState[SDL_SCANCODE_D])
+         g_cam.isFollowing = true;
+   }
 
-	if (kbState[ SDL_SCANCODE_LEFT ])
-	{
-		g_cam.updateX(-camSpeed);
-	}
-	else if (kbState[ SDL_SCANCODE_RIGHT ])
-	{
-		g_cam.updateX(camSpeed);
-	}
-	else if (kbState[ SDL_SCANCODE_UP ])
-	{
-		g_cam.updateY(-camSpeed);
-	}
-	else if (kbState[ SDL_SCANCODE_DOWN ])
-	{
-		g_cam.updateY(camSpeed);
-	}
-	else if (kbState[ SDL_SCANCODE_ESCAPE ])
-	{
-		shouldExit = true;
-	}
-	else if (kbState[ SDL_SCANCODE_EQUALS] || kbState[ SDL_SCANCODE_KP_PLUS ])
-	{
+   if (kbState[SDL_SCANCODE_LEFT])
+   {
+      g_cam.updateX(-camSpeed);
+   }
+   else if (kbState[SDL_SCANCODE_RIGHT])
+   {
+      g_cam.updateX(camSpeed);
+   }
+   else if (kbState[SDL_SCANCODE_UP])
+   {
+      g_cam.updateY(-camSpeed);
+   }
+   else if (kbState[SDL_SCANCODE_DOWN])
+   {
+      g_cam.updateY(camSpeed);
+   }
+   else if (kbState[SDL_SCANCODE_ESCAPE])
+   {
+      shouldExit = true;
+   }
+   else if (kbState[SDL_SCANCODE_EQUALS] || kbState[SDL_SCANCODE_KP_PLUS])
+   {
       // TODO Remove
       Chicken* chicken = new Chicken();
       chicken->updatePosition(1000, 1000);
@@ -439,25 +444,30 @@ static void keyboard()
       else if (bucket >= g_spriteBuckets.size() - 1)
          bucket = g_spriteBuckets.size() - 1;
       g_spriteBuckets[bucket].push_back(chicken);
-	}
-	else if (kbState[SDL_SCANCODE_MINUS] || kbState[SDL_SCANCODE_KP_MINUS])
-	{
-		// Remove a random chicken
-		int numOfBuckets = g_spriteBuckets.size();
-		int choice = rand() % numOfBuckets;
+   }
+   else if (kbState[SDL_SCANCODE_MINUS] || kbState[SDL_SCANCODE_KP_MINUS])
+   {
+      // Remove a random chicken
+      int numOfBuckets = g_spriteBuckets.size();
+      int choice = rand() % numOfBuckets;
 
-		if (g_spriteBuckets[choice].size() > 0)
-			g_spriteBuckets[choice].pop_back();
-	}
-	else if (kbState[SDL_SCANCODE_R] && !kbPrevState[SDL_SCANCODE_R])
-	{
-		player::restartPlayer(&g_player, g_currentLevel->startX, g_currentLevel->startY);
+      if (g_spriteBuckets[choice].size() > 0)
+         g_spriteBuckets[choice].pop_back();
+   }
+   else if (kbState[SDL_SCANCODE_R] && !kbPrevState[SDL_SCANCODE_R])
+   {
+      player::restartPlayer(&g_player, g_currentLevel->startX, g_currentLevel->startY);
       g_eventQueue.queueEvent(Event(Event::ET_RESTART));
-	}
+   }
    else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
    {
       // TODO remove this
       battleManager::checkBattle(battleManager::BATTLE_YES);
+   }
+
+   if (g_isTitleShowing && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
+   {
+      g_isTitleShowing = false;
    }
 }
 /*-----------------------------------------------*/
@@ -486,16 +496,20 @@ void onRender(int* tick, int* prevTick, int ticksPerFrame)
 
 	do 
 	{
-		// All draw calls go here
-		g_currentLevel->drawLevel(g_cam.x, g_cam.y, g_windowOriginalWidth, g_windowOriginalHeight);
-      if (!battleManager::isBattle)
-         drawSprites();
-      else
-         battleManager::drawSprites();
+         // All draw calls go here
+         g_currentLevel->drawLevel(g_cam.x, g_cam.y, g_windowOriginalWidth, g_windowOriginalHeight);
+         if (!battleManager::isBattle)
+            drawSprites();
+         else
+            battleManager::drawSprites();
 
-      drawDialogBoxes();
-
-		// Timer updates
+         drawDialogBoxes();
+      
+      // Title Screen
+         if (g_isTitleShowing)
+            g_titleScreen.draw();
+		
+      // Timer updates
 		SDL_Delay( max( 0, ticksPerFrame - (*tick - *prevTick) ));
 		*tick = SDL_GetTicks();
 	} while( ticksPerFrame - (*tick - *prevTick) > 0 );

@@ -71,3 +71,5 @@ static EventQueue g_eventQueue;
 std::vector<DialogContainer> g_dialogBoxes;
 static bool g_isInputRequired = false;
 MapManager g_MapManager;
+static Sprite g_titleScreen;
+static bool g_isTitleShowing = true;
