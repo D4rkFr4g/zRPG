@@ -320,7 +320,7 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
          // Check for new Transition
          if (isSelected)
          {
-            battleMenu.turnOff();
+            //battleMenu.turnOff();
             executeSelection();
          }
          else if (isCanceled)
@@ -675,6 +675,8 @@ void battleManager::executeSelection()
       REMARKS:
       */
 
+   bool isCanceled = false;
+
    BattleSprite* bPlayer = spriteQueue[0];
    // Fighting
    if (battleState == STATE_ENEMY)
@@ -715,25 +717,36 @@ void battleManager::executeSelection()
 
       if (itr->second > 0)
       {
-         itr->second--;
-         useItem(itr->first);
+         useItem(itr);
+      }
+      else
+      {
+         isCanceled = true;
       }
    }
-
-   battleMenu.resetAll();
-
-   battleState = STATE_IDLE;
-   updateCurrentTurn();
+   
+   if (!isCanceled)
+   {
+      battleMenu.turnOff();
+      battleState = STATE_IDLE;
+      battleMenu.resetAll();
+      updateCurrentTurn();
+   }
 }
 /*-----------------------------------------------*/
-void battleManager::useItem(std::string item)
+void battleManager::useItem(std::unordered_map<std::string, int>::iterator itr)
 {
+   std::string item = itr->first;
+   int* value = &itr->second;
+
    if (item.compare("Rupees") == 0)
    {
+      int damage = (int)ceil(*value / numEnemies);
+      (*value) = 0;
       for (int i = 1; i < (int)spriteQueue.size(); i++)
       {
          Event ev = Event(Event::ET_DAMAGE, "subject", spriteQueue[i]->getUUID());
-         ev.numParams["damage"] = 10;
+         ev.numParams["damage"] = damage;
          eventQueue->queueEvent(ev);
       }
    }

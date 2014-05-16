@@ -40,7 +40,7 @@ public:
    static void drawSprites();
    static void updateBattle(int ms);
    static void executeSelection();
-   static void useItem(std::string item);
+   static void useItem(std::unordered_map<std::string, int>::iterator);
    static void playerDeath();
    static void battleWin();
    static bool isEveryoneIdle();
