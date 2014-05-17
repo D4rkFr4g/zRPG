@@ -138,7 +138,7 @@ void spriteManager::initVillagerA()
 	//int initialVillagerA = 1;
 
 	VillagerA* villager = new VillagerA();
-	villager->updatePosition(100, 100);
+	villager->updatePosition(1850,870);
 	levelSprites["overworld"].push_back(villager);
 
 }
