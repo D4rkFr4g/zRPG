@@ -6,6 +6,7 @@
 #include "TileLevel.h"
 #include "PlayerSprite.h"
 #include "spriteManager.h"
+#include "bucketManager.h"
 
 class MapManager : public EventListener
 {
@@ -36,6 +37,8 @@ public:
    static Camera* camera;
    static int* windowWidth;
    static int* windowHeight;
+   static int* windowMaxWidth;
+   static int* windowMaxHeight;
    static EventQueue* eventQueue;
 };
 

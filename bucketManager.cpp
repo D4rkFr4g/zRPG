@@ -53,3 +53,24 @@ int bucketManager::whichBucket(int x, int y)
    return bucket;
 }
 /*-----------------------------------------------*/
+void bucketManager::updateBucketSize()
+{
+   spriteBuckets->clear();
+
+   int bucketWidth = (int)floor((float)*windowMaxWidth / *windowWidth);
+   int bucketHeight = (int)floor((float)*windowMaxHeight / *windowHeight);
+   int numOfBuckets = bucketWidth * bucketHeight;
+
+   // In case screen is too small
+   if (numOfBuckets < 1)
+      numOfBuckets = 1;
+
+   spriteBuckets->reserve(numOfBuckets);
+
+   for (int i = 0; i < numOfBuckets; i++)
+   {
+      std::vector<Sprite*> temp;
+      spriteBuckets->push_back(temp);
+   }
+}
+/*-----------------------------------------------*/

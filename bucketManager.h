@@ -14,6 +14,7 @@ public:
    // Functions
    static void init(std::vector<std::vector<Sprite*>>* spriteBuckets, int* windowWidth, int* windowHeight, int* windowMaxWidth, int* windowMaxHeight);
    static int whichBucket(int x, int y);
+   static void updateBucketSize();
 
    // Variables
    static int* windowHeight;

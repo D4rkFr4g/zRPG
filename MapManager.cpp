@@ -4,6 +4,8 @@ std::unordered_map<std::string, TileLevel>* MapManager::levels;
 Camera* MapManager::camera;
 int* MapManager::windowWidth;
 int* MapManager::windowHeight;
+int* MapManager::windowMaxWidth;
+int* MapManager::windowMaxHeight;
 EventQueue* MapManager::eventQueue;
 /*-----------------------------------------------*/
 MapManager::MapManager()
@@ -87,15 +89,16 @@ void MapManager::notify(Event* event)
             player->updatePosition(pos.x + xSpeed, pos.y + ySpeed);
 
             // Load sprites for the level
+            bucketManager::updateBucketSize();
             spriteManager::loadLevelSprites(name);
 
             // Update camera for new level
             
-            int windowMaxWidth = ((*currentLevel)->width * (*currentLevel)->tilesWidth);
-            int windowMaxHeight = ((*currentLevel)->height * (*currentLevel)->tilesHeight);
+            *windowMaxWidth = ((*currentLevel)->width * (*currentLevel)->tilesWidth);
+            *windowMaxHeight = ((*currentLevel)->height * (*currentLevel)->tilesHeight);
 
-            camera->maxX = windowMaxWidth - *windowWidth;
-            camera->maxY = windowMaxHeight - *windowHeight;
+            camera->maxX = *windowMaxWidth - *windowWidth;
+            camera->maxY = *windowMaxHeight - *windowHeight;
          }
       }
    }

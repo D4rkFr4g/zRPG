@@ -156,6 +156,8 @@ static void initMapManager()
    g_MapManager.camera = &g_cam;
    g_MapManager.windowWidth = &g_windowWidth;
    g_MapManager.windowHeight = &g_windowHeight;
+   g_MapManager.windowMaxWidth = &g_windowMaxWidth;
+   g_MapManager.windowMaxHeight = &g_windowMaxHeight;
    g_MapManager.currentLevel = &g_currentLevel;
    g_MapManager.eventQueue = &g_eventQueue;
 
@@ -193,22 +195,24 @@ static void initBuckets()
    bucketManager::init(&g_spriteBuckets, &g_windowWidth, &g_windowHeight, &g_windowMaxWidth, &g_windowMaxHeight);
    g_checkBuckets.assign(g_numOfCheckBuckets, 0);
 
-	// Initialize spriteBuckets
-	int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
-	int bucketHeight = (int) floor((float) g_windowMaxHeight / g_windowHeight);
-   int numOfBuckets = bucketWidth * bucketHeight;
-   
-   // In case screen is too small
-   if (numOfBuckets < 1)
-      numOfBuckets = 1;
+   bucketManager::updateBucketSize();
 
-	g_spriteBuckets.reserve(numOfBuckets);
-	
-	for (int i = 0; i < numOfBuckets; i++)
-	{
-		vector<Sprite*> temp;
-		g_spriteBuckets.push_back(temp);
-	}
+	//// Initialize spriteBuckets
+	//int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
+	//int bucketHeight = (int) floor((float) g_windowMaxHeight / g_windowHeight);
+ //  int numOfBuckets = bucketWidth * bucketHeight;
+ //  
+ //  // In case screen is too small
+ //  if (numOfBuckets < 1)
+ //     numOfBuckets = 1;
+
+	//g_spriteBuckets.reserve(numOfBuckets);
+	//
+	//for (int i = 0; i < numOfBuckets; i++)
+	//{
+	//	vector<Sprite*> temp;
+	//	g_spriteBuckets.push_back(temp);
+	//}
 }
 /*-----------------------------------------------*/
 static void loadSprites()
