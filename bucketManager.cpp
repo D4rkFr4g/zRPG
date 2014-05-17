@@ -45,7 +45,7 @@ int bucketManager::whichBucket(int x, int y)
 
    int bucket = (row * bucketWidth) + column;
    
-   if (bucket < 0 || bucket >= spriteBuckets->size()-1)
+   if (bucket < 0 || bucket > spriteBuckets->size()-1)
    {
       bucket = -1;
    }

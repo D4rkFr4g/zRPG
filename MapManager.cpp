@@ -89,7 +89,7 @@ void MapManager::notify(Event* event)
             // Load sprites for the level
             spriteManager::loadLevelSprites(name);
 
-            // Update camer for new level
+            // Update camera for new level
             
             int windowMaxWidth = ((*currentLevel)->width * (*currentLevel)->tilesWidth);
             int windowMaxHeight = ((*currentLevel)->height * (*currentLevel)->tilesHeight);

@@ -4,8 +4,8 @@
 VillagerA::VillagerA()
 {
 	Texture* tex = textureLoader::getTexture("friendly_npcs");
-	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0*tex->uSize, 7*tex->vSize, 1*tex->uSize, 1*tex->vSize);
-	*this = VillagerA((VillagerA&)sprite);
+   AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0*tex->uSize, 7*tex->vSize, 1*tex->uSize, 1*tex->vSize);
+   *this = VillagerA((VillagerA&)sprite);
 	type = 1;
 	name = "villagerA";
    isAnimated = false;
