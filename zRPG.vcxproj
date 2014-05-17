@@ -31,6 +31,7 @@
     <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="DrawUtils.cpp" />
     <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="enumLibrary.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="DialogManager.h" />
     <ClInclude Include="DrawUtils.h" />
     <ClInclude Include="enemyManager.h" />
+    <ClInclude Include="enumLibrary.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="EventListener.h" />

@@ -404,7 +404,7 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       REMARKS:
       */
 
-   if (battle == battleManager::BATTLE_YES)
+   if (battle == battleManager::BATTLE_YES) // TODO Remove later
    {
       currentBattle = battleManager::BATTLE_EASY;
       initBattle();

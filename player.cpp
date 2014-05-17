@@ -3,8 +3,6 @@
 
 //enum {IDLE, WALKING, RUN_SHOOTING, JUMPING, PRONE, PRONE_SHOOTING, IDLE_SHOOT, WALKING_GUN_UP, WALKING_GUN_DOWN, DEATH};
 enum { IDLE, WALKING_UP, WALKING_DOWN, WALKING_LEFT_RIGHT, WALKING_DIAG_UP, WALKING_DIAG_DOWN, DEATH };
-enum { COLLISION_NULL, COLLISION_GROUND, COLLISION_DEATH, COLLISION_PLATFORM, COLLISION_START, COLLISION_END, BATTLE_EASY,
-   BATTLE_MEDIUM, BATTLE_HARD, BATTLE_BOSS, DUNGEON_1, COLLISION_OVERWORLD, VILLAGER_COLLISION};
 enum { LEFT, RIGHT, TOP, BOTTOM };
 
 EventQueue* player::eventQueue;
@@ -454,7 +452,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    bool* sides = AABB::AABBwhichSideIntersected(&player->prevCollider, &player->collider, &sprite->collider);
 
    // Ground Collision
-   if (sprite->type == COLLISION_GROUND )
+   if (sprite->type == enumLibrary::COLLISION::GROUND )
    {
 
       if (sides[TOP])
@@ -487,38 +485,38 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    // Only resolve onCollisionEnter and not onCollisionStay
    if (!sprite->hasCollided)
    {
-      if (sprite->type == COLLISION_END)
+      if (sprite->type == enumLibrary::COLLISION::END)
       {
          //std::cout << "You Win" << std::endl;
       }
-      if (sprite->type == COLLISION_DEATH)
+      if (sprite->type == enumLibrary::COLLISION::DEATH)
       {
          //player->state = DEATH;
       }
-	  if (sprite->type == VILLAGER_COLLISION)
+      if (sprite->type == enumLibrary::COLLISION::VILLAGER)
 	  {
 		  //Dialog pops up here
 	  }
-      if (sprite->type == DUNGEON_1)
+      if (sprite->type == enumLibrary::COLLISION::DUNGEON_1)
       {
          eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "dungeon_1"));
       }
-      else if (sprite->type == COLLISION_OVERWORLD)
+      else if (sprite->type == enumLibrary::COLLISION::OVERWORLD)
       {
          eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
       }
       
       if (isBattleReady)
       {
-         if (sprite->type == BATTLE_EASY)
+         if (sprite->type == enumLibrary::COLLISION::BATTLE_EASY)
          {
             battleManager::checkBattle(battleManager::BATTLE_EASY);
          }
-         else if (sprite->type == BATTLE_MEDIUM)
+         else if (sprite->type == enumLibrary::COLLISION::BATTLE_MEDIUM)
          {
             battleManager::checkBattle(battleManager::BATTLE_MEDIUM);
          }
-         else if (sprite->type == BATTLE_HARD)
+         else if (sprite->type == enumLibrary::COLLISION::BATTLE_HARD)
          {
             battleManager::checkBattle(battleManager::BATTLE_HARD);
          }

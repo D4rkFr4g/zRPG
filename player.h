@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include "PlayerSprite.h"
 #include "EventQueue.h"
+#include "enumLibrary.h"
 
 class player
 {

@@ -109,13 +109,16 @@ void spriteManager::initChickens()
       */
 
    int initialChickens = 20;
+   std::vector<Sprite*> tiles = MapManager::getCollidableTileType("overworld", enumLibrary::COLLISION::BATTLE_EASY);
 
    // Load the Initial chickens
    for (int i = 0; i < initialChickens; i++)
    {
       Texture* tex = textureLoader::getTexture("chicken");
-      int x = rand() % (*maxScreenWidth - tex->cellWidth);
-      int y = rand() % (*maxScreenHeight - tex->cellHeight);
+  
+      int choice = rand() % tiles.size();
+      int x = tiles[choice]->x;
+      int y = tiles[choice]->y;
 
       Chicken* chicken = new Chicken();
       chicken->updatePosition(x, y);

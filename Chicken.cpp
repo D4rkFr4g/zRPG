@@ -81,8 +81,6 @@ void Chicken::AI()
          speedX = randomSpeed();
          speedY = randomSpeed();
          setAnimation("Walking");
-
-         updateDirection(speedX, speedY);
       }
    }
    else
@@ -98,6 +96,7 @@ void Chicken::AI()
    }
 
    setSpeed(speedX, speedY);
+   updateDirection();
 }
 /*-----------------------------------------------*/
 float Chicken::randomSpeed()
@@ -124,9 +123,10 @@ void Chicken::setRandomMovement()
    */
 
    setSpeed(randomSpeed(), randomSpeed());
+   updateDirection();
 }
 /*-----------------------------------------------*/
-void Chicken::updateDirection(float speedX, float speedY)
+void Chicken::updateDirection()
 {
    /* PURPOSE:		Turns chicken so it faces the correct direction
       RECEIVES:

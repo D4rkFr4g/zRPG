@@ -72,6 +72,10 @@ void MapManager::notify(Event* event)
                }
             }
 
+            // Set new map size
+            *windowMaxWidth = ((*currentLevel)->width * (*currentLevel)->tilesWidth);
+            *windowMaxHeight = ((*currentLevel)->height * (*currentLevel)->tilesHeight);
+
             // Calculate player direction
             int xSpeed = 0;
             int ySpeed = 0;
@@ -93,10 +97,6 @@ void MapManager::notify(Event* event)
             spriteManager::loadLevelSprites(name);
 
             // Update camera for new level
-            
-            *windowMaxWidth = ((*currentLevel)->width * (*currentLevel)->tilesWidth);
-            *windowMaxHeight = ((*currentLevel)->height * (*currentLevel)->tilesHeight);
-
             camera->maxX = *windowMaxWidth - *windowWidth;
             camera->maxY = *windowMaxHeight - *windowHeight;
          }
@@ -126,9 +126,8 @@ void MapManager::registerListeners(EventQueue* eventQueue)
 std::vector<Sprite*> MapManager::getCollidableTileType(std::string levelName, int tileType)
 {
    std::vector<Sprite*> tiles;
-
    std::unordered_map<std::string, TileLevel>::iterator itr = levels->find(levelName);
-   std::unordered_map<std::string, TileLevel>::iterator end;
+   std::unordered_map<std::string, TileLevel>::iterator end = levels->end();
 
    if (itr != end)
    {

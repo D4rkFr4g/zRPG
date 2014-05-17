@@ -196,23 +196,6 @@ static void initBuckets()
    g_checkBuckets.assign(g_numOfCheckBuckets, 0);
 
    bucketManager::updateBucketSize();
-
-	//// Initialize spriteBuckets
-	//int bucketWidth = (int) floor((float) g_windowMaxWidth / g_windowWidth);
-	//int bucketHeight = (int) floor((float) g_windowMaxHeight / g_windowHeight);
- //  int numOfBuckets = bucketWidth * bucketHeight;
- //  
- //  // In case screen is too small
- //  if (numOfBuckets < 1)
- //     numOfBuckets = 1;
-
-	//g_spriteBuckets.reserve(numOfBuckets);
-	//
-	//for (int i = 0; i < numOfBuckets; i++)
-	//{
-	//	vector<Sprite*> temp;
-	//	g_spriteBuckets.push_back(temp);
-	//}
 }
 /*-----------------------------------------------*/
 static void loadSprites()

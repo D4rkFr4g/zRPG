@@ -11,6 +11,7 @@
 #include "VillagerC.h"
 #include "bucketManager.h"
 #include "MapManager.h"
+#include "enumLibrary.h"
 
 class spriteManager
 {

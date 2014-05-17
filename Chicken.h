@@ -8,7 +8,7 @@ class Chicken : public AnimatedSprite
 private:
    void AI();
    float randomSpeed();
-   void updateDirection(float speedX, float speedY);
+   void updateDirection();
 
 public:
    Chicken();
