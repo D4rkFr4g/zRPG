@@ -42,13 +42,13 @@ int bucketManager::whichBucket(int x, int y)
    int column = (int)floor((float)x / *windowWidth);
    int row = (int)floor((float)y / (*windowHeight));
    int bucketWidth = (int)floor((float)*windowMaxWidth / *windowWidth);
+   int bucket = -1;
 
-   int bucket = (row * bucketWidth) + column;
-   
-   if (bucket < 0 || bucket > spriteBuckets->size()-1)
-   {
+   if (column >= 0 && row >= 0)
+      bucket = (row * bucketWidth) + column;
+
+   if (bucket < 0 || bucket >= spriteBuckets->size())
       bucket = -1;
-   }
 
    return bucket;
 }
