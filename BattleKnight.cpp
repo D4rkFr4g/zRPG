@@ -5,12 +5,12 @@
 BattleKnight::BattleKnight()
 {
    Texture* tex = textureLoader::getTexture("knight_battle");
-   BattleSprite enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
+   BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    *this = BattleKnight((BattleKnight&)enemy);
    isAnimated = false; //TODO Remove once animations are setup
    name = "knight";
    level = 10;
-   maxSpeed = 10;
+   maxSpeed = 100;
 
    // Setup animations
    float uSize = tex->uSize;

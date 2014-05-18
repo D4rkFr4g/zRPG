@@ -5,7 +5,8 @@
 BattleGanon::BattleGanon()
 {
    Texture* tex = textureLoader::getTexture("ganon_battle");
-   BattleSprite enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, 1, 1);
+   BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
+   *this = BattleGanon((BattleGanon&)enemy);
    isAnimated = false; //TODO Remove once animations are setup
    name = "Ganon";
    level = 11;
@@ -49,7 +50,7 @@ BattleGanon::BattleGanon()
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
 
-   setAnimation("Idle");
+   //setAnimation("Idle");
 }
 /*-----------------------------------------------*/
 BattleGanon::~BattleGanon()

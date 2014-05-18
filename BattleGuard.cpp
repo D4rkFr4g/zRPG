@@ -5,7 +5,7 @@
 BattleGuard::BattleGuard()
 {
    Texture* tex = textureLoader::getTexture("guard_battle");
-   BattleSprite enemy = BattleSprite(&tex->texture, 500, 100, tex->width, tex->height, 0, 0, tex->uSize, tex->vSize);
+   BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    *this = BattleGuard((BattleGuard&)enemy);
    isAnimated = false; // TODO Remove once animations are setup
    name = "guard";

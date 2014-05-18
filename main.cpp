@@ -450,7 +450,8 @@ static void keyboard()
    else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
    {
       // TODO remove this
-      battleManager::checkBattle(battleManager::BATTLE_YES);
+      //battleManager::checkBattle(battleManager::BATTLE_YES);
+      g_player.updatePosition(100, 2000);
    }
 
    if (g_isTitleShowing && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
