@@ -2,10 +2,10 @@
 
 Chest::Chest()
 {
-   //Texture* tex = textureLoader::getTexture("friendly_npcs");
-   //AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->width, tex->height, 0, 0, 0.5, 1);
-   //*this = Chest((Chest&)sprite);
-
+   Texture* tex = textureLoader::getTexture("friendly_npcs");
+   Sprite sprite = Sprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
+   *this = Chest((Chest&)sprite);
+   name = "chest";
 
 }
 /*-----------------------------------------------*/
@@ -13,6 +13,3 @@ Chest::~Chest()
 {
 }
 /*-----------------------------------------------*/
-void Chest::AI()
-{
-}

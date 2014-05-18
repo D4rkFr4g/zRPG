@@ -9,7 +9,7 @@ class Sprite
 {
 public:
 	// Constructors
-	Sprite(void);
+	Sprite();
 	Sprite(GLuint* texture, int width, int height);
 	Sprite(GLuint* texture, int x, int y, int width, int height);
 	Sprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);
