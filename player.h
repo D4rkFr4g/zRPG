@@ -26,4 +26,5 @@ public:
    static int timeSinceLastBattle;
    static bool isBattleReady;
    static const unsigned char* keyboard;
+   static const unsigned char* prevKeyboard;
 };

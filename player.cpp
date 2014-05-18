@@ -10,6 +10,7 @@ int player::timeBetweenBattles = 5000;
 int player::timeSinceLastBattle = 0;
 bool player::isBattleReady = false;
 const unsigned char* player::keyboard;
+const unsigned char* player::prevKeyboard;
 
 PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue)
 {
@@ -161,6 +162,7 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
    */
 
    keyboard = kbState;
+   prevKeyboard = kbPrevState;
 
    // Player Direction
    if (player->state != DEATH)
