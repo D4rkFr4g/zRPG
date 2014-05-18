@@ -17,6 +17,8 @@ public:
    void registerListeners(EventQueue* eventQueue);
    void stopAllMusic();
    void stopAllSoundFX();
+   void updateAudio();
+   void quit();
 
    // Variables
    FMOD_RESULT result;
@@ -25,4 +27,8 @@ public:
    FMOD::ChannelGroup* channelEffects;
    std::unordered_map<std::string, FMOD::Sound*> music;
    std::unordered_map<std::string, FMOD::Sound*> soundFX;
+   std::string currentMusic;
+   FMOD::Channel* currentChannel;
+   std::vector<FMOD::Channel*> channels;
+   FMOD::ChannelGroup* masterGroup;
 };

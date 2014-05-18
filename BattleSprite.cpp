@@ -67,8 +67,8 @@ void BattleSprite::applyDamage(int damage)
       RECEIVES: damage - amount of attack against sprite
       RETURNS:
       REMARKS:
-   */
-   
+      */
+
    bool isCrit = (rand() % 10) == 0;
 
    int defense = 2 * stats["CON"];
@@ -91,7 +91,7 @@ void BattleSprite::applyDamage(int damage)
 void BattleSprite::sendDamage(std::string uuid)
 {
    bool isCrit = (rand() % 10) == 0;
-   
+
    int damage = 10 * stats["STR"];
    if (isCrit)
    {
@@ -102,6 +102,7 @@ void BattleSprite::sendDamage(std::string uuid)
    if (rand() % max(targetLevel - stats["ACC"], 0) == 0)
    {
       Event ev = Event(Event::ET_DAMAGE, "subject", uuid);
+      ev.strParams["name"] = targetName;
       ev.numParams["damage"] = damage;
       eventQueue->queueEvent(ev);
    }
@@ -145,7 +146,7 @@ std::string BattleSprite::getUUID()
       RECEIVES:
       RETURNS: string representing uuid of object
       REMARKS:
-   */
+      */
 
    return uuid;
 }
@@ -154,11 +155,25 @@ void BattleSprite::update(int ms)
 {
    /* PURPOSE:    Updates position and animation and other event based tasks
       RECEIVES:   ms - time since last frame in milliseconds
-      RETURNS: 
+      RETURNS:
       REMARKS:
-   */
+      */
 
    AnimatedSprite::update(ms);
+
+   int targetFrame = 0;
+   if (name.compare("Link") == 0)
+      targetFrame = 8;
+   else if (name.compare("Ganon") == 0)
+      targetFrame = 4;
+   else
+      targetFrame = 4;
+
+   if (curAnimation.def.name.compare("Attack") == 0 && 
+      curAnimation.currentFrame == targetFrame && curAnimation.elapsedTime == 0)
+   {
+      eventQueue->queueEvent(Event(Event::ET_ATTACK, "name", name));
+   }
 
    if (curAnimation.def.name.compare("Attack") == 0 && curAnimation.timeToSendEvent() &&
       curAnimation.elapsedTime == 0)

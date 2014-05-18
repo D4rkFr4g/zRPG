@@ -24,7 +24,7 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    (*g_textures)["friendly_npcs"] = Texture(texture, *width, *height, 64, 64);
 
    texture = glTexImageTGAFile("./Sprites/spriteSheet_chicken.tga", width, height);
-   (*g_textures)["chicken"] = Texture(texture, 64, 64, 32, 32);
+   (*g_textures)["cucco"] = Texture(texture, 64, 64, 32, 32);
 
    texture = glTexImageTGAFile("./Sprites/pig_guard.tga", width, height);
    (*g_textures)["guard"] = Texture(texture, *width, *height, 64, 64);

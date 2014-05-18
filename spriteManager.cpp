@@ -114,7 +114,7 @@ void spriteManager::initChickens()
    // Load the Initial chickens
    for (int i = 0; i < initialChickens; i++)
    {
-      Texture* tex = textureLoader::getTexture("chicken");
+      Texture* tex = textureLoader::getTexture("cucco");
   
       int choice = rand() % tiles.size();
       int x = tiles[choice]->x;

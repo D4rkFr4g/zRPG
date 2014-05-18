@@ -119,8 +119,8 @@ static void initAudio()
    FMOD::ChannelGroup* channelEffects;
    FMOD::Channel    *channel = 0;
    
-   fmodSystem->createChannelGroup(NULL, &channelMusic);
-   fmodSystem->createChannelGroup(NULL, &channelEffects);
+   fmodSystem->createChannelGroup("Music", &channelMusic);
+   fmodSystem->createChannelGroup("SoundFX", &channelEffects);
 
    g_audio = Audio(fmodSystem, channelMusic, channelEffects);
    g_audio.registerListeners(&g_eventQueue);  //TODO Uncomment
@@ -450,7 +450,8 @@ static void keyboard()
    else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
    {
       // TODO remove this
-      battleManager::checkBattle(battleManager::BATTLE_YES);
+      //battleManager::checkBattle(battleManager::BATTLE_YES);
+      g_player.updatePosition(100, 2000);
    }
 
    if (g_isTitleShowing && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
@@ -530,6 +531,8 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
       else
          battleManager::updateBattle(ticksPerPhysics);
 
+      g_audio.updateAudio();
+
 		// Update Timers
 		*prevPhysicsTick += ticksPerPhysics;
 	}
@@ -537,9 +540,7 @@ void onPhysics(int tick, int* prevPhysicsTick, int ticksPerPhysics)
 /*-----------------------------------------------*/
 static void onQuit()
 {
-   fmodSystem->close();
-   fmodSystem->release();
-
+   g_audio.quit();
    
    for (int i = 0; i < (int)g_spriteBuckets.size(); i++)
       g_spriteBuckets[i].clear();

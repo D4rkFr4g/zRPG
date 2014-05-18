@@ -64,6 +64,7 @@ public:
    int opponentY;
    std::string targetUUID;
    int targetLevel;
+   std::string targetName;
    bool isDefending;
    bool isAlive;
    bool isRemovable;

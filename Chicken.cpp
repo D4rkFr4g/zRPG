@@ -3,11 +3,11 @@
 
 Chicken::Chicken()
 {
-   Texture* tex = textureLoader::getTexture("chicken");
+   Texture* tex = textureLoader::getTexture("cucco");
    AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->width, tex->height, 0, 0, 0.5, 1);
    *this = Chicken((Chicken&)sprite);
    type = 1;
-   name = "chicken";
+   name = "cucco";
 
    //Setup Collider
    int xOffset = 20;

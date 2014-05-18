@@ -216,3 +216,7 @@ pip-log.txt
 
 #Dll's
 *.dll
+
+# Original Audio files
+Audio/Music/Original/*
+Audio/SoundFX/Original/*

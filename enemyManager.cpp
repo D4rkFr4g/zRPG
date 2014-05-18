@@ -19,7 +19,7 @@ void enemyManager::init(std::unordered_map<std::string, Texture>* _textures, std
    (*enemies)[BATTLE_EASY].push_back(new BattleChicken());
    (*enemies)[BATTLE_MEDIUM].push_back(new BattleGuard());
    (*enemies)[BATTLE_HARD].push_back(new BattleKnight());
-   (*enemies)[BATTLE_HARD].push_back(new BattleGanon());
+   (*enemies)[BATTLE_BOSS].push_back(new BattleGanon());
 }
 /*-----------------------------------------------*/
 void enemyManager::updateEnemy(BattleSprite* enemy)

@@ -19,9 +19,11 @@ public:
       ET_DEATH,
       ET_RESTART,
       ET_LEVEL_LOAD,
+      ET_ATTACK,
       ET_DAMAGE,
       ET_PAUSED,
-      ET_LEVEL_MUSIC
+      ET_LEVEL_MUSIC,
+      ET_SOUND
    };
 
    // Constructors
