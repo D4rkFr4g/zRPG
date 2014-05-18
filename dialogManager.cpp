@@ -131,7 +131,7 @@ void DialogManager::initDialogs()
    /*============================================================================*/
 
    dBoxes.clear();
-   text = "You have found the Master Sword!";
+   text = "You have found the Master Sword!            ";
    sizeDialogBox(&rows, &cols, 1, text);
    center(&x, &y, rows, cols);
 
@@ -310,7 +310,7 @@ void DialogManager::notify(Event* event)
          loadDialogQueue(dialogs["intro"], true);
    }
 
-   if (event->type == Event::ET_DEATH)
+   if (event->type == Event::ET_DEATH && event->checkStrParam("subject", "Link"))
       loadDialogQueue(dialogs["death"], true);
    if (event->type == Event::ET_RESTART)
       dialogQueue->clear();
@@ -386,6 +386,7 @@ void DialogManager::registerListeners(EventQueue* eventQueue)
    eventQueue->addEventListener(Event::ET_DEATH, this);
    eventQueue->addEventListener(Event::ET_RESTART, this);
    eventQueue->addEventListener(Event::ET_COLLISION_START, this);
+   eventQueue->addEventListener(Event::ET_ITEM, this);
 }
 /*-----------------------------------------------*/
 void DialogManager::initBattleDialog(std::vector<BattleSprite*>* battleSprites)

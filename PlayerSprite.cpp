@@ -84,7 +84,7 @@ void PlayerSprite::notify(Event* event)
             if (itr == end)
                items[name] = 0;
 
-            itr->second += qty;
+            items.find(name)->second += qty;
          }
       }
    }

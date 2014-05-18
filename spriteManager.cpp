@@ -185,17 +185,38 @@ void spriteManager::initChests()
 	REMARKS:
 	*/
 
-	Chest* chest_1 = new Chest();
-	Chest* chest_2 = new Chest();
-	Chest* chest_3 = new Chest();
-	Chest* chest_4 = new Chest();
-	chest_1->updatePosition(300, 80);
-	chest_2->updatePosition(2172, 305);
-	chest_3->updatePosition(2971, 129);
-	chest_4->updatePosition(300, 1872);
-	levelSprites["overworld"].push_back(chest_1);
-	levelSprites["overworld"].push_back(chest_2);
-	levelSprites["overworld"].push_back(chest_3);
-	levelSprites["overworld"].push_back(chest_4);
+   struct ChestPos
+   {
+      std::string levelName;
+      std::string item;
+      int x;
+      int y;
+      int qty;
 
+      ChestPos(std::string _levelName, std::string _item, int _qty, int _x, int _y)
+      {
+         levelName = _levelName;
+         x = _x;
+         y = _y;
+         item = _item;
+         qty = _qty;
+      }
+   };
+
+   std::vector<ChestPos> chests;
+
+   chests.push_back(ChestPos("overworld", "Rupees", 300, 304, 80));
+   chests.push_back(ChestPos("overworld", "Red Potion", 5, 2176, 304));
+   chests.push_back(ChestPos("overworld", "Green Potion", 5, 2976, 128));
+   chests.push_back(ChestPos("overworld", "Green Potion", 5, 304, 1872));
+   chests.push_back(ChestPos("dungeon_1", "sword", 1, 480, 416));
+
+   for (int i = 0; i < (int)chests.size(); i++)
+   {
+      Chest* chest = new Chest();
+      chest->updatePosition(chests[i].x, chests[i].y);
+      chest->itemName = chests[i].item;
+      chest->qty = chests[i].qty;
+      levelSprites[chests[i].levelName].push_back(chest);
+   }
 }

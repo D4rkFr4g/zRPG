@@ -616,7 +616,7 @@ void battleManager::updateBattle(int ms)
    // Low health for Link
    healthTimer -= ms;
    float alpha = ((float)spriteQueue[0]->health / (float)spriteQueue[0]->maxHealth);
-   if (alpha < 0.10 && healthTimer <= 0)
+   if (alpha > 0 && alpha < 0.10 && healthTimer <= 0)
    {
       healthTimer = 1000;
       eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "low_health"));

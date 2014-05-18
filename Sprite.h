@@ -52,6 +52,7 @@ public:
 	float prevPosX, prevPosY;
 	int type;
    bool isColliderDrawn;
+   bool isVisible;
    static EventQueue* eventQueue;
 
 private:

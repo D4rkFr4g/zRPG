@@ -73,6 +73,7 @@ void Sprite::initialize(GLuint* texture, int x, int y, int offsetX, int offsetY,
 	colliderXOffset = 0;
 	colliderYOffset = 0;
    isColliderDrawn = false;
+   isVisible = true;
    hasCollided = false;
    maxSpeed = 0;
 }
@@ -85,7 +86,8 @@ void Sprite::draw(void)
 		REMARKS:		 
 	*/
 
-	glDrawSprite(*texture, x, y, width, height);
+   if (isVisible)
+	   glDrawSprite(*texture, x, y, width, height);
 }
 /*-----------------------------------------------*/
 void Sprite::draw(int camX, int camY)
@@ -96,11 +98,13 @@ void Sprite::draw(int camX, int camY)
 		RETURNS:		 
 		REMARKS:		 
 	*/
+   if (isVisible)
+   {
+      glDrawSprite(*texture, x + offsetX - camX, y + offsetY - camY, width, height);
 
-	glDrawSprite(*texture, x + offsetX - camX, y + offsetY - camY, width, height);
-   
-   if (isColliderDrawn)
-      drawCollider(camX, camY);
+      if (isColliderDrawn)
+         drawCollider(camX, camY);
+   }
 }
 /*-----------------------------------------------*/
 void Sprite::drawUV(int camX, int camY)
@@ -112,26 +116,29 @@ void Sprite::drawUV(int camX, int camY)
 		REMARKS:		 
 	*/
 
-	GLfloat u = tu;
-	GLfloat v = tv;
-	GLfloat uSize = tSizeX;
-	GLfloat vSize = tSizeY;
+   if (isVisible)
+   {
+      GLfloat u = tu;
+      GLfloat v = tv;
+      GLfloat uSize = tSizeX;
+      GLfloat vSize = tSizeY;
 
-	if (isFlippedX)
-	{
-		u += uSize;
-		uSize *= -1;
-	}
-	if (isFlippedY)
-	{
-		v += vSize;
-		vSize *= -1;
-	}
+      if (isFlippedX)
+      {
+         u += uSize;
+         uSize *= -1;
+      }
+      if (isFlippedY)
+      {
+         v += vSize;
+         vSize *= -1;
+      }
 
-	glDrawSprite(*texture, x + offsetX - camX, y + offsetY - camY, width, height, u, v, uSize, vSize);
-   
-   if (isColliderDrawn)
-      drawCollider(camX, camY);
+      glDrawSprite(*texture, x + offsetX - camX, y + offsetY - camY, width, height, u, v, uSize, vSize);
+
+      if (isColliderDrawn)
+         drawCollider(camX, camY);
+   }
 }
 /*-----------------------------------------------*/
 void Sprite::update(int ms)

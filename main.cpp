@@ -272,8 +272,11 @@ void updateSprites(int diff_time)
 				sprite->update(diff_time);
 
 				// Check for Collisions
-				if (g_player.collider.AABBIntersect(&sprite->collider))
-					player::collisionResolution(&g_player, sprite);
+            if (g_player.collider.AABBIntersect(&sprite->collider))
+            {
+               if (!g_isInputRequired)
+                  player::collisionResolution(&g_player, sprite);
+            }
             else
                sprite->hasCollided = false;
 			}
@@ -324,8 +327,18 @@ static void drawSprites()
 			for (int j = 0; j < (int) g_spriteBuckets[bucket].size(); j++)
 			{
 				// Only draw if sprite is on screen
-				if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j]->collider))
-					g_spriteBuckets[bucket][j]->drawUV(g_cam.x, g_cam.y);
+            if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j]->collider))
+            {
+               g_spriteBuckets[bucket][j]->drawUV(g_cam.x, g_cam.y);
+
+               //// TODO Remove
+               //if (g_spriteBuckets[bucket][j]->name.compare("chest") == 0)
+               //{
+               //   Chest* chest = (Chest*) g_spriteBuckets[bucket][j];
+               //   int x = 0;
+               //   x++;
+               //}
+            }
 			}
 		}
 	}
@@ -454,8 +467,8 @@ static void keyboard()
    else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
    {
       // TODO remove this
-      //battleManager::checkBattle(battleManager::BATTLE_YES);
-      g_player.updatePosition(100, 2000);
+      battleManager::checkBattle(battleManager::BATTLE_YES);
+      //g_player.updatePosition(100, 2000);
    }
 
    if (g_isTitleShowing && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])

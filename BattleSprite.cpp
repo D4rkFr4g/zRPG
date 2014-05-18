@@ -82,13 +82,6 @@ void BattleSprite::applyDamage(int damage)
    health -= (damage - defense);
    setAnimation("Damaged");
 
-   if (health <= 0)
-   {
-      isAlive = false;
-      eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", name));
-      setAnimation("Death");
-   }
-
    //isDefending = false; // Good for one attack or the rest of turn?
 }
 /*-----------------------------------------------*/
@@ -168,6 +161,13 @@ void BattleSprite::update(int ms)
       */
 
    AnimatedSprite::update(ms);
+
+   if (health <= 0 && isAlive)
+   {
+      isAlive = false;
+      eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", name));
+      setAnimation("Death");
+   }
 
    // This should not be like this need to convert Link to it's own class.
    if (name.compare("Link") != 0)
