@@ -448,6 +448,11 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       currentBattle = battleManager::BATTLE_BOSS;
       initBattle();
    }
+   else if (battle == BATTLE_BOSS)
+   {
+      currentBattle = battle;
+      initBattle();
+   }
    else if (rand() % 4 == 0)
    {
       currentBattle = battle;
