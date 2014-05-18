@@ -83,7 +83,10 @@ void BattleSprite::applyDamage(int damage)
    setAnimation("Damaged");
 
    if (health <= 0)
+   {
       isAlive = false;
+      eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", name));
+   }
 
    //isDefending = false; // Good for one attack or the rest of turn?
 }

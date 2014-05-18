@@ -135,10 +135,20 @@ void Audio::notify(Event* event)
    }
    if (event->type == Event::ET_DEATH)
    {
-      if (event->checkStrParam("subject", "player"))
+      if (event->checkStrParam("subject", "Link"))
       {
          Channel* channel;
          fmodSystem->playSound(soundFX["link_dying"], channelEffects, false, &channel);
+      }
+      else if (event->checkStrParam("subject", "Ganon"))
+      {
+         Channel* channel;
+         fmodSystem->playSound(soundFX["boss_kill"], channelEffects, false, &channel);
+      }
+      else
+      {
+         Channel* channel;
+         fmodSystem->playSound(soundFX["enemy_kill"], channelEffects, false, &channel);
       }
    }
 

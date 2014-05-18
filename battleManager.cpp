@@ -591,7 +591,7 @@ void battleManager::updateBattle(int ms)
    // End battle if player dead
    if (isPlayerAlive && spriteQueue[0]->health <= 0)
    {
-      eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
+      //eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
       isPlayerAlive = false;
 
       dialogManager->battleResetDialog();
