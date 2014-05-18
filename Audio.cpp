@@ -123,8 +123,8 @@ void Audio::notify(Event* event)
          fmodSystem->playSound(music[currentMusic], channelMusic, false, &currentChannel);
          currentChannel->setChannelGroup(channelMusic);
       }
-      else if (event->checkStrParam("level", "battle_easy") || 
-         event->checkStrParam("level", "battle_medium") || 
+      else if (event->checkStrParam("level", "battle_easy") ||
+         event->checkStrParam("level", "battle_medium") ||
          event->checkStrParam("level", "battle_hard"))
       {
          stopAllMusic();
@@ -163,6 +163,14 @@ void Audio::notify(Event* event)
       }
    }
 
+   if (event->type == Event::ET_BATTLE_WIN)
+   {
+      stopAllMusic();
+      Channel* channel;
+      fmodSystem->playSound(music["boss_clear_fanfare"], channelMusic, false, &channel);
+      channel->setChannelGroup(channelMusic);
+   }
+
    if (event->type == Event::ET_DAMAGE)
    {
       if (event->checkStrKey("name"))
@@ -171,7 +179,7 @@ void Audio::notify(Event* event)
 
          Channel* channel;
          std::string sound = "";
-         
+
          if (name.compare("link") == 0)
             sound = "link_hurt";
          else if (name.compare("guard") == 0 || name.compare("knight") == 0)
@@ -243,6 +251,7 @@ void Audio::registerListeners(EventQueue* eventQueue)
    eventQueue->addEventListener(Event::ET_SOUND, this);
    eventQueue->addEventListener(Event::ET_DAMAGE, this);
    eventQueue->addEventListener(Event::ET_ATTACK, this);
+   eventQueue->addEventListener(Event::ET_BATTLE_WIN, this);
 }
 /*-----------------------------------------------*/
 void Audio::stopAllMusic()

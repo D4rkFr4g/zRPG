@@ -793,6 +793,8 @@ void battleManager::battleWin()
       REMARKS:
       */
 
+   eventQueue->queueEvent(Event(Event::ET_BATTLE_WIN));
+
    BattleSprite* bPlayer = spriteQueue[0];
 
    std::unordered_map<std::string, int> tempReward;
