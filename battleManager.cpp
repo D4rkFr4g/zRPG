@@ -474,20 +474,18 @@ void battleManager::initBattle()
 
    numEnemies = rand() % 3 + 1;
 
+   std::string battle = "";
+
    if (currentBattle == BATTLE_EASY)
-      *currentLevel = &(*levels)["battle_test"];
+      battle = "battle_easy";
    else if (currentBattle == BATTLE_MEDIUM)
-   {
-      *currentLevel = &(*levels)["battle_medium"];
-   }
+      battle = "battle_medium";
    else if (currentBattle == BATTLE_HARD)
-   {
-      *currentLevel = &(*levels)["battle_hard"];
-   }
+      battle = "battle_hard";
    else if (currentBattle == BATTLE_BOSS)
-   {
-      *currentLevel = &(*levels)["battle_boss"];
-   }
+      battle = "battle_boss";
+
+   eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", battle));
 
    if (currentBattle == BATTLE_BOSS)
       numEnemies = 1;
@@ -505,8 +503,9 @@ void battleManager::initBattle()
       enemy->registerListeners(eventQueue);
       enemy->targetUUID = spriteQueue[0]->getUUID();
       enemy->targetLevel = spriteQueue[0]->level;
+      enemy->targetName = "link";
       enemy->opponentY = spriteQueue[0]->y;
-
+      
       totalLevel += enemy->level;
 
       // Boost random stats based on level
@@ -549,7 +548,7 @@ void battleManager::battleCleanup()
    //battlePlayer.health = battlePlayer.maxHealth;
    //battlePlayer.magic = battlePlayer.maxMagic;
    player->isAlive = true;
-   *currentLevel = previousLevel;
+   eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", previousLevel->name));
    isBattle = false;
    spriteQueue[0]->updatePosition(spriteQueue[0]->x, spriteQueue[0]->startY);
 
@@ -684,6 +683,7 @@ void battleManager::executeSelection()
       int choice = battleMenu.getSelectedEnemy();
       bPlayer->targetUUID = spriteQueue[choice + 1]->getUUID();
       bPlayer->targetLevel = spriteQueue[choice + 1]->level;
+      bPlayer->targetName = spriteQueue[choice + 1]->name;
 
       // Adjust to be on same track as enemy
       bPlayer->posY = spriteQueue[choice + 1]->posY;

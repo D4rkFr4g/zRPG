@@ -8,7 +8,7 @@ BattleChicken::BattleChicken()
    BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    *this = BattleChicken((BattleChicken&)enemy);
    //isAnimated = true; // TODO Remove once animations are setup
-   name = "chicken";
+   name = "cucco";
    level = 1;
    maxSpeed = 100;
    health = 30;
