@@ -165,16 +165,20 @@ void BattleSprite::update(int ms)
 
    AnimatedSprite::update(ms);
 
-   // Determine when turn is over
-   if (state != STATE_IDLE && isIdle() && state != STATE_FLEE)
-      state = STATE_IDLE;
+   // This should not be like this need to convert Link to it's own class.
+   if (name.compare("Link") != 0)
+   {
+      // Determine when turn is over
+      if (state != STATE_IDLE && isIdle() && state != STATE_FLEE)
+         state = STATE_IDLE;
 
-   // Move to correct yPosition
-   if (state == STATE_ATTACK)
-      updatePosition(x, opponentY);
-   // Move back to yPosition
-   else if (state == STATE_IDLE)
-      updatePosition(x, startY);
+      // Move to correct yPosition
+      if (state == STATE_ATTACK)
+         updatePosition(x, opponentY);
+      // Move back to yPosition
+      else if (state == STATE_IDLE)
+         updatePosition(x, startY);
+   }
 
    // Setup timing for attack sounds
    int targetFrame = 0;
