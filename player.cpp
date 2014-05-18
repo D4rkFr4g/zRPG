@@ -500,7 +500,12 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       }
       if (sprite->type == enumLibrary::COLLISION::VILLAGER)
 	  {
-		  //Dialog goes here
+		  sprite->onCollision();
+
+		  if (keyboard[SDL_SCANCODE_J] && !prevKeyboard[SDL_SCANCODE_J])
+		  {
+			  sprite->onTrigger();
+		  }
 	  }
       if (sprite->type == enumLibrary::COLLISION::DUNGEON_1)
       {
