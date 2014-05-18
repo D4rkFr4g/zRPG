@@ -1,12 +1,12 @@
 #pragma once
-#include "AnimatedSprite.h"
+#include "Sprite.h"
 #include "Texture.h"
 #include "textureLoader.h"
 
-class Chest : public AnimatedSprite
+class Chest : public Sprite
 {
 private:
-	void AI();
+	//void AI();
 	//float randomSpeed();
 	//void updateDirection();
 
@@ -17,5 +17,8 @@ public:
 	// Functions
 	//virtual void update(int ms) override;
 	//void setRandomMovement();
+
+	//Variables
+	std::map<std::string, AnimationData> animations;
 };
 

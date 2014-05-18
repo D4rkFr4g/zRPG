@@ -27,6 +27,7 @@ public:
 	void print();
 	void drawCollider(int camX, int camY);
 	void setCollider(AABB *box);
+	void updatePosition(float x, float y);
 
 	// Variables
 	GLuint* texture;

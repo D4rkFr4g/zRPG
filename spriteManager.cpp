@@ -32,7 +32,8 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
    initChickens();
    initVillagerA();
    initVillagerB();
-   //initVillagerC();
+   initVillagerC();
+   //initChests();
 
    // Setup map structure so they are not null
    // Should probably send the filnames and load them that way in one place
@@ -155,7 +156,7 @@ void spriteManager::initVillagerB()
 	*/
 
 	VillagerB* villager = new VillagerB();
-	villager->updatePosition(1000, 400);
+	villager->updatePosition(665, 580);
 	levelSprites["overworld"].push_back(villager);
 
 }
@@ -169,8 +170,22 @@ void spriteManager::initVillagerC()
 	*/
 
 	VillagerC* villager = new VillagerC();
-	villager->updatePosition(700, 700);
+	villager->updatePosition(1090, 415);
 	levelSprites["overworld"].push_back(villager);
 
 }
 /*-----------------------------------------------*/
+void spriteManager::initChests()
+{
+	/* PURPOSE:		Loads the treasure chest sprites in the designated level
+	RECEIVES:
+	RETURNS:
+	REMARKS:
+	*/
+
+	Chest* chest_1 = new Chest();
+	//Chest* chest_2 = new Chest();
+	chest_1->updatePosition(200, 100);
+	levelSprites["overworld"].push_back(chest_1);
+
+}
