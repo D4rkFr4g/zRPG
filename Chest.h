@@ -3,10 +3,12 @@
 #include "Texture.h"
 #include "textureLoader.h"
 
-class Chest : public Chest
+class Chest : public AnimatedSprite
 {
 private:
-	//void AI();
+	void AI();
+	//float randomSpeed();
+	//void updateDirection();
 
 public:
 	Chest();
