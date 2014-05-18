@@ -25,4 +25,5 @@ public:
    static int timeBetweenBattles;
    static int timeSinceLastBattle;
    static bool isBattleReady;
+   static const unsigned char* keyboard;
 };
