@@ -16,7 +16,7 @@ public:
 	static PlayerSprite makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* eventQueue);
 	static void playerKeyboard(PlayerSprite* player, const unsigned char* kbState, unsigned char* kbPrevState);
 	static void updatePhysics(PlayerSprite* player, int diff_time);
-	static void collisionResolution(PlayerSprite* player, Sprite* sprite);
+   static void collisionResolution(PlayerSprite* player, Sprite* sprite, const unsigned char* kbState, unsigned char* kbPrevState);
 	static void restartPlayer(PlayerSprite* player, int x, int y);
    static void stopPlayer(PlayerSprite* player);
 
@@ -28,6 +28,4 @@ public:
    static int timeBetweenDialogs;
    static int timeSinceLastDialog;
    static bool isDialogReady;
-   static const unsigned char* keyboard;
-   static const unsigned char* prevKeyboard;
 };

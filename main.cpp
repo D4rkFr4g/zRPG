@@ -250,7 +250,7 @@ void updateSprites(int diff_time)
    while (collisions->size() > 0 && g_currentLevel->name.compare(levelName)==0)
 	{
       Sprite* sprite = &g_currentLevel->tileArray[collisions->front()];
-		player::collisionResolution(&g_player, sprite);
+		player::collisionResolution(&g_player, sprite, kbState, kbPrevState);
 		collisions->erase(collisions->begin());
  	}
 
@@ -275,7 +275,7 @@ void updateSprites(int diff_time)
             if (g_player.collider.AABBIntersect(&sprite->collider))
             {
                if (!g_isInputRequired)
-                  player::collisionResolution(&g_player, sprite);
+                  player::collisionResolution(&g_player, sprite, kbState, kbPrevState);
             }
             else
                sprite->hasCollided = false;

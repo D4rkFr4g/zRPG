@@ -12,8 +12,6 @@ bool player::isBattleReady = false;
 int player::timeBetweenDialogs = 1000;
 int player::timeSinceLastDialog = 0;
 bool player::isDialogReady = false;
-const unsigned char* player::keyboard;
-const unsigned char* player::prevKeyboard;
 
 PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue)
 {
@@ -163,9 +161,6 @@ void player::playerKeyboard(PlayerSprite* player, const unsigned char* kbState, 
    RETURNS:
    REMARKS:
    */
-
-   keyboard = kbState;
-   prevKeyboard = kbPrevState;
 
    // Player Direction
    if (player->state != DEATH)
@@ -455,7 +450,7 @@ void player::updatePhysics(PlayerSprite* player, int diff_time)
    }
 }
 /*-----------------------------------------------*/
-void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
+void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const unsigned char* kbState, unsigned char* kbPrevState)
 {
    /* PURPOSE:		Handles collision based resolutions of sprites
    RECEIVES:	player - Sprite object of player
@@ -502,7 +497,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    }
 
    // Handle Trigger events
-   if (keyboard[SDL_SCANCODE_J] && !prevKeyboard[SDL_SCANCODE_J])
+   if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
       sprite->onTrigger();
 
    // Only resolve onCollisionEnter and not onCollisionStay
@@ -521,12 +516,16 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       }
       if (sprite->type == enumLibrary::COLLISION::VILLAGER)
       {
-         if (keyboard[SDL_SCANCODE_J] && !prevKeyboard[SDL_SCANCODE_J])
+         if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
          {
             if (!player->hasSword)
             {
                Event ev = Event(Event::ET_COLLISION_START, "dialog", "guard_warning");
                eventQueue->queueEvent(ev);
+
+               player->speedX = 0;
+               player->updatePosition(player->posX - 3, player->posY);
+               player->updateCamera();
             }
             else
             {
@@ -541,6 +540,10 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
                Event ev = Event(Event::ET_COLLISION_START, "dialog", "guard_dangerous");
                eventQueue->queueEvent(ev);
                isDialogReady = false;
+
+               player->speedX = 0;
+               player->updatePosition(player->posX - 3, player->posY);
+               player->updateCamera();
             }
             else if (player->level < 5)
             {
