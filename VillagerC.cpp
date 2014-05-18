@@ -143,3 +143,9 @@ void VillagerC::updateDirection(float speedX, float speedY)
 		isFlippedX = false;
 }
 /*-----------------------------------------------*/
+void VillagerC::onTrigger()
+{
+   Event ev = Event(Event::ET_COLLISION_START, "dialog", "villager_grumble");
+   eventQueue->queueEvent(ev);
+}
+/*-----------------------------------------------*/

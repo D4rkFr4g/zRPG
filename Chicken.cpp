@@ -140,3 +140,8 @@ void Chicken::updateDirection()
       isFlippedX = false;
 }
 /*-----------------------------------------------*/
+void Chicken::onTrigger()
+{
+   eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "cucco"));
+}
+/*-----------------------------------------------*/

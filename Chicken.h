@@ -14,6 +14,9 @@ public:
    Chicken();
    ~Chicken();
 
+   // Virtual Functions
+   virtual void onTrigger() override;
+
    // Functions
    virtual void update(int ms) override;
    void setRandomMovement();

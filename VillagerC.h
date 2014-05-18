@@ -16,6 +16,7 @@ public:
 
 	// Functions
 	virtual void update(int ms) override;
+   virtual void onTrigger() override;
 	void setRandomMovement();
 };
 

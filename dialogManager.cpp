@@ -81,7 +81,7 @@ void DialogManager::initDialogs()
    /*============================================================================*/
    
    dBoxes.clear();
-   text = "It's Dangerous to Go alone!";
+   text = "It's Dangerous to Go Alone!";
 
    dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
    dBoxes.push_back(dBox);
@@ -89,14 +89,47 @@ void DialogManager::initDialogs()
    /*============================================================================*/
 
    dBoxes.clear();
-   text = "Are you sure your strong enough yet?       ";
+   text = "Are you sure your strong enough yet?";
    text += "\nDon't come crying to me if you get hurt!";
 
    dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
    dBoxes.push_back(dBox);
    dialogs["guard_weak"] = dBoxes;
    /*============================================================================*/
-   
+
+   dBoxes.clear();
+   text = "Run along and play!";
+   text += "";
+
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["guard_warning"] = dBoxes;
+   /*============================================================================*/
+
+   dBoxes.clear();
+   text = "Good luck out there!";
+
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["guard_talk"] = dBoxes;
+   /*============================================================================*/
+
+   dBoxes.clear();
+   text = "It's a Secret to Everyone!";
+
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["villager_secret"] = dBoxes;
+   /*============================================================================*/
+
+   dBoxes.clear();
+   text = "Grumble, Grumble";
+
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["villager_grumble"] = dBoxes;
+   /*============================================================================*/
+
    dBoxes.clear();
    text = "You have found the Master Sword!";
    sizeDialogBox(&rows, &cols, 1, text);

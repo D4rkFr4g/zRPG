@@ -143,3 +143,9 @@ void VillagerB::updateDirection(float speedX, float speedY)
 		isFlippedX = false;
 }
 /*-----------------------------------------------*/
+void VillagerB::onTrigger()
+{
+   Event ev = Event(Event::ET_COLLISION_START, "dialog", "villager_secret");
+   eventQueue->queueEvent(ev);
+}
+/*-----------------------------------------------*/

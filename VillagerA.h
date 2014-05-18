@@ -17,5 +17,8 @@ public:
 	// Functions
 	virtual void update(int ms) override;
 	void setRandomMovement();
+
+   // Variables
+   bool hasSword;
 };
 

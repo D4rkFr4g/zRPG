@@ -521,7 +521,20 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       }
       if (sprite->type == enumLibrary::COLLISION::VILLAGER)
       {
-         if (isDialogReady)
+         if (keyboard[SDL_SCANCODE_J] && !prevKeyboard[SDL_SCANCODE_J])
+         {
+            if (!player->hasSword)
+            {
+               Event ev = Event(Event::ET_COLLISION_START, "dialog", "guard_warning");
+               eventQueue->queueEvent(ev);
+            }
+            else
+            {
+               Event ev = Event(Event::ET_COLLISION_START, "dialog", "guard_talk");
+               eventQueue->queueEvent(ev);
+            }
+         }
+         else if (isDialogReady)
          {
             if (!player->hasSword)
             {

@@ -9,6 +9,7 @@ VillagerA::VillagerA()
 	type = 12;
 	name = "villagerA";
 	isAnimated = false;
+   hasSword = false;
 
 	//Setup Collider
 	int xOffset = 18;
@@ -21,7 +22,7 @@ VillagerA::VillagerA()
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
 	maxSpeed = 50;
-	isColliderDrawn = true;
+	isColliderDrawn = false;
 
 	// Walking Animation
 	int numFrames = 1;
