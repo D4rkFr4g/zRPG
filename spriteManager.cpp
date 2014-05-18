@@ -31,7 +31,7 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
 
    initChickens();
    initVillagerA();
-   //initVillagerB();
+   initVillagerB();
    //initVillagerC();
 
    // Setup map structure so they are not null
@@ -132,8 +132,8 @@ void spriteManager::initChickens()
 /*-----------------------------------------------*/
 void spriteManager::initVillagerA()
 {
-	/* PURPOSE:		Loads all the sprites for the current level
-	RECEIVES:	levelName - name of the level which sprites come from
+	/* PURPOSE:		Loads the Villager A sprite in the designated level
+	RECEIVES:
 	RETURNS:
 	REMARKS:
 	*/
@@ -141,35 +141,35 @@ void spriteManager::initVillagerA()
 	//int initialVillagerA = 1;
 
 	VillagerA* villager = new VillagerA();
-	villager->updatePosition(1850,870);
+	villager->updatePosition(1846,870);
 	levelSprites["overworld"].push_back(villager);
 
 }
 /*-----------------------------------------------*/
 void spriteManager::initVillagerB()
 {
-	/* PURPOSE:		Loads all the sprites for the current level
-	RECEIVES:	levelName - name of the level which sprites come from
+	/* PURPOSE:		Loads the Villager B sprite in the designated level
+	RECEIVES:
 	RETURNS:
 	REMARKS:
 	*/
 
 	VillagerB* villager = new VillagerB();
-	villager->updatePosition(300, 100);
+	villager->updatePosition(1000, 400);
 	levelSprites["overworld"].push_back(villager);
 
 }
 /*-----------------------------------------------*/
 void spriteManager::initVillagerC()
 {
-	/* PURPOSE:		Loads all the sprites for the current level
-	RECEIVES:	levelName - name of the level which sprites come from
+	/* PURPOSE:		Loads the Villager C sprite in the designated level
+	RECEIVES:
 	RETURNS:
 	REMARKS:
 	*/
 
 	VillagerC* villager = new VillagerC();
-	villager->updatePosition(100, 300);
+	villager->updatePosition(700, 700);
 	levelSprites["overworld"].push_back(villager);
 
 }

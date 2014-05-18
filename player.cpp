@@ -505,6 +505,14 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       {
          eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
       }
+	  if (sprite->type == enumLibrary::COLLISION::CASTLE)
+	  {
+		  eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "castle"));
+	  }
+	  else if (sprite->type == enumLibrary::COLLISION::OVERWORLD)
+	  {
+		  eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
+	  }
       
       if (isBattleReady)
       {

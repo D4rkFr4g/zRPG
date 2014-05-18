@@ -22,7 +22,8 @@ public:
       BATTLE_BOSS,
       DUNGEON_1,
       OVERWORLD,
-      VILLAGER
+      VILLAGER,
+	  CASTLE
    };
 };
 

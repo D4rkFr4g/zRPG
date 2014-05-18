@@ -53,7 +53,7 @@ BattleGuard::BattleGuard()
 
    // Damaged Animation
    numFrames = 13;
-   timeToNextFrame = 100;
+   timeToNextFrame = 30;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
