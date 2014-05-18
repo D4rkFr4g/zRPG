@@ -890,9 +890,12 @@ void battleManager::battleWin()
    if (bPlayer->xp >= player->xpToNextLevel[bPlayer->level - 1])
    {
       bPlayer->level++;
-      bPlayer->stats["STR"]++;  // TODO Remove once Stat Picker is done
+      bPlayer->stats["STR"]++; // TODO Remove once Stat Picker is done
       bPlayer->stats["CON"]++; // TODO Remove once Stat Picker is done
-      rewards.push_back(player->name + " Leveled Up!");
+      bPlayer->stats["DEX"]++; // TODO Remove once Stat Picker is done
+      bPlayer->stats["INT"]++; // TODO Remove once Stat Picker is done
+      bPlayer->stats["LCK"]++; // TODO Remove once Stat Picker is done
+      rewards.push_back(player->name + " Leveled Up to Lv. " + std::to_string(player->level) + "!");
    }
 
    if (xpGained > 0)
