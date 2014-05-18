@@ -431,7 +431,7 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
 
    if (battle == battleManager::BATTLE_YES) // TODO Remove later
    {
-      currentBattle = battleManager::BATTLE_EASY;
+      currentBattle = battleManager::BATTLE_HARD;
       initBattle();
    }
    else if (rand() % 4 == 0)

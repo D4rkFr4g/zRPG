@@ -32,6 +32,8 @@ BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height,
    state = STATE_IDLE;
    prevState = STATE_DEFEND;
    isRemovable = false;
+   offsetY = 0;
+
 
    uuid = uuidManager::newUUID();
 }
@@ -80,7 +82,8 @@ void BattleSprite::applyDamage(int damage)
       defense *= 2;
 
    health -= (damage - defense);
-   setAnimation("Damaged");
+   if (isAlive)
+      setAnimation("Damaged");
 
    //isDefending = false; // Good for one attack or the rest of turn?
 }

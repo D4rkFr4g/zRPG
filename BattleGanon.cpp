@@ -7,12 +7,13 @@ BattleGanon::BattleGanon()
    Texture* tex = textureLoader::getTexture("ganon_battle");
    BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    *this = BattleGanon((BattleGanon&)enemy);
-   //isAnimated = false; //TODO Remove once animations are setup
    name = "Ganon";
    level = 11;
    maxSpeed = 0;
    healFactor = 0.20;
    health = 300;
+   offsetX = 64;
+   offsetY = -((int) floor(this->height / 2.0));
 
    // Setup animations
    float uSize = tex->uSize;
@@ -113,7 +114,18 @@ BattleGanon::~BattleGanon()
 /*-----------------------------------------------*/
 void BattleGanon::AI()
 {
-  
+   float alpha = (float)health / maxHealth;
+   bool isCriticalHealth = alpha < 0.3;
+
+   // Flee
+   if (rand() % 10 == 0 && isCriticalHealth)
+      state = STATE_ITEMS;
+   // Attack
+   else if (1)
+      state = STATE_ATTACK;
+   // Defend
+   else if (0)
+      state = STATE_DEFEND;
 }
 /*-----------------------------------------------*/
 void BattleGanon::update(int ms)
