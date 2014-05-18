@@ -7,23 +7,22 @@ BattleKnight::BattleKnight()
    Texture* tex = textureLoader::getTexture("knight_battle");
    BattleSprite enemy = BattleSprite(&tex->texture, 0, 100, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    *this = BattleKnight((BattleKnight&)enemy);
-   isAnimated = false; //TODO Remove once animations are setup
+   //isAnimated = false; //TODO Remove once animations are setup
    name = "knight";
    level = 10;
    maxSpeed = 100;
+   health = 150;
 
    // Setup animations
    float uSize = tex->uSize;
    float vSize = tex->vSize;
-   std::vector<AnimationFrame> frames;
 
    // Animations
    int numFrames = 1;
    int timeToNextFrame = 100;
-   frames.clear();
-   frames.assign(numFrames, AnimationFrame());
 
    // Idle Animation
+   std::vector<AnimationFrame> frames;
    frames.assign(numFrames, AnimationFrame());
 
    frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
@@ -53,29 +52,29 @@ BattleKnight::BattleKnight()
 
    // Damaged Animation
    numFrames = 13;
-   timeToNextFrame = 100;
+   timeToNextFrame = 30;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 
    frames[0] = AnimationFrame(0 * uSize, 11 * vSize, 1 * uSize, 1 * vSize);
    frames[1] = AnimationFrame(0 * uSize, 12 * vSize, 1 * uSize, 1 * vSize);
    frames[2] = AnimationFrame(0 * uSize, 13 * vSize, 1 * uSize, 1 * vSize);
-   frames[3] = AnimationFrame(0 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
-   frames[4] = frames[0];
-   frames[5] = frames[1];
-   frames[6] = frames[2];
-   frames[7] = frames[3];
-   frames[8] = frames[0];
-   frames[9] = frames[1];
-   frames[10] = frames[2];
-   frames[11] = frames[3];
-   frames[12] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = frames[0];
+   frames[4] = frames[1];
+   frames[5] = frames[2];
+   frames[6] = frames[0];
+   frames[7] = frames[1];
+   frames[8] = frames[2];
+   frames[9] = frames[0];
+   frames[10] = frames[1];
+   frames[11] = frames[2];
+   frames[12] = frames[0];
    animation = Animation("Damaged", frames, numFrames);
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
 
    // Flee Animation
-   numFrames = 5;
+   numFrames = 1;
    timeToNextFrame = 1000;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
@@ -90,6 +89,8 @@ BattleKnight::BattleKnight()
 /*-----------------------------------------------*/
 BattleKnight::~BattleKnight()
 {
+	if (eventQueue)
+		eventQueue->removeEventListener(this);
 }
 /*-----------------------------------------------*/
 void BattleKnight::AI()
