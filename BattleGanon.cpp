@@ -11,6 +11,7 @@ BattleGanon::BattleGanon()
    name = "Ganon";
    level = 11;
    maxSpeed = 0;
+   healFactor = 0.20;
 
    // Setup animations
    float uSize = tex->uSize;
@@ -59,87 +60,12 @@ BattleGanon::~BattleGanon()
 /*-----------------------------------------------*/
 void BattleGanon::AI()
 {
-   if (isAlive)
-   {
-      // Battle States
-      // Idle State
-      if (state == STATE_IDLE)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-
-            isDefending = false;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Attack Player State
-      if (state == STATE_PLAYER)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Item State
-      else if (state == STATE_ITEMS)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Flee State
-      else if (state == STATE_FLEE)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Defend State
-      else if (state == STATE_DEFEND)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-   }
+  
 }
 /*-----------------------------------------------*/
 void BattleGanon::update(int ms)
 {
    BattleSprite::update(ms);
-}
-/*-----------------------------------------------*/
-void BattleGanon::takeTurn()
-{
-   AI();
 }
 /*-----------------------------------------------*/
 BattleGanon* BattleGanon::clone() const

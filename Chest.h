@@ -13,7 +13,7 @@ public:
 	~Chest();
 
 	// Functions
-	//virtual void update(int ms) override;
-	//void setRandomMovement();
+	virtual void update(int ms) override;
+	void setRandomMovement();
 };
 
