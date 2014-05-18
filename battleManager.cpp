@@ -382,7 +382,21 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
 
       if (isBattle && !isBattleWon)
          dialogManager->updateBattleDialog(battleMenu);
-   }
+
+
+      if (isSelected)
+      {
+         eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "menu_select"));
+      }
+      else if (isCanceled)
+      {
+         eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "menu_back"));
+      }
+      else if (isUp || isDown)
+      {
+         eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "menu_cursor"));
+      }
+}
 
    // Handle button input when battle is over
    if (!isPlayerAlive && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
@@ -431,7 +445,7 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
 
    if (battle == battleManager::BATTLE_YES) // TODO Remove later
    {
-      currentBattle = battleManager::BATTLE_HARD;
+      currentBattle = battleManager::BATTLE_BOSS;
       initBattle();
    }
    else if (rand() % 4 == 0)

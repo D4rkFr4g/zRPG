@@ -131,14 +131,17 @@ void DialogManager::initDialogs()
    /*============================================================================*/
 
    dBoxes.clear();
-   text = "You have found the Master Sword!            ";
-   sizeDialogBox(&rows, &cols, 1, text);
+   text = "You have found the ";
+   sizeDialogBox(&rows, &cols, 2, text);
    center(&x, &y, rows, cols);
+
+   text = "You have found the\n\b\bMaster Sword!";
 
    dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
    dialogs["sword"] = dBoxes;
    /*============================================================================*/
+
 
    //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
 
@@ -364,12 +367,39 @@ void DialogManager::notify(Event* event)
       if (event->checkStrKey("name"))
       {
          std::string name = event->strParams.find("name")->second;
+         if (event->checkNumKey("qty") && name.compare("sword") != 0)
+         {
+            DialogContainer dBox;
+            std::vector<DialogContainer> dBoxes;
+            int rows = 0;
+            int cols = 0;
+            int x = 0;
+            int y = 0;
+            std::string name = event->strParams.find("name")->second;
+            int qty = (int)event->numParams.find("qty")->second;
 
-         std::unordered_map<std::string, std::vector<DialogContainer>>::iterator itr = dialogs.find(name);
-         std::unordered_map<std::string, std::vector<DialogContainer>>::iterator end = dialogs.end();
+            std::string  text = "You have found x";
+            sizeDialogBox(&rows, &cols, 2, text);
+            center(&x, &y, rows, cols);
 
-         if (itr != end)
-            loadDialogQueue(dialogs[name], true);
+            text = "You have found \n" + name + " x" + std::to_string(qty);
+
+            dBox = DialogContainer(x, y, rows, cols, text, true, true);
+            dBoxes.push_back(dBox);
+
+            loadDialogQueue(dBoxes, true);
+            /*============================================================================*/
+         }
+         else
+         {
+            std::string name = event->strParams.find("name")->second;
+
+            std::unordered_map<std::string, std::vector<DialogContainer>>::iterator itr = dialogs.find(name);
+            std::unordered_map<std::string, std::vector<DialogContainer>>::iterator end = dialogs.end();
+
+            if (itr != end)
+               loadDialogQueue(dialogs[name], true);
+         }
       }
    }
 }

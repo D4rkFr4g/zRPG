@@ -56,6 +56,7 @@ Audio::Audio(System* fmodSystem, ChannelGroup* channelMusic, ChannelGroup* chann
    soundNames.push_back("low_health");
    soundNames.push_back("menu_cursor");
    soundNames.push_back("menu_select");
+   soundNames.push_back("menu_back");
    soundNames.push_back("quit");
    soundNames.push_back("refill_health");
    soundNames.push_back("rupee");
@@ -70,6 +71,7 @@ Audio::Audio(System* fmodSystem, ChannelGroup* channelMusic, ChannelGroup* chann
    soundNames.push_back("ganon_crash");
    soundNames.push_back("deflect");
    soundNames.push_back("magic");
+   
 
    // Load Music
    for (int i = 0; i < (int)musicNames.size(); i++)
