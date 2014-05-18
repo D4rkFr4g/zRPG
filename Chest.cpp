@@ -12,12 +12,9 @@ Chest::Chest()
    int yOffset = 0;
    int width = 40;
    int height = 30;
-   float uSize = 1;
-   float vSize = 1;
    colliderXOffset = xOffset;
    colliderYOffset = yOffset;
    setCollider(&AABB(x + xOffset, y + yOffset, width, height));
-   maxSpeed = 50;
    isColliderDrawn = true;
 
 }

@@ -495,7 +495,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       }
       if (sprite->type == enumLibrary::COLLISION::VILLAGER)
 	  {
-		  //Dialog pops up here
+		  //Dialog goes here
 	  }
       if (sprite->type == enumLibrary::COLLISION::DUNGEON_1)
       {

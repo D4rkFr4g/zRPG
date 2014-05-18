@@ -81,7 +81,7 @@ void DialogManager::initDialogs()
    /*============================================================================*/
    
    dBoxes.clear();
-   text = "It's Dangerous to Go alone!");
+   text = "It's Dangerous to Go alone!";
    sizeDialogBox(&rows, &cols, 1, text);
    center(&x, &y, rows, cols);
 
