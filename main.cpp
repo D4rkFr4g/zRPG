@@ -223,6 +223,7 @@ static void loadSprites()
 	g_player.updatePosition((float) startX, (float) startY);
    g_cam.follow(startX, startY, g_player.width, g_player.height);
    g_player.cam = &g_cam;
+   g_player.registerListeners(&g_eventQueue);
 
    // Setup DialogContainer texture to be used
    DialogContainer::texture = &g_textures["dialog"];

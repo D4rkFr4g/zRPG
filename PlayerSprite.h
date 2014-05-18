@@ -3,10 +3,12 @@
 #include <string>
 #include "AnimatedSprite.h"
 #include "Camera.h"
+#include "EventListener.h"
+#include "EventQueue.h"
 
 
 class PlayerSprite :
-	public AnimatedSprite
+	public AnimatedSprite, public EventListener
 {
 public:
 	PlayerSprite(void);
@@ -16,6 +18,9 @@ public:
 	// Functions
    void initStats(int STR, int CON, int DEX, int INT, int LCK);
    void updateCamera();
+   virtual void notify(Event* event) override;
+   void registerListeners(EventQueue* eventQueue);
+
 
 	// Variables
 	bool isAlive;
@@ -33,6 +38,7 @@ public:
 	int jumpTicksRemaining;
 	float jumpSpeed;
 	bool isJumping;
+   bool hasSword;
    std::vector<int> xpToNextLevel;
    std::unordered_map<std::string, int> items;
    std::unordered_map<std::string, int> stats;

@@ -232,6 +232,12 @@ void Audio::notify(Event* event)
       }
    }
 
+   if (event->type == Event::ET_ITEM)
+   {
+      Channel* channel;
+      fmodSystem->playSound(soundFX["item_fanfare"], channelEffects, false, &channel);
+   }
+
 }
 /*-----------------------------------------------*/
 void Audio::registerListeners(EventQueue* eventQueue)
@@ -252,6 +258,7 @@ void Audio::registerListeners(EventQueue* eventQueue)
    eventQueue->addEventListener(Event::ET_DAMAGE, this);
    eventQueue->addEventListener(Event::ET_ATTACK, this);
    eventQueue->addEventListener(Event::ET_BATTLE_WIN, this);
+   eventQueue->addEventListener(Event::ET_ITEM, this);
 }
 /*-----------------------------------------------*/
 void Audio::stopAllMusic()

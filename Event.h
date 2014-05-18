@@ -25,7 +25,8 @@ public:
       ET_LEVEL_MUSIC,
       ET_MUSIC,
       ET_SOUND,
-      ET_BATTLE_WIN
+      ET_BATTLE_WIN,
+      ET_ITEM
    };
 
    // Constructors

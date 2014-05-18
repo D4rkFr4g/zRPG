@@ -17,6 +17,7 @@ PlayerSprite::PlayerSprite(GLuint* texture, int x, int y, int width, int height,
 	jumpTicksRemaining = 0;
 	jumpSpeed = 0;
 	isJumping = false;
+   hasSword = false;
 }
 /*-----------------------------------------------*/
 PlayerSprite::~PlayerSprite(void)
@@ -52,3 +53,51 @@ void PlayerSprite::updateCamera()
 
    cam->follow(x, y, width, height);
 }
+/*-----------------------------------------------*/
+void PlayerSprite::notify(Event* event)
+{
+   /* PURPOSE: EventListener callback function
+   RECEIVES: event - Event from the eventQueue
+   RETURNS:
+   REMARKS:
+   */
+
+   if (event->type == Event::ET_ITEM)
+   {
+      if (event->checkStrKey("name"))
+      {
+         std::string name = event->strParams.find("name")->second;
+         
+         if (name.compare("sword") == 0)
+            hasSword = true;
+         else
+         {
+            int qty = 1;
+
+            if (event->checkNumParam("qty"))
+               qty = event->numParams.find("qty")->second;
+
+            std::unordered_map<std::string, int>::iterator itr = items.find(name);
+            std::unordered_map<std::string, int>::iterator end = items.end();
+
+            // If it doesn't exist already add it.
+            if (itr == end)
+               items[name] = 0;
+
+            itr->second += qty;
+         }
+      }
+   }
+}
+/*-----------------------------------------------*/
+void PlayerSprite::registerListeners(EventQueue* eventQueue)
+{
+   /* PURPOSE: Registers all relevant Map related listeners with the eventQueue
+   RECEIVES:
+   RETURNS:
+   REMARKS:
+   */
+
+   eventQueue->addEventListener(Event::ET_ITEM, this);
+}
+/*-----------------------------------------------*/

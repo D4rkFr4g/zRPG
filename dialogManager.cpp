@@ -330,6 +330,20 @@ void DialogManager::notify(Event* event)
          }
       }
    }
+
+   if (event->type == Event::ET_ITEM)
+   {
+      if (event->checkStrKey("name"))
+      {
+         std::string name = event->strParams.find("name")->second;
+
+         std::unordered_map<std::string, std::vector<DialogContainer>>::iterator itr = dialogs.find(name);
+         std::unordered_map<std::string, std::vector<DialogContainer>>::iterator end = dialogs.end();
+
+         if (itr != end)
+            loadDialogQueue(dialogs[name], true);
+      }
+   }
 }
 /*-----------------------------------------------*/
 void DialogManager::registerListeners(EventQueue* eventQueue)
