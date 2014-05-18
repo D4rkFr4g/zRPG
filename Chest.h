@@ -6,19 +6,15 @@
 class Chest : public Sprite
 {
 private:
-	//void AI();
-	//float randomSpeed();
-	//void updateDirection();
+   void AI();
+   //float randomSpeed();
+   //void updateDirection();
 
 public:
-	Chest();
-	~Chest();
+   Chest();
+   ~Chest();
 
-	// Functions
-	//virtual void update(int ms) override;
-	//void setRandomMovement();
-
-	//Variables
-	std::map<std::string, AnimationData> animations;
+   // Functions
+   //virtual void update(int ms) override;
+   //void setRandomMovement();
 };
-

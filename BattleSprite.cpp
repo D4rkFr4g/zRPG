@@ -7,7 +7,7 @@ BattleSprite::BattleSprite()
    eventQueue = NULL;
 }
 /*-----------------------------------------------*/
-BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY) 
+BattleSprite::BattleSprite(GLuint* texture, int x, int y, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY)
 : AnimatedSprite(texture, x, y, width, height, tu, tv, tSizeX, tSizeY)
 {
    /*Strength = damage modifier
@@ -46,13 +46,13 @@ void BattleSprite::initStats(int STR, int CON, int DEX, int INT, int LCK)
 {
    /* PURPOSE:    initializes Stats to given values
       RECEIVES:   STR - Strength value
-                  CON - Constitution value
-                  DEX - Dexterity value
-                  INT - Intelligence value
-                  LCK - Luck value
+      CON - Constitution value
+      DEX - Dexterity value
+      INT - Intelligence value
+      LCK - Luck value
       RETURNS:
       REMARKS:
-   */
+      */
 
    stats["STR"] = STR;
    stats["CON"] = CON;
@@ -105,6 +105,10 @@ void BattleSprite::sendDamage(std::string uuid)
       ev.strParams["name"] = targetName;
       ev.numParams["damage"] = damage;
       eventQueue->queueEvent(ev);
+   }
+   else
+   {
+      eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "deflected"));
    }
 }
 /*-----------------------------------------------*/
@@ -161,6 +165,18 @@ void BattleSprite::update(int ms)
 
    AnimatedSprite::update(ms);
 
+   // Determine when turn is over
+   if (state != STATE_IDLE && isIdle() && state != STATE_FLEE)
+      state = STATE_IDLE;
+
+   // Move to correct yPosition
+   if (state == STATE_ATTACK)
+      updatePosition(x, opponentY);
+   // Move back to yPosition
+   else if (state == STATE_IDLE)
+      updatePosition(x, startY);
+
+   // Setup timing for attack sounds
    int targetFrame = 0;
    if (name.compare("Link") == 0)
       targetFrame = 8;
@@ -169,7 +185,7 @@ void BattleSprite::update(int ms)
    else
       targetFrame = 4;
 
-   if (curAnimation.def.name.compare("Attack") == 0 && 
+   if (curAnimation.def.name.compare("Attack") == 0 &&
       curAnimation.currentFrame == targetFrame && curAnimation.elapsedTime == 0)
    {
       eventQueue->queueEvent(Event(Event::ET_ATTACK, "name", name));
@@ -188,9 +204,80 @@ void BattleSprite::update(int ms)
    checkRemovable();
 }
 /*-----------------------------------------------*/
-void BattleSprite::takeTurn()
+void BattleSprite::AI()
 {
 
+}
+/*-----------------------------------------------*/
+void BattleSprite::takeTurn()
+{
+   if (isAlive)
+   {
+      // Battle States
+      // Idle State
+      if (state == STATE_IDLE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+
+            isDefending = false;
+         }
+
+         // Determine next state
+         AI();
+      }
+      // Attack State
+      if (state == STATE_ATTACK)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+
+            setAnimation("Attack");
+         }
+      }
+      // Item State
+      else if (state == STATE_ITEMS)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         health += (int)floor(maxHealth * healFactor);
+         setAnimation("Heal");
+      }
+      // Flee State
+      else if (state == STATE_FLEE)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+
+            isFlippedX = true;
+            speedX = maxSpeed;
+            updatePosition(width, y);
+         }
+
+         setAnimation("Flee");
+      }
+      // Defend State
+      else if (state == STATE_DEFEND)
+      {
+         // Handle State Transition
+         if (state != prevState)
+         {
+            prevState = state;
+         }
+
+         setAnimation("Defend");
+      }
+   }
 }
 /*-----------------------------------------------*/
 void BattleSprite::checkRemovable()
@@ -205,7 +292,7 @@ void BattleSprite::getNewUUID()
       RECEIVES:
       RETURNS:    string representing uuid of object
       REMARKS:    Used when copying the object
-   */
+      */
 
    uuid = uuidManager::newUUID();
 }

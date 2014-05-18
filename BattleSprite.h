@@ -40,6 +40,7 @@ public:
    virtual void update(int ms) override;
    virtual void notify(Event* event) override;
    virtual void takeTurn();
+   virtual void AI();
    virtual BattleSprite* clone() const override;
 
    //Functions
@@ -57,6 +58,7 @@ public:
    int xp;
    int health;
    int maxHealth;
+   float healFactor;
    int magic;
    int maxMagic;
    int startX;

@@ -10,8 +10,9 @@ BattleGuard::BattleGuard()
    //isAnimated = false; // TODO Remove once animations are setup
    name = "guard";
    level = 5;
-   maxSpeed = 10;
-   health = 100;
+   maxSpeed = 100;
+   healFactor = 0.10;
+   health = 70;
 
    // Setup animations
    float uSize = tex->uSize;
@@ -95,87 +96,25 @@ BattleGuard::~BattleGuard()
 /*-----------------------------------------------*/
 void BattleGuard::AI()
 {
-   if (isAlive)
-   {
-      // Battle States
-      // Idle State
-      if (state == STATE_IDLE)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
+   float alpha = (float)health / maxHealth;
+   bool isCriticalHealth = alpha < 0.2;
 
-            isDefending = false;
-         }
+   int chance = rand() % 100;
 
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Attack Player State
-      if (state == STATE_PLAYER)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Item State
-      else if (state == STATE_ITEMS)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Flee State
-      else if (state == STATE_FLEE)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-      // Defend State
-      else if (state == STATE_DEFEND)
-      {
-         // Handle State Transition
-         if (state != prevState)
-         {
-            prevState = state;
-         }
-
-         // Check for new Transition
-         if (0)
-            state = STATE_PLAYER;
-      }
-   }
+   // Flee
+   if (rand() % 10 == 0 && isCriticalHealth)
+      state = STATE_FLEE;
+   // Attack
+   else if (chance < 80)
+      state = STATE_ATTACK;
+   // Defend
+   else if (chance >= 80)
+      state = STATE_DEFEND;
 }
 /*-----------------------------------------------*/
 void BattleGuard::update(int ms)
 {
    BattleSprite::update(ms);
-}
-/*-----------------------------------------------*/
-void BattleGuard::takeTurn()
-{
-   AI();
 }
 /*-----------------------------------------------*/
 BattleGuard* BattleGuard::clone() const

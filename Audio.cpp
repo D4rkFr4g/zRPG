@@ -68,6 +68,7 @@ Audio::Audio(System* fmodSystem, ChannelGroup* channelMusic, ChannelGroup* chann
    soundNames.push_back("cucco_hit");
    soundNames.push_back("enemy_skitter");
    soundNames.push_back("ganon_crash");
+   soundNames.push_back("deflect");
 
    // Load Music
    for (int i = 0; i < (int)musicNames.size(); i++)
@@ -202,9 +203,24 @@ void Audio::notify(Event* event)
          else if (name.compare("Ganon") == 0)
             sound = "ganon_crash";
 
-         unsigned int delay = 2000;
          fmodSystem->playSound(soundFX[sound], channelEffects, false, &channel);
-         //channel->setDelay(0, delay, false);
+      }
+   }
+
+   if (event->type == Event::ET_ATTACK)
+   {
+      if (event->checkStrKey("soundFX"))
+      {
+         std::string name = event->strParams.find("soundFX")->second;
+         Channel* channel;
+         fmodSystem->playSound(soundFX[name], channelEffects, false, &channel);
+      }
+      else if (event->checkStrKey("music"))
+      {
+         stopAllMusic();
+         std::string name = event->strParams.find("music")->second;
+         Channel* channel;
+         fmodSystem->playSound(music[name], channelMusic, false, &channel);
       }
    }
 
