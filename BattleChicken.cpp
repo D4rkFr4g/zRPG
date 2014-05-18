@@ -89,8 +89,8 @@ BattleChicken::BattleChicken()
 /*-----------------------------------------------*/
 BattleChicken::~BattleChicken()
 {
-   if (eventQueue)
-      eventQueue->removeEventListener(this);
+	if (eventQueue)
+		eventQueue->removeEventListener(this);
 }
 /*-----------------------------------------------*/
 void BattleChicken::AI()
