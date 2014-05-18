@@ -33,7 +33,7 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
    initVillagerA();
    initVillagerB();
    initVillagerC();
-   //initChests();
+   initChests();
 
    // Setup map structure so they are not null
    // Should probably send the filnames and load them that way in one place
@@ -185,7 +185,7 @@ void spriteManager::initChests()
 
 	Chest* chest_1 = new Chest();
 	//Chest* chest_2 = new Chest();
-	chest_1->updatePosition(200, 100);
+	chest_1->updatePosition(300, 80);
 	levelSprites["overworld"].push_back(chest_1);
 
 }
