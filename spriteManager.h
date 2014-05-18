@@ -9,6 +9,7 @@
 #include "VillagerA.h"
 #include "VillagerB.h"
 #include "VillagerC.h"
+#include "Chest.h"
 #include "bucketManager.h"
 #include "MapManager.h"
 #include "enumLibrary.h"
@@ -30,6 +31,7 @@ public:
    static void initVillagerA();
    static void initVillagerB();
    static void initVillagerC();
+   static void initChests();
 
    // Variables
   static std::unordered_map<std::string, std::vector<Sprite*>> levelSprites;

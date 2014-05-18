@@ -209,3 +209,34 @@ void Sprite::setCollider(AABB *box)
 	prevCollider = AABB(box->x, box->y, box->w, box->h);
 }
 /*-----------------------------------------------*/
+void Sprite::updatePosition(float x, float y)
+{
+	/* PURPOSE:		Update position based on absolute position
+	RECEIVES:	x - horizontal screen position
+	y - vertical screen position
+	RETURNS:
+	REMARKS:
+	*/
+
+	prevPosX = posX;
+	prevPosY = posY;
+	this->posX = x;
+	this->posY = y;
+	this->x = (int)floor(posX);
+	this->y = (int)floor(posY);
+
+	// Update Colliders
+	collider.x = this->x + colliderXOffset;
+	collider.y = this->y + colliderYOffset;
+}
+/*-----------------------------------------------*/
+void Sprite::onCollision()
+{
+
+}
+/*-----------------------------------------------*/
+void Sprite::onTrigger()
+{
+
+}
+/*-----------------------------------------------*/

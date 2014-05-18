@@ -22,11 +22,14 @@ public:
 	void drawUV(int camX, int camY);
 	virtual void update(int ms);
 	virtual void setSpeed(float speedX, float speedY);
+   virtual void onCollision();
+   virtual void onTrigger();
 	void flipX();
 	void flipY();
 	void print();
 	void drawCollider(int camX, int camY);
 	void setCollider(AABB *box);
+	void updatePosition(float x, float y);
 
 	// Variables
 	GLuint* texture;

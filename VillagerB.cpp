@@ -4,31 +4,33 @@
 VillagerB::VillagerB()
 {
 	Texture* tex = textureLoader::getTexture("friendly_npcs");
-	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->width, tex->height, 0, 0, 1, 1);
+	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0 * tex->uSize, 6 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
 	*this = VillagerB((VillagerB&)sprite);
 	type = 1;
 	name = "villagerB";
+	isAnimated = false;
 
 	//Setup Collider
-	int xOffset = 20;
-	int yOffset = 25;
-	int width = 20;
-	int height = 20;
+	int xOffset = 18;
+	int yOffset = 15;
+	int width = 28;
+	int height = 45;
 	float uSize = 1;
 	float vSize = 1;
 	colliderXOffset = xOffset;
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
 	maxSpeed = 50;
+	isColliderDrawn = false;
 
 	// Walking Animation
-	int numFrames = 2;
+	int numFrames = 1;
 	int timeToNextFrame = 300;
 	std::vector<AnimationFrame> frames;
 	frames.assign(numFrames, AnimationFrame());
 
-	frames[0] = AnimationFrame(0, 0, uSize, vSize);
-	frames[1] = AnimationFrame(1, 0, uSize, vSize);
+	frames[0] = AnimationFrame(0, 6, uSize, vSize);
+	//frames[1] = AnimationFrame(1, 0, uSize, vSize);
 	Animation animation_walking = Animation("Walking", frames, numFrames);
 	animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
 
@@ -41,7 +43,7 @@ VillagerB::VillagerB()
 	Animation animation_idle = Animation("Idle", frames, numFrames);
 	animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 
-	setAnimation("Walking");
+	//setAnimation("Walking");
 }
 /*-----------------------------------------------*/
 VillagerB::~VillagerB()

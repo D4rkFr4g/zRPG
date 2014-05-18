@@ -74,27 +74,6 @@ void AnimatedSprite::setAnimation(std::string animation)
    }
 }
 /*-----------------------------------------------*/
-void AnimatedSprite::updatePosition(float x , float y)
-{
-	/* PURPOSE:		Update position based on absolute position 
-		RECEIVES:	x - horizontal screen position
-						y - vertical screen position
-		RETURNS:		 
-		REMARKS:		 
-	*/
-
-	prevPosX = posX;
-	prevPosY = posY;
-	this->posX = x;
-	this->posY = y;
-	this->x = (int) floor(posX);
-	this->y = (int) floor(posY);
-	
-	// Update Colliders
-	collider.x = this->x + colliderXOffset;
-	collider.y = this->y + colliderYOffset;
-}
-/*-----------------------------------------------*/
 void AnimatedSprite::setCurrentFrame(int index)
 {
    /* PURPOSE:		Sets the animations current frame to the specified frame
