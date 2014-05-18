@@ -79,7 +79,38 @@ void DialogManager::initDialogs()
    dBoxes.push_back(dBox);
    dialogs["pause"] = dBoxes;
    /*============================================================================*/
+   
+   dBoxes.clear();
+   text = "It's Dangerous to Go alone!");
+   sizeDialogBox(&rows, &cols, 1, text);
+   center(&x, &y, rows, cols);
 
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["guard_dangerous"] = dBoxes;
+   /*============================================================================*/
+
+   dBoxes.clear();
+   text = "Are you sure your strong enough yet?       ";
+   sizeDialogBox(&rows, &cols, 2, text);
+   center(&x, &y, rows, cols);
+
+   text += "\nDon't come crying to me if you get hurt!";
+
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["guard_weak"] = dBoxes;
+   /*============================================================================*/
+   
+   dBoxes.clear();
+   text = "You have found the Master Sword!";
+   sizeDialogBox(&rows, &cols, 1, text);
+   center(&x, &y, rows, cols);
+
+   dBox = DialogContainer(x, y, rows, cols, text, true, true);
+   dBoxes.push_back(dBox);
+   dialogs["chest_sword"] = dBoxes;
+   /*============================================================================*/
 
    //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
 
@@ -255,6 +286,50 @@ void DialogManager::notify(Event* event)
       loadDialogQueue(dialogs["death"], true);
    if (event->type == Event::ET_RESTART)
       dialogQueue->clear();
+   if (event->type == Event::ET_COLLISION_START)
+   {
+      int x = 0;
+      int y = 0;
+      int padding = 10;
+
+      if (event->checkNumKey("x"))
+         x = event->numParams.find("x")->second;
+      
+      if (event->checkNumKey("y"))
+         y = event->numParams.find("x")->second;
+
+      if (event->checkStrKey("dialog"))
+      {
+         std::string dialog = event->strParams.find("dialog")->second;
+
+         std::vector<DialogContainer> dBoxes = dialogs[dialog];
+
+         // Set dialog box over position
+         for (int i = 0; i < (int)dBoxes.size(); i++)
+         {
+            dBoxes[i].x = x - (int)floor(dBoxes[i].width / 2);
+            dBoxes[i].y = y - dBoxes[i].height - padding;
+         }
+         loadDialogQueue(dBoxes, true);
+      }
+      else if (event->checkStrKey("name"))
+      {
+         std::string name = event->strParams.find("name")->second;
+
+         if (name.compare("Steve") == 0)
+         {
+            std::vector<DialogContainer> dBoxes = dialogs["guard_dangerous"];
+            
+            // Set dialog box over position
+            for (int i = 0; i < (int)dBoxes.size(); i++)
+            {
+               dBoxes[i].x = x - (int) floor(dBoxes[i].width / 2);
+               dBoxes[i].y = y - dBoxes[i].height - padding;
+            }
+            loadDialogQueue(dBoxes, true);
+         }
+      }
+   }
 }
 /*-----------------------------------------------*/
 void DialogManager::registerListeners(EventQueue* eventQueue)
@@ -268,6 +343,7 @@ void DialogManager::registerListeners(EventQueue* eventQueue)
    eventQueue->addEventListener(Event::ET_LEVEL_BEGIN, this);
    eventQueue->addEventListener(Event::ET_DEATH, this);
    eventQueue->addEventListener(Event::ET_RESTART, this);
+   eventQueue->addEventListener(Event::ET_COLLISION_START, this);
 }
 /*-----------------------------------------------*/
 void DialogManager::initBattleDialog(std::vector<BattleSprite*>* battleSprites)
