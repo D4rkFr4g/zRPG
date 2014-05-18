@@ -82,22 +82,17 @@ void DialogManager::initDialogs()
    
    dBoxes.clear();
    text = "It's Dangerous to Go alone!";
-   sizeDialogBox(&rows, &cols, 1, text);
-   center(&x, &y, rows, cols);
 
-   dBox = DialogContainer(x, y, rows, cols, text, true, true);
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
    dBoxes.push_back(dBox);
    dialogs["guard_dangerous"] = dBoxes;
    /*============================================================================*/
 
    dBoxes.clear();
    text = "Are you sure your strong enough yet?       ";
-   sizeDialogBox(&rows, &cols, 2, text);
-   center(&x, &y, rows, cols);
-
    text += "\nDon't come crying to me if you get hurt!";
 
-   dBox = DialogContainer(x, y, rows, cols, text, true, true);
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
    dBoxes.push_back(dBox);
    dialogs["guard_weak"] = dBoxes;
    /*============================================================================*/

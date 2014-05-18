@@ -143,6 +143,8 @@ void spriteManager::initVillagerA()
 
 	VillagerA* villager = new VillagerA();
 	villager->updatePosition(1846,870);
+   villager->name = "Bridge Guard";
+   villager->collider.h += 70;
 	levelSprites["overworld"].push_back(villager);
 
 }

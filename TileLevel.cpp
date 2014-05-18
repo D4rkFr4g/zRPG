@@ -46,8 +46,8 @@ void TileLevel::drawLevel(int camX, int camY, int screenWidth, int screenHeight)
 			tile->drawUV(camX, camY);
 			
 			
-			//if (tile->type != 0)
-			//	tile->drawCollider(camX, camY);
+			/*if (tile->type != 0)
+				tile->drawCollider(camX, camY);*/
 			
 		}
 	}

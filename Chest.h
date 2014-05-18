@@ -11,5 +11,11 @@ public:
    Chest();
    ~Chest();
 
-   // Functions
+   // Virtual Functions
+   virtual void onCollision() override;
+   virtual void onTrigger() override;
+
+   // Variables
+   int qty;
+   std::string itemName;
 };

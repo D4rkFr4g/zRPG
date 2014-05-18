@@ -9,6 +9,9 @@ EventQueue* player::eventQueue;
 int player::timeBetweenBattles = 5000;
 int player::timeSinceLastBattle = 0;
 bool player::isBattleReady = false;
+int player::timeBetweenDialogs = 1000;
+int player::timeSinceLastDialog = 0;
+bool player::isDialogReady = false;
 const unsigned char* player::keyboard;
 const unsigned char* player::prevKeyboard;
 
@@ -60,7 +63,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    // Idle Animation
    //AnimationFrame* frames_idle = new AnimationFrame[numFrames];
    std::vector<AnimationFrame> frames;
-   frames.assign(numFrames,AnimationFrame());
+   frames.assign(numFrames, AnimationFrame());
    frames[0] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
    Animation animation_idle = Animation("Idle", frames, numFrames);
    player.animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
@@ -69,7 +72,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    numFrames = 7;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
- 
+
    frames[0] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
    frames[1] = AnimationFrame(1 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
    frames[2] = AnimationFrame(2 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
@@ -112,7 +115,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    numFrames = 5;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
-   
+
    frames[0] = AnimationFrame(0 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
    frames[1] = AnimationFrame(1 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
    frames[2] = AnimationFrame(2 * uSize, 5 * vSize, 1 * uSize, 1 * vSize);
@@ -125,7 +128,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    numFrames = 6;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
-   
+
    frames[0] = AnimationFrame(0 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
    frames[1] = AnimationFrame(1 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
    frames[2] = AnimationFrame(2 * uSize, 14 * vSize, 1 * uSize, 1 * vSize);
@@ -140,7 +143,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    timeToNextFrame = 150;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
-   
+
    frames[0] = AnimationFrame(21 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
    frames[1] = AnimationFrame(24 * uSize, 11 * vSize, 3 * uSize, 3 * vSize);
    Animation animation_death = Animation("Death", frames, numFrames);
@@ -424,10 +427,10 @@ void player::updatePhysics(PlayerSprite* player, int diff_time)
 {
    /* PURPOSE:		Handles physics updates for player sprite
       RECEIVES:	player - Sprite object of player
-                  diff_time - milliseconds since last frame
+      diff_time - milliseconds since last frame
       RETURNS:
       REMARKS:
-   */
+      */
 
    // Timer for battle rest periods
    if (!isBattleReady && !battleManager::isBattle)
@@ -437,6 +440,17 @@ void player::updatePhysics(PlayerSprite* player, int diff_time)
       {
          timeSinceLastBattle = 0;
          isBattleReady = true;
+      }
+   }
+
+   // Timer for dialog to prevent double dialoging
+   if (!isDialogReady)
+   {
+      timeSinceLastDialog += diff_time;
+      if (timeSinceLastDialog > timeBetweenDialogs)
+      {
+         timeSinceLastDialog = 0;
+         isDialogReady = true;
       }
    }
 }
@@ -457,7 +471,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
    bool* sides = AABB::AABBwhichSideIntersected(&player->prevCollider, &player->collider, &sprite->collider);
 
    // Ground Collision
-   if (sprite->type == enumLibrary::COLLISION::GROUND )
+   if (sprite->type == enumLibrary::COLLISION::GROUND || (sprite->type == enumLibrary::COLLISION::VILLAGER && !player->hasSword))
    {
 
       if (sides[TOP])
@@ -486,10 +500,17 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       }
       player->updateCamera();
    }
-   
+
+   // Handle Trigger events
+   if (keyboard[SDL_SCANCODE_J] && !prevKeyboard[SDL_SCANCODE_J])
+      sprite->onTrigger();
+
    // Only resolve onCollisionEnter and not onCollisionStay
    if (!sprite->hasCollided)
    {
+      // Handle sprite based collision logic
+      sprite->onCollision();
+
       if (sprite->type == enumLibrary::COLLISION::END)
       {
          //std::cout << "You Win" << std::endl;
@@ -499,14 +520,23 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
          //player->state = DEATH;
       }
       if (sprite->type == enumLibrary::COLLISION::VILLAGER)
-	  {
-		  sprite->onCollision();
-
-		  if (keyboard[SDL_SCANCODE_J] && !prevKeyboard[SDL_SCANCODE_J])
-		  {
-			  sprite->onTrigger();
-		  }
-	  }
+      {
+         if (isDialogReady)
+         {
+            if (!player->hasSword)
+            {
+               Event ev = Event(Event::ET_COLLISION_START, "dialog", "guard_dangerous");
+               eventQueue->queueEvent(ev);
+               isDialogReady = false;
+            }
+            else if (player->level < 5)
+            {
+               Event ev = Event(Event::ET_COLLISION_START, "dialog", "guard_weak");
+               eventQueue->queueEvent(ev);
+               isDialogReady = false;
+            }
+         }
+      }
       if (sprite->type == enumLibrary::COLLISION::DUNGEON_1)
       {
          eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "dungeon_1"));
@@ -515,16 +545,16 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
       {
          eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
       }
-	  if (sprite->type == enumLibrary::COLLISION::CASTLE)
-	  {
-		  eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "castle"));
-	  }
-	  else if (sprite->type == enumLibrary::COLLISION::OVERWORLD)
-	  {
-		  eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
-	  }
-      
-      if (isBattleReady)
+      if (sprite->type == enumLibrary::COLLISION::CASTLE)
+      {
+         eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "castle"));
+      }
+      else if (sprite->type == enumLibrary::COLLISION::OVERWORLD)
+      {
+         eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
+      }
+
+      if (isBattleReady && player->hasSword)
       {
          if (sprite->type == enumLibrary::COLLISION::BATTLE_EASY)
          {
@@ -543,7 +573,6 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite)
             isBattleReady = false;
       }
    }
-   // For testing onCollisionStay
    sprite->hasCollided = true;
 }
 /*-----------------------------------------------*/
@@ -573,7 +602,7 @@ void player::stopPlayer(PlayerSprite* player)
       RECEIVES:	player - Sprite object of player
       RETURNS:
       REMARKS:
-   */
+      */
 
    player->isAnimated = false;
    player->prevState = player->state;

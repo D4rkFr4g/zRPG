@@ -1,6 +1,8 @@
 #include "Sprite.h"
 
 
+EventQueue* Sprite::eventQueue;
+
 Sprite::Sprite(void)
 {
 	initialize(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1);

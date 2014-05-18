@@ -6,6 +6,8 @@ Chest::Chest()
    Sprite sprite = Sprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
    *this = Chest((Chest&)sprite);
    name = "chest";
+   itemName = "";
+   qty = 1;
 
    //Setup collider
    int xOffset = 0;
@@ -21,5 +23,15 @@ Chest::Chest()
 /*-----------------------------------------------*/
 Chest::~Chest()
 {
+}
+/*-----------------------------------------------*/
+void Chest::onCollision()
+{
+
+}
+/*-----------------------------------------------*/
+void Chest::onTrigger()
+{
+   eventQueue->queueEvent(Event(Event::ET_ITEM, "item", itemName));
 }
 /*-----------------------------------------------*/

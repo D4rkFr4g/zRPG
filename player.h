@@ -25,6 +25,9 @@ public:
    static int timeBetweenBattles;
    static int timeSinceLastBattle;
    static bool isBattleReady;
+   static int timeBetweenDialogs;
+   static int timeSinceLastDialog;
+   static bool isDialogReady;
    static const unsigned char* keyboard;
    static const unsigned char* prevKeyboard;
 };

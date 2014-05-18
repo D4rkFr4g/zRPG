@@ -206,6 +206,7 @@ static void loadSprites()
 	REMARKS:                Also creates and places sprites on map
 	*/
 
+   Sprite::eventQueue = &g_eventQueue;
 	textureLoader::loadTextures(&g_textures);
    spriteManager::init(&g_spriteBuckets, &g_textures, &g_windowMaxWidth, &g_windowMaxHeight);
    spriteManager::loadLevelSprites(g_currentLevel->name);
@@ -273,6 +274,8 @@ void updateSprites(int diff_time)
 				// Check for Collisions
 				if (g_player.collider.AABBIntersect(&sprite->collider))
 					player::collisionResolution(&g_player, sprite);
+            else
+               sprite->hasCollided = false;
 			}
 		}
 	}

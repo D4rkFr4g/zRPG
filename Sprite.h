@@ -4,6 +4,7 @@
 #include <string>
 #include "DrawUtils.h"
 #include "AABB.h"
+#include "EventQueue.h"
 
 class Sprite
 {
@@ -51,6 +52,7 @@ public:
 	float prevPosX, prevPosY;
 	int type;
    bool isColliderDrawn;
+   static EventQueue* eventQueue;
 
 private:
 	void initialize(GLuint* texture, int x, int y, int offsetX, int offsetY, int width, int height, GLfloat tu, GLfloat tv, GLfloat tSizeX, GLfloat tSizeY);

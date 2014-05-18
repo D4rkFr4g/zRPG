@@ -6,7 +6,7 @@ VillagerA::VillagerA()
 	Texture* tex = textureLoader::getTexture("friendly_npcs");
 	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0*tex->uSize, 7*tex->vSize, 1*tex->uSize, 1*tex->vSize);
 	*this = VillagerA((VillagerA&)sprite);
-	type = 1;
+	type = 12;
 	name = "villagerA";
 	isAnimated = false;
 
@@ -21,7 +21,7 @@ VillagerA::VillagerA()
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
 	maxSpeed = 50;
-	isColliderDrawn = false;
+	isColliderDrawn = true;
 
 	// Walking Animation
 	int numFrames = 1;

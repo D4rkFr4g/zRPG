@@ -23,7 +23,7 @@ public:
       DUNGEON_1,
       OVERWORLD,
       VILLAGER,
-	  CASTLE
+	   CASTLE
    };
 };
 
