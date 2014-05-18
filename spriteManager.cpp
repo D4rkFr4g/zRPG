@@ -184,8 +184,16 @@ void spriteManager::initChests()
 	*/
 
 	Chest* chest_1 = new Chest();
-	//Chest* chest_2 = new Chest();
+	Chest* chest_2 = new Chest();
+	Chest* chest_3 = new Chest();
+	Chest* chest_4 = new Chest();
 	chest_1->updatePosition(300, 80);
+	chest_2->updatePosition(2172, 305);
+	chest_3->updatePosition(2971, 129);
+	chest_4->updatePosition(300, 1872);
 	levelSprites["overworld"].push_back(chest_1);
+	levelSprites["overworld"].push_back(chest_2);
+	levelSprites["overworld"].push_back(chest_3);
+	levelSprites["overworld"].push_back(chest_4);
 
 }
