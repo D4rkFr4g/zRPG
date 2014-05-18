@@ -26,6 +26,7 @@
     <ClCompile Include="BattleSprite.cpp" />
     <ClCompile Include="bucketManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Chicken.cpp" />
     <ClCompile Include="DialogContainer.cpp" />
     <ClCompile Include="DialogManager.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="BattleSprite.h" />
     <ClInclude Include="bucketManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Chest.h" />
     <ClInclude Include="Chicken.h" />
     <ClInclude Include="DialogContainer.h" />
     <ClInclude Include="DialogManager.h" />

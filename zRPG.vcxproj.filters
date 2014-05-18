@@ -165,6 +165,9 @@
     <ClCompile Include="enumLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Chest.cpp">
+      <Filter>Sprites\Final\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="enumLibrary.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chest.h">
+      <Filter>Sprites\Final\Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
