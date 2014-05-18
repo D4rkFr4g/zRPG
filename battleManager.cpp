@@ -28,6 +28,7 @@ int battleManager::currentTurn;
 std::unordered_map<int, std::string> battleManager::statBoost;
 std::unordered_map<std::string, Menu> battleManager::menus;
 BattleMenu battleManager::battleMenu;
+int battleManager::healthTimer = 1000;
 
 /*-----------------------------------------------*/
 battleManager::battleManager()
@@ -176,6 +177,30 @@ void battleManager::initPlayer()
 
    frames[0] = AnimationFrame(0 * uSize, 0 * vSize, 1 * uSize, 1 * vSize);
    animation = Animation("Flee", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animData.eventFrame = 0;
+   battlePlayer.animations[animation.name] = animData;
+
+   // Death Animation
+   timeToNextFrame = 1000;
+   numFrames = 1;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 26 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Death", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animData.eventFrame = 0;
+   battlePlayer.animations[animation.name] = animData;
+
+   // Win Animation
+   timeToNextFrame = 1000;
+   numFrames = 1;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 25 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Win", frames, numFrames);
    animData = AnimationData(animation, timeToNextFrame, false);
    animData.eventFrame = 0;
    battlePlayer.animations[animation.name] = animData;
@@ -588,10 +613,18 @@ void battleManager::updateBattle(int ms)
       REMARKS:
       */
 
+   // Low health for Link
+   healthTimer -= ms;
+   float alpha = ((float)spriteQueue[0]->health / (float)spriteQueue[0]->maxHealth);
+   if (alpha < 0.10 && healthTimer <= 0)
+   {
+      healthTimer = 1000;
+      eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "low_health"));
+   }
+
    // End battle if player dead
    if (isPlayerAlive && spriteQueue[0]->health <= 0)
    {
-      //eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", "player"));
       isPlayerAlive = false;
 
       dialogManager->battleResetDialog();
@@ -748,6 +781,8 @@ void battleManager::useItem(std::unordered_map<std::string, int>::iterator itr)
          Event ev = Event(Event::ET_DAMAGE, "subject", spriteQueue[i]->getUUID());
          ev.numParams["damage"] = damage;
          eventQueue->queueEvent(ev);
+
+         eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "rupee"));
       }
    }
 
@@ -760,6 +795,8 @@ void battleManager::useItem(std::unordered_map<std::string, int>::iterator itr)
          spriteQueue[0]->health = maxHealth;
       else
          spriteQueue[0]->health = newHealth;
+
+      eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "refill_health"));
    }
    if (item.compare("Blue Potion") == 0 || item.compare("Green Potion") == 0)
    {
@@ -769,6 +806,8 @@ void battleManager::useItem(std::unordered_map<std::string, int>::iterator itr)
          spriteQueue[0]->magic = maxMagic;
       else
          spriteQueue[0]->magic = newMagic;
+
+      eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "magic"));
    }
 }
 /*-----------------------------------------------*/
@@ -796,6 +835,7 @@ void battleManager::battleWin()
    eventQueue->queueEvent(Event(Event::ET_BATTLE_WIN));
 
    BattleSprite* bPlayer = spriteQueue[0];
+   bPlayer->setAnimation("Win");
 
    std::unordered_map<std::string, int> tempReward;
    std::vector<std::string> rewards;

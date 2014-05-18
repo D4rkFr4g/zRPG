@@ -135,7 +135,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    Animation animation_walkingDiagUp = Animation("Walking DiagUp", frames, numFrames);
    player.animations[animation_walkingDiagUp.name] = AnimationData(animation_walkingDiagUp, timeToNextFrame, true);
 
-   // Death Animation
+   // Death Animation -- This animation isn't on the sheet yet.
    numFrames = 2;
    timeToNextFrame = 150;
    frames.clear();

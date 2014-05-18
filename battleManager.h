@@ -73,6 +73,7 @@ public:
    static std::unordered_map<std::string, Menu> menus;
    static BattleMenu battleMenu;
    static std::unordered_map<int, std::string> statBoost;
+   static int healthTimer;
 
 protected:
    battleManager();

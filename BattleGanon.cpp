@@ -86,6 +86,22 @@ BattleGanon::BattleGanon()
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
 
+   // Death Animation
+   numFrames = 6;
+   timeToNextFrame = 1000;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 17 * vSize, 1 * uSize, 1 * vSize);
+   frames[1] = AnimationFrame(0 * uSize, 18 * vSize, 1 * uSize, 1 * vSize);
+   frames[2] = AnimationFrame(0 * uSize, 19 * vSize, 1 * uSize, 1 * vSize);
+   frames[3] = AnimationFrame(0 * uSize, 20 * vSize, 1 * uSize, 1 * vSize);
+   frames[4] = AnimationFrame(0 * uSize, 21 * vSize, 1 * uSize, 1 * vSize);
+   frames[5] = AnimationFrame(0 * uSize, 22 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Death", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animations[animation.name] = animData;
+
    setAnimation("Idle");
 }
 /*-----------------------------------------------*/

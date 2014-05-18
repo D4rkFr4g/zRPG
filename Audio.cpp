@@ -69,6 +69,7 @@ Audio::Audio(System* fmodSystem, ChannelGroup* channelMusic, ChannelGroup* chann
    soundNames.push_back("enemy_skitter");
    soundNames.push_back("ganon_crash");
    soundNames.push_back("deflect");
+   soundNames.push_back("magic");
 
    // Load Music
    for (int i = 0; i < (int)musicNames.size(); i++)
@@ -225,7 +226,7 @@ void Audio::notify(Event* event)
       }
    }
 
-   if (event->type == Event::ET_ATTACK)
+   if (event->type == Event::ET_SOUND)
    {
       if (event->checkStrKey("soundFX"))
       {

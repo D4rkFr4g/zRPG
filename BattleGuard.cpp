@@ -85,6 +85,17 @@ BattleGuard::BattleGuard()
    animData = AnimationData(animation, timeToNextFrame, false);
    animations[animation.name] = animData;
 
+   // Death Animation
+   numFrames = 1;
+   timeToNextFrame = 1000;
+   frames.clear();
+   frames.assign(numFrames, AnimationFrame());
+
+   frames[0] = AnimationFrame(0 * uSize, 16 * vSize, 1 * uSize, 1 * vSize);
+   animation = Animation("Death", frames, numFrames);
+   animData = AnimationData(animation, timeToNextFrame, false);
+   animations[animation.name] = animData;
+
    setAnimation("Idle");
 }
 /*-----------------------------------------------*/

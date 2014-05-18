@@ -86,6 +86,7 @@ void BattleSprite::applyDamage(int damage)
    {
       isAlive = false;
       eventQueue->queueEvent(Event(Event::ET_DEATH, "subject", name));
+      setAnimation("Death");
    }
 
    //isDefending = false; // Good for one attack or the rest of turn?

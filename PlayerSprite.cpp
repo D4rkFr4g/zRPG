@@ -74,7 +74,7 @@ void PlayerSprite::notify(Event* event)
          {
             int qty = 1;
 
-            if (event->checkNumParam("qty"))
+            if (event->checkNumKey("qty"))
                qty = event->numParams.find("qty")->second;
 
             std::unordered_map<std::string, int>::iterator itr = items.find(name);

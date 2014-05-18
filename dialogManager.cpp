@@ -109,7 +109,7 @@ void DialogManager::initDialogs()
 
    dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
-   dialogs["chest_sword"] = dBoxes;
+   dialogs["sword"] = dBoxes;
    /*============================================================================*/
 
    //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
