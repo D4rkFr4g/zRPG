@@ -42,7 +42,7 @@ Zelda::Zelda()
 	Animation animation_idle = Animation("Idle", frames, numFrames);
 	animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 
-	setAnimation("Idle");
+	setAnimation("Sleeping");
 }
 /*-----------------------------------------------*/
 Zelda::~Zelda()

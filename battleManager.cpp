@@ -63,7 +63,10 @@ void battleManager::init()
    loot[BATTLE_HARD].push_back("Red Potion");
    loot[BATTLE_HARD].push_back("Blue Potion");
    loot[BATTLE_HARD].push_back("Green Potion");
-   loot[BATTLE_BOSS].push_back("Jack");
+   loot[BATTLE_BOSS].push_back("Rupees");
+   loot[BATTLE_BOSS].push_back("Triforce of Courage");
+   loot[BATTLE_BOSS].push_back("Triforce of Wisdom");
+   loot[BATTLE_BOSS].push_back("Triforce of Power");
 
    // Setup statBoost
    statBoost[0] = "STR";
@@ -503,7 +506,7 @@ void battleManager::initBattle()
       player->stats["DEX"], player->stats["INT"], player->stats["LCK"]);
    battlePlayer.items = player->items;
    battlePlayer.name = player->name;
-   battlePlayer.health = player->stats["CON"] * 100;
+   battlePlayer.health = player->stats["CON"] * 50;
    battlePlayer.maxHealth = battlePlayer.health;//player->maxHealth;
    battlePlayer.magic = player->stats["INT"] * 10;
    battlePlayer.maxMagic = battlePlayer.magic;
@@ -846,7 +849,10 @@ void battleManager::playerDeath()
 
    battleCleanup();
    eventQueue->queueEvent(Event(Event::ET_RESTART));
-   //player->updatePosition(player->startX, player->startY);
+
+   // Make sure the dialog sequence is retriggered
+   if (player::isFinalBattle)
+      player::isFinalBattle = false;
 }
 /*-----------------------------------------------*/
 void battleManager::battleWin()
@@ -911,7 +917,7 @@ void battleManager::battleWin()
 
    // XP Rewards
 
-   int xpGained = totalLevel * 10;
+   int xpGained = totalLevel * 20;
    bPlayer->xp += xpGained;
 
    // Check for LevelUp
@@ -923,7 +929,7 @@ void battleManager::battleWin()
       bPlayer->stats["DEX"]++; // TODO Remove once Stat Picker is done
       bPlayer->stats["INT"]++; // TODO Remove once Stat Picker is done
       bPlayer->stats["LCK"]++; // TODO Remove once Stat Picker is done
-      rewards.push_back(player->name + " Leveled Up to Lv. " + std::to_string(player->level) + "!");
+      rewards.push_back(player->name + " Leveled Up to Lv. " + std::to_string(bPlayer->level) + "!");
    }
 
    if (xpGained > 0)

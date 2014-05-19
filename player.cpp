@@ -14,6 +14,7 @@ int player::timeSinceLastDialog = 0;
 bool player::isDialogReady = false;
 bool* player::isInputRequired;
 bool player::isGameOver = false;
+bool player::isFinalBattle = false;
 
 PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue, bool* isInputRequired)
 {
@@ -463,7 +464,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
    */
 
 
-   static bool isFinalBattle = false;
+   
    static bool isZeldaFinished = false;
 
    // Debug Collision Type
@@ -575,10 +576,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
       {
          eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "castle"));
       }
-      else if (sprite->type == enumLibrary::COLLISION::OVERWORLD)
-      {
-         eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
-      }
+
 
       if (isBattleReady && player->hasSword)
       {

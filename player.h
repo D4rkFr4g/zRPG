@@ -30,4 +30,5 @@ public:
    static bool isDialogReady;
    static bool* isInputRequired;
    static bool isGameOver;
+   static bool isFinalBattle;
 };

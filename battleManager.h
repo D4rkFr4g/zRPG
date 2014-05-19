@@ -17,6 +17,7 @@
 #include "Menu.h"
 #include "BattleMenu.h"
 #include "enumLibrary.h"
+#include "player.h"
 
 
 class battleManager

@@ -35,14 +35,15 @@ void MapManager::notify(Event* event)
 
          if (itr != end)
          {
-
+            
             // Save current position
             std::string name = (*currentLevel)->name;
             Vec pos;
             pos.x = player->x;
             pos.y = player->y;
 
-            locations[name] = pos;
+            if (!event->checkStrParam("save", "no"))
+               locations[name] = pos;
             // Save all sprites
             spriteManager::saveLevelSprites(name);
 
@@ -112,6 +113,8 @@ void MapManager::notify(Event* event)
    if (event->type == Event::ET_RESTART)
    {
       std::string name = (*currentLevel)->name;
+
+      locations.clear();
       
       Vec pos;
       pos.x = player->x;
@@ -135,6 +138,7 @@ void MapManager::notify(Event* event)
 
       // Set position with a little bit extra to clear collider
       player->updatePosition(pos.x, pos.y);
+      player->setAnimation("Idle");
 
       // Load sprites for the level
       bucketManager::updateBucketSize();
