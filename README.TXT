@@ -16,3 +16,4 @@ A Legend of Zelda RPG that will consist of adventure elements with battles done 
 Known issues:	
 ? Chickens don't check for collisions so they walk over everything instead.
 ? Stat balancing for battles might be slightly off at higher levels
+? Can get stuck colliding with villagers for Dialog
