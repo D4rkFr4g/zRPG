@@ -20,7 +20,7 @@ Ganon::Ganon()
 	colliderXOffset = xOffset;
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
-	isColliderDrawn = true;
+	isColliderDrawn = false;
 
 	// Walking Animation
 	int numFrames = 1;

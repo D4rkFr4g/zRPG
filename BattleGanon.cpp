@@ -11,7 +11,7 @@ BattleGanon::BattleGanon()
    level = 11;
    maxSpeed = 0;
    healFactor = 0.20;
-   health = 500;
+   health = 3000;
    offsetX = 64;
    offsetY = -((int) floor(this->height / 2.0));
 
@@ -89,7 +89,7 @@ BattleGanon::BattleGanon()
 
    // Death Animation
    numFrames = 6;
-   timeToNextFrame = 1000;
+   timeToNextFrame = 100;
    frames.clear();
    frames.assign(numFrames, AnimationFrame());
 

@@ -21,7 +21,7 @@ Zelda::Zelda()
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
 	maxSpeed = 50;
-	isColliderDrawn = true;
+	isColliderDrawn = false;
 
 	// Laying down  Animation
 	int numFrames = 1;
