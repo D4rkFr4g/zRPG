@@ -10,6 +10,8 @@
 #include "VillagerB.h"
 #include "VillagerC.h"
 #include "Chest.h"
+#include "Ganon.h"
+#include "Zelda.h"
 #include "bucketManager.h"
 #include "MapManager.h"
 #include "enumLibrary.h"
@@ -32,6 +34,8 @@ public:
    static void initVillagerB();
    static void initVillagerC();
    static void initChests();
+   static void initGanon();
+   static void initZelda();
 
    // Variables
   static std::unordered_map<std::string, std::vector<Sprite*>> levelSprites;

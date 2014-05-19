@@ -35,6 +35,9 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
    texture = glTexImageTGAFile("./Sprites/ganon.tga", width, height);
    (*g_textures)["ganon"] = Texture(texture, *width, *height, 128, 128);
 
+   texture = glTexImageTGAFile("./Sprites/.tga", width, height);
+   (*g_textures)["ganon"] = Texture(texture, *width, *height, 128, 128);
+
    texture = glTexImageTGAFile("./Sprites/link_battle.tga", width, height);
    (*g_textures)["link_battle"] = Texture(texture, *width, *height, 576, 64);
 

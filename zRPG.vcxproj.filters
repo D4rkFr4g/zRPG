@@ -168,6 +168,12 @@
     <ClCompile Include="Chest.cpp">
       <Filter>Sprites\Final\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Ganon.cpp">
+      <Filter>Sprites\Final\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Zelda.cpp">
+      <Filter>Sprites\Final\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll">
@@ -306,6 +312,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Chest.h">
+      <Filter>Sprites\Final\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Ganon.h">
+      <Filter>Sprites\Final\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Zelda.h">
       <Filter>Sprites\Final\Headers</Filter>
     </ClInclude>
   </ItemGroup>

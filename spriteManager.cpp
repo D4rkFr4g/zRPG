@@ -34,12 +34,13 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
    initVillagerB();
    initVillagerC();
    initChests();
+   initGanon();
 
    // Setup map structure so they are not null
    // Should probably send the filnames and load them that way in one place
    levelSprites["dungeon_1"];
    levelSprites["overworld"];
-
+   levelSprites["castle"];
 }
 /*-----------------------------------------------*/
 void spriteManager::saveLevelSprites(std::string levelName)
@@ -220,3 +221,18 @@ void spriteManager::initChests()
       levelSprites[chests[i].levelName].push_back(chest);
    }
 }
+/*-----------------------------------------------*/
+void spriteManager::initGanon()
+{
+	Ganon* ganon = new Ganon();
+	ganon->updatePosition(-50, 90);
+	levelSprites["castle"].push_back(ganon);
+}
+/*-----------------------------------------------*/
+void spriteManager::initZelda()
+{
+	Zelda* zelda = new Zelda();
+	zelda->updatePosition(50, 50);
+	levelSprites["castle"].push_back(zelda);
+}
+/*-----------------------------------------------*/
