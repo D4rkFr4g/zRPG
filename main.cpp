@@ -330,14 +330,6 @@ static void drawSprites()
             if (g_cam.collider.AABBIntersect(&g_spriteBuckets[bucket][j]->collider))
             {
                g_spriteBuckets[bucket][j]->drawUV(g_cam.x, g_cam.y);
-
-               // TODO Remove
-               if (g_spriteBuckets[bucket][j]->name.compare("Zelda") == 0)
-               {
-                  Zelda* zelda = (Zelda*) g_spriteBuckets[bucket][j];
-                  int x = 0;
-                  x++;
-               }
             }
 			}
 		}
@@ -417,7 +409,7 @@ static void keyboard()
          g_cam.isFollowing = true;
    }
 
-   if (kbState[SDL_SCANCODE_LEFT])
+   /*if (kbState[SDL_SCANCODE_LEFT])
    {
       g_cam.updateX(-camSpeed);
    }
@@ -432,44 +424,44 @@ static void keyboard()
    else if (kbState[SDL_SCANCODE_DOWN])
    {
       g_cam.updateY(camSpeed);
-   }
+   }*/
    else if (kbState[SDL_SCANCODE_ESCAPE])
    {
       shouldExit = true;
    }
-   else if (kbState[SDL_SCANCODE_EQUALS] || kbState[SDL_SCANCODE_KP_PLUS])
-   {
-      // TODO Remove
-      Chicken* chicken = new Chicken();
-      chicken->updatePosition(1000, 1000);
+   //else if (kbState[SDL_SCANCODE_EQUALS] || kbState[SDL_SCANCODE_KP_PLUS])
+   //{
+   //   // TODO Remove
+   //   Chicken* chicken = new Chicken();
+   //   chicken->updatePosition(1000, 1000);
 
-      int bucket = bucketManager::whichBucket(chicken->x, chicken->y);
-      if (bucket < 0)
-         bucket = 0;
-      else if (bucket >= g_spriteBuckets.size() - 1)
-         bucket = g_spriteBuckets.size() - 1;
-      g_spriteBuckets[bucket].push_back(chicken);
-   }
-   else if (kbState[SDL_SCANCODE_MINUS] || kbState[SDL_SCANCODE_KP_MINUS])
-   {
-      // Remove a random chicken
-      int numOfBuckets = g_spriteBuckets.size();
-      int choice = rand() % numOfBuckets;
+   //   int bucket = bucketManager::whichBucket(chicken->x, chicken->y);
+   //   if (bucket < 0)
+   //      bucket = 0;
+   //   else if (bucket >= g_spriteBuckets.size() - 1)
+   //      bucket = g_spriteBuckets.size() - 1;
+   //   g_spriteBuckets[bucket].push_back(chicken);
+   //}
+   //else if (kbState[SDL_SCANCODE_MINUS] || kbState[SDL_SCANCODE_KP_MINUS])
+   //{
+   //   // Remove a random chicken
+   //   int numOfBuckets = g_spriteBuckets.size();
+   //   int choice = rand() % numOfBuckets;
 
-      if (g_spriteBuckets[choice].size() > 0)
-         g_spriteBuckets[choice].pop_back();
-   }
-   else if (kbState[SDL_SCANCODE_R] && !kbPrevState[SDL_SCANCODE_R])
-   {
-      player::restartPlayer(&g_player, g_currentLevel->startX, g_currentLevel->startY);
-      g_eventQueue.queueEvent(Event(Event::ET_RESTART));
-   }
-   else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
-   {
-      // TODO remove this
-      //battleManager::checkBattle(battleManager::BATTLE_YES);
-      g_player.updatePosition(2000, 2000);
-   }
+   //   if (g_spriteBuckets[choice].size() > 0)
+   //      g_spriteBuckets[choice].pop_back();
+   //}
+   //else if (kbState[SDL_SCANCODE_R] && !kbPrevState[SDL_SCANCODE_R])
+   //{
+   //   player::restartPlayer(&g_player, g_currentLevel->startX, g_currentLevel->startY);
+   //   g_eventQueue.queueEvent(Event(Event::ET_RESTART));
+   //}
+   //else if (kbState[SDL_SCANCODE_Y] && !kbPrevState[SDL_SCANCODE_Y])
+   //{
+   //   // TODO remove this
+   //   //battleManager::checkBattle(battleManager::BATTLE_YES);
+   //   g_player.updatePosition(2000, 2000);
+   //}
 
    if (g_isTitleShowing && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
    {

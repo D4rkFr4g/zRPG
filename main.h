@@ -47,7 +47,7 @@ const int g_numOfCheckBuckets = 9;
 // Global Variables
 SDL_Window* g_window;
 float color[] = {0,0,0};
-float currentDirection = 1;   // TODO verify use
+float currentDirection = 1;
 int g_windowWidth = 640;
 int g_windowOriginalWidth;
 int g_windowHeight = 480;

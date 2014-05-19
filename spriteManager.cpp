@@ -207,9 +207,9 @@ void spriteManager::initChests()
 
    std::vector<ChestPos> chests;
 
-   chests.push_back(ChestPos("overworld", "Rupees", 100, 304, 80));
+   chests.push_back(ChestPos("overworld", "Rupees", 500, 304, 80));
    chests.push_back(ChestPos("overworld", "Red Potion", 5, 2176, 304));
-   chests.push_back(ChestPos("overworld", "Rupees", 100, 2976, 128));
+   chests.push_back(ChestPos("overworld", "Rupees", 500, 2976, 128));
    chests.push_back(ChestPos("overworld", "Green Potion", 5, 304, 1872));
    chests.push_back(ChestPos("dungeon_1", "sword", 1, 480, 416));
 

@@ -133,7 +133,6 @@ void BattleChicken::update(int ms)
 void BattleChicken::notify(Event* event)
 {
    BattleSprite::notify(event);
-   // TODO Maybe
 }
 /*-----------------------------------------------*/
 BattleChicken* BattleChicken::clone() const
