@@ -12,8 +12,9 @@ bool player::isBattleReady = false;
 int player::timeBetweenDialogs = 1000;
 int player::timeSinceLastDialog = 0;
 bool player::isDialogReady = false;
+bool* player::isInputRequired;
 
-PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue)
+PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue, bool* isInputRequired)
 {
    /* PURPOSE:		Sets up player sprite for this game
    RECEIVES:	texture - OpenGl texture to use when drawing player
@@ -24,6 +25,7 @@ PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHe
    */
 
    player::eventQueue = evQueue;
+   player::isInputRequired = isInputRequired;
 
    PlayerSprite player;
    float cellSize = 32;
@@ -459,6 +461,9 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
    REMARKS:
    */
 
+
+   static bool isFinalBattle = false;
+
    // Debug Collision Type
    if (0)
       std::cout << "Collision Type = " << sprite->type << std::endl;
@@ -499,6 +504,9 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
    // Handle Trigger events
    if (kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])
       sprite->onTrigger();
+
+   if (sprite->type == enumLibrary::COLLISION::BATTLE_BOSS && player->isGanonDefeated)
+      sprite->isVisible = false;
 
    // Only resolve onCollisionEnter and not onCollisionStay
    if (!sprite->hasCollided)
@@ -588,8 +596,22 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
          if (battleManager::isBattle)
             isBattleReady = false;
       }
+      
+      if (!*isInputRequired && !isFinalBattle && sprite->type == enumLibrary::COLLISION::BATTLE_BOSS && !player->isGanonDefeated)
+      {
+         isFinalBattle = true;
+
+         Event ev = Event(Event::ET_COLLISION_START, "dialog", "ganon_finale");
+         eventQueue->queueEvent(ev);
+         isDialogReady = false;
+      }
    }
    sprite->hasCollided = true;
+
+   if (isDialogReady && !*isInputRequired && isFinalBattle && sprite->type == enumLibrary::COLLISION::BATTLE_BOSS && !player->isGanonDefeated)
+   {
+      battleManager::checkBattle(battleManager::BATTLE_BOSS);
+   }
 }
 /*-----------------------------------------------*/
 void player::restartPlayer(PlayerSprite* player, int x, int y)

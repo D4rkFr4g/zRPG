@@ -39,6 +39,7 @@ public:
 	float jumpSpeed;
 	bool isJumping;
    bool hasSword;
+   bool isGanonDefeated;
    std::vector<int> xpToNextLevel;
    std::unordered_map<std::string, int> items;
    std::unordered_map<std::string, int> stats;

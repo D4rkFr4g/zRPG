@@ -13,7 +13,7 @@ protected:
 public:
 
 	// Functions
-	static PlayerSprite makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* eventQueue);
+	static PlayerSprite makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* eventQueue, bool* isInputRequired);
 	static void playerKeyboard(PlayerSprite* player, const unsigned char* kbState, unsigned char* kbPrevState);
 	static void updatePhysics(PlayerSprite* player, int diff_time);
    static void collisionResolution(PlayerSprite* player, Sprite* sprite, const unsigned char* kbState, unsigned char* kbPrevState);
@@ -28,4 +28,5 @@ public:
    static int timeBetweenDialogs;
    static int timeSinceLastDialog;
    static bool isDialogReady;
+   static bool* isInputRequired;
 };

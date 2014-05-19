@@ -216,7 +216,7 @@ static void loadSprites()
 
 	// Create and place player on map
 	Texture* tex = &g_textures["link"];
- 	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &g_eventQueue);
+ 	g_player = player::makePlayer(&tex->texture, tex->width, tex->height, &g_eventQueue, &g_isInputRequired);
 	int startX = g_currentLevel->startX;
    int g_colliderNegativeYOffset = g_player.colliderYOffset + g_player.collider.h;
 	int startY = g_currentLevel->startY - g_colliderNegativeYOffset;
@@ -331,13 +331,13 @@ static void drawSprites()
             {
                g_spriteBuckets[bucket][j]->drawUV(g_cam.x, g_cam.y);
 
-               //// TODO Remove
-               //if (g_spriteBuckets[bucket][j]->name.compare("chest") == 0)
-               //{
-               //   Chest* chest = (Chest*) g_spriteBuckets[bucket][j];
-               //   int x = 0;
-               //   x++;
-               //}
+               // TODO Remove
+               if (g_spriteBuckets[bucket][j]->name.compare("Zelda") == 0)
+               {
+                  Zelda* zelda = (Zelda*) g_spriteBuckets[bucket][j];
+                  int x = 0;
+                  x++;
+               }
             }
 			}
 		}
@@ -468,7 +468,7 @@ static void keyboard()
    {
       // TODO remove this
       //battleManager::checkBattle(battleManager::BATTLE_YES);
-      g_player.updatePosition(500, 2000);
+      g_player.updatePosition(2000, 2000);
    }
 
    if (g_isTitleShowing && kbState[SDL_SCANCODE_J] && !kbPrevState[SDL_SCANCODE_J])

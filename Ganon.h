@@ -2,6 +2,7 @@
 #include "AnimatedSprite.h"
 #include "Texture.h"
 #include "textureLoader.h"
+#include "enumLibrary.h"
 
 class Ganon : public AnimatedSprite
 {

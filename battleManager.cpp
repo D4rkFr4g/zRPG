@@ -592,7 +592,7 @@ void battleManager::battleCleanup()
    //battlePlayer.health = battlePlayer.maxHealth;
    //battlePlayer.magic = battlePlayer.maxMagic;
    player->isAlive = true;
-   eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", previousLevel->name));
+   eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
    isBattle = false;
    spriteQueue[0]->updatePosition(spriteQueue[0]->x, spriteQueue[0]->startY);
 
@@ -850,6 +850,9 @@ void battleManager::battleWin()
       RETURNS:
       REMARKS:
       */
+
+   if (currentBattle == BATTLE_BOSS)
+      player->isGanonDefeated = true;
 
    eventQueue->queueEvent(Event(Event::ET_BATTLE_WIN));
 

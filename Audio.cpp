@@ -25,6 +25,7 @@ Audio::Audio(System* fmodSystem, ChannelGroup* channelMusic, ChannelGroup* chann
    musicNames.push_back("pause");
    musicNames.push_back("dungeon");
    musicNames.push_back("battle");
+   musicNames.push_back("ganons_message");
    musicNames.push_back("battle_ganon");
    musicNames.push_back("boss_clear_fanfare");
    musicNames.push_back("ending");
@@ -132,6 +133,13 @@ void Audio::notify(Event* event)
       {
          stopAllMusic();
          currentMusic = "battle";
+         fmodSystem->playSound(music[currentMusic], channelMusic, false, &currentChannel);
+         currentChannel->setChannelGroup(channelMusic);
+      }
+      else if (event->checkStrParam("level", "castle"))
+      {
+         stopAllMusic();
+         currentMusic = "ganons_message";
          fmodSystem->playSound(music[currentMusic], channelMusic, false, &currentChannel);
          currentChannel->setChannelGroup(channelMusic);
       }

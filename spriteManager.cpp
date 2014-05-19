@@ -35,6 +35,7 @@ void spriteManager::init(std::vector<std::vector<Sprite*>>* g_spriteBuckets, std
    initVillagerC();
    initChests();
    initGanon();
+   initZelda();
 
    // Setup map structure so they are not null
    // Should probably send the filnames and load them that way in one place
@@ -206,9 +207,9 @@ void spriteManager::initChests()
 
    std::vector<ChestPos> chests;
 
-   chests.push_back(ChestPos("overworld", "Rupees", 300, 304, 80));
+   chests.push_back(ChestPos("overworld", "Rupees", 100, 304, 80));
    chests.push_back(ChestPos("overworld", "Red Potion", 5, 2176, 304));
-   chests.push_back(ChestPos("overworld", "Green Potion", 5, 2976, 128));
+   chests.push_back(ChestPos("overworld", "Rupees", 100, 2976, 128));
    chests.push_back(ChestPos("overworld", "Green Potion", 5, 304, 1872));
    chests.push_back(ChestPos("dungeon_1", "sword", 1, 480, 416));
 
@@ -225,14 +226,14 @@ void spriteManager::initChests()
 void spriteManager::initGanon()
 {
 	Ganon* ganon = new Ganon();
-	ganon->updatePosition(-50, 90);
+	ganon->updatePosition(395,155);
 	levelSprites["castle"].push_back(ganon);
 }
 /*-----------------------------------------------*/
 void spriteManager::initZelda()
 {
 	Zelda* zelda = new Zelda();
-	zelda->updatePosition(50, 50);
+	zelda->updatePosition(510, 155);
 	levelSprites["castle"].push_back(zelda);
 }
 /*-----------------------------------------------*/

@@ -11,7 +11,7 @@ BattleGanon::BattleGanon()
    level = 11;
    maxSpeed = 0;
    healFactor = 0.20;
-   health = 300;
+   health = 500;
    offsetX = 64;
    offsetY = -((int) floor(this->height / 2.0));
 

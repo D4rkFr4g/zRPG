@@ -3,24 +3,23 @@
 
 Ganon::Ganon()
 {
-	Texture* tex = textureLoader::getTexture("ganon_battle");
+	Texture* tex = textureLoader::getTexture("ganon");
 	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0, 0, tex->uSize, tex->vSize);
 	*this = Ganon((Ganon&)sprite);
-	type = 1;
+	type = enumLibrary::COLLISION::BATTLE_BOSS;
 	name = "Ganon";
 	isAnimated = false;
 
 	//Setup Collider
-	int xOffset = 18;
-	int yOffset = 15;
-	int width = 28;
-	int height = 45;
-	float uSize = 1;
-	float vSize = 1;
+	int xOffset = 32;
+	int yOffset = 40;
+	int width = 70;
+   int height = 85;
+   float uSize = tex->uSize;
+   float vSize = tex->vSize;
 	colliderXOffset = xOffset;
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
-	maxSpeed = 50;
 	isColliderDrawn = false;
 
 	// Walking Animation
@@ -145,7 +144,7 @@ void Ganon::updateDirection(float speedX, float speedY)
 /*-----------------------------------------------*/
 void Ganon::onTrigger()
 {
-	Event ev = Event(Event::ET_COLLISION_START, "dialog", "villager_secret");
-	eventQueue->queueEvent(ev);
+	/*Event ev = Event(Event::ET_COLLISION_START, "dialog", "ganon");
+	eventQueue->queueEvent(ev);*/
 }
 /*-----------------------------------------------*/

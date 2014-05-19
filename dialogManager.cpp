@@ -142,6 +142,29 @@ void DialogManager::initDialogs()
    dialogs["sword"] = dBoxes;
    /*============================================================================*/
 
+   dBoxes.clear();
+
+   text = "It's been a while, boy. You have done well to sneak into my fortress and wriggle your way all the way up here.";
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   text = "I suppose the least I can do is commend you for your reckless courage.";
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   text = "My name is Ganondorf… And I am the master of Forsaken Fortress.";
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   text = "Your efforts have been in vain. You are but a weak insignificant pest that I have yet to squash.";
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   text = "Once I have removed myself of the burden you are. I will seize control of the triforce and rule this land in darkness.";
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+   text = "It's time for you to die!";
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+
+   dialogs["ganon_finale"] = dBoxes;
+   /*============================================================================*/
 
    //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
 

@@ -12,7 +12,7 @@ Zelda::Zelda()
 
 	//Setup Collider
 	int xOffset = 18;
-	int yOffset = 15;
+	int yOffset = 10;
 	int width = 28;
 	int height = 45;
 	float uSize = 1;

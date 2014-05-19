@@ -74,6 +74,7 @@ public:
    static BattleMenu battleMenu;
    static std::unordered_map<int, std::string> statBoost;
    static int healthTimer;
+   static bool isFinalBattle;
 
 protected:
    battleManager();
