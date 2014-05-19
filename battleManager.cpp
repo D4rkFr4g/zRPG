@@ -836,6 +836,7 @@ void battleManager::useItem(std::unordered_map<std::string, int>::iterator itr)
 
       eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "magic"));
    }
+   itr->second--;
 }
 /*-----------------------------------------------*/
 void battleManager::playerDeath()
