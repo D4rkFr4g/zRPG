@@ -11,16 +11,16 @@ Ganon::Ganon()
 	isAnimated = false;
 
 	//Setup Collider
-	int xOffset = 32;
-	int yOffset = 40;
-	int width = 70;
-   int height = 85;
+	int xOffset = 27;
+	int yOffset = 50;
+	int width = 75;
+   int height = 175;
    float uSize = tex->uSize;
    float vSize = tex->vSize;
 	colliderXOffset = xOffset;
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
-	isColliderDrawn = false;
+	isColliderDrawn = true;
 
 	// Walking Animation
 	int numFrames = 1;
