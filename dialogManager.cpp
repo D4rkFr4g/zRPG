@@ -454,6 +454,7 @@ void DialogManager::registerListeners(EventQueue* eventQueue)
    eventQueue->addEventListener(Event::ET_RESTART, this);
    eventQueue->addEventListener(Event::ET_COLLISION_START, this);
    eventQueue->addEventListener(Event::ET_ITEM, this);
+   eventQueue->addEventListener(Event::ET_LEVEL_LOAD, this);
 }
 /*-----------------------------------------------*/
 void DialogManager::initBattleDialog(std::vector<BattleSprite*>* battleSprites)
