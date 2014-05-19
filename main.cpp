@@ -35,7 +35,7 @@ static int initSDL()
 	"The Legend of Zelda: A Link to the RPG",
 	SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	g_windowWidth, g_windowHeight,
-	SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);// | SDL_WINDOW_FULLSCREEN );
+	SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN );
 	glCullFace( GL_BACK );
 
 	if( !g_window ) 
