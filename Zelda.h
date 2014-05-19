@@ -17,6 +17,7 @@ public:
 	// Functions
 	virtual void update(int ms) override;
 	virtual void onTrigger() override;
+   virtual void onCollision() override;
 	void setRandomMovement();
 };
 
