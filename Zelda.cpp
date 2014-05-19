@@ -4,7 +4,7 @@
 Zelda::Zelda()
 {
 	Texture* tex = textureLoader::getTexture("zelda");
-	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->width, tex->height, 1, 1, 1, 1);
+	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0 * tex->uSize, 0 * tex->vSize, tex->uSize, tex->vSize);
 	*this = Zelda((Zelda&)sprite);
 	type = 14;
 	name = "Zelda";
@@ -15,34 +15,34 @@ Zelda::Zelda()
 	int yOffset = 10;
 	int width = 64;
 	int height = 45;
-	float uSize = 1;
-	float vSize = 1;
+	float uSize = tex->uSize;
+	float vSize = tex->vSize;
 	colliderXOffset = xOffset;
 	colliderYOffset = yOffset;
 	setCollider(&AABB(x + xOffset, y + yOffset, width, height));
 	maxSpeed = 50;
 	isColliderDrawn = true;
 
-	// Walking Animation
+	// Laying down  Animation
 	int numFrames = 1;
 	int timeToNextFrame = 300;
 	std::vector<AnimationFrame> frames;
 	frames.assign(numFrames, AnimationFrame());
 
-	frames[0] = AnimationFrame(0, 4, uSize, vSize);
-	Animation animation_walking = Animation("Walking", frames, numFrames);
+	frames[0] = AnimationFrame(0 * uSize, 0 * vSize, uSize, vSize);
+	Animation animation_walking = Animation("Sleeping", frames, numFrames);
 	animations[animation_walking.name] = AnimationData(animation_walking, timeToNextFrame, true);
 
-	// Laying Down Animation
+	// Standing Idle Animation
 	numFrames = 1;
 	frames.clear();
 	frames.assign(numFrames, AnimationFrame());
 
-	frames[0] = AnimationFrame(0, 0, uSize, vSize);
+	frames[0] = AnimationFrame(1 * uSize, 0 * vSize, uSize, vSize);
 	Animation animation_idle = Animation("Idle", frames, numFrames);
 	animations[animation_idle.name] = AnimationData(animation_idle, timeToNextFrame, true);
 
-	//setAnimation("Walking");
+	setAnimation("Idle");
 }
 /*-----------------------------------------------*/
 Zelda::~Zelda()
