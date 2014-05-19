@@ -64,6 +64,9 @@ void textureLoader::loadTextures(std::unordered_map<std::string, Texture>* g_tex
 
    texture = glTexImageTGAFile("./Sprites/lttr_title.tga", width, height);
    (*g_textures)["title"] = Texture(texture, *width, *height, 640, 480);
+
+   texture = glTexImageTGAFile("./Sprites/ending.tga", width, height);
+   (*g_textures)["ending"] = Texture(texture, *width, *height, 640, 480);
 }
 /*-----------------------------------------------*/
 Texture* textureLoader::getTexture(std::string name)

@@ -29,4 +29,5 @@ public:
    static int timeSinceLastDialog;
    static bool isDialogReady;
    static bool* isInputRequired;
+   static bool isGameOver;
 };

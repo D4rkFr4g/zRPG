@@ -13,6 +13,7 @@ int player::timeBetweenDialogs = 1000;
 int player::timeSinceLastDialog = 0;
 bool player::isDialogReady = false;
 bool* player::isInputRequired;
+bool player::isGameOver = false;
 
 PlayerSprite player::makePlayer(GLuint* texture, int textureWidth, int textureHeight, EventQueue* evQueue, bool* isInputRequired)
 {
@@ -463,6 +464,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
 
 
    static bool isFinalBattle = false;
+   static bool isZeldaFinished = false;
 
    // Debug Collision Type
    if (0)
@@ -605,12 +607,29 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
          eventQueue->queueEvent(ev);
          isDialogReady = false;
       }
+
+      if (!*isInputRequired && !isGameOver && sprite->type == enumLibrary::COLLISION::ZELDA && player->isGanonDefeated)
+      {
+         Event ev = Event(Event::ET_COLLISION_START, "dialog", "zelda");
+         eventQueue->queueEvent(ev);
+         ev = Event(Event::ET_SOUND, "music", "princess_zeldas_rescue");
+         eventQueue->queueEvent(ev);
+         
+         isDialogReady = false;
+         isZeldaFinished = true;
+      }
+
    }
    sprite->hasCollided = true;
 
    if (isDialogReady && !*isInputRequired && isFinalBattle && sprite->type == enumLibrary::COLLISION::BATTLE_BOSS && !player->isGanonDefeated)
    {
       battleManager::checkBattle(battleManager::BATTLE_BOSS);
+   }
+
+   if (isDialogReady && isZeldaFinished && sprite->type == enumLibrary::COLLISION::ZELDA && player->isGanonDefeated)
+   {
+      isGameOver = true;
    }
 }
 /*-----------------------------------------------*/

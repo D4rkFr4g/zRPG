@@ -6,7 +6,7 @@ Zelda::Zelda()
 	Texture* tex = textureLoader::getTexture("friendly_npcs");
 	AnimatedSprite sprite = AnimatedSprite(&tex->texture, 0, 0, tex->cellWidth, tex->cellHeight, 0 * tex->uSize, 4 * tex->vSize, 1 * tex->uSize, 1 * tex->vSize);
 	*this = Zelda((Zelda&)sprite);
-	type = 1;
+	type = 14;
 	name = "Zelda";
 	isAnimated = false;
 
@@ -145,7 +145,10 @@ void Zelda::updateDirection(float speedX, float speedY)
 /*-----------------------------------------------*/
 void Zelda::onTrigger()
 {
-	Event ev = Event(Event::ET_COLLISION_START, "dialog", "villager_secret");
-	eventQueue->queueEvent(ev);
+}
+/*-----------------------------------------------*/
+void Zelda::onCollision()
+{
+   setAnimation("Idle");
 }
 /*-----------------------------------------------*/

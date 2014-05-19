@@ -574,6 +574,14 @@ static void onLoop()
    
    g_eventQueue.updateEventQueue();
    fmodSystem->update();
+
+   if (player::isGameOver)
+   {
+      g_titleScreen.texture = &textureLoader::getTexture("ending")->texture;
+      g_titleScreen.isVisible = true;
+
+      g_eventQueue.queueEvent(Event(Event::ET_SOUND, "music", "ending"));
+   }
 }
 /*-----------------------------------------------*/
 static void onInit()
