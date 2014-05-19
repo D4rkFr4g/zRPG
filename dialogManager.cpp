@@ -50,7 +50,7 @@ void DialogManager::initDialogs()
    dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 
-   text = "is up to you to decide. But it is a given that this quest will not be an easy one…";
+   text = "is up to you to decide, as long as you want to be a warrior. Your quest will not be an easy one…";
    dBox = DialogContainer(x, y, rows, cols, text, true, true);
    dBoxes.push_back(dBox);
 

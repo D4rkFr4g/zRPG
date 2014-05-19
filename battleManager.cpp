@@ -82,7 +82,7 @@ void battleManager::init()
 /*-----------------------------------------------*/
 void battleManager::initPlayer()
 {
-   player->initStats(1, 1, 1, 1, 1); // TODO Revert to 1 STR
+   player->initStats(1, 1, 1, 1, 1);
 
    // Setup battlePlayer
    Texture* tex = &(*textures)["link_battle"];
@@ -415,22 +415,22 @@ void battleManager::keyboard(const unsigned char* kbState, unsigned char* kbPrev
    // Keyboard buttons for Debugging Battle // TODO Remove at end
    //---------------------------------------------------------------//
 
-   if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
-   {
-      // End battle
-      battleCleanup(); // TODO Remove when unnecessary
-      while (spriteQueue.size() > 1)
-         spriteQueue.pop_back();
-   }
-   if (kbState[SDL_SCANCODE_I] && !kbPrevState[SDL_SCANCODE_I])
-   {
-      // Kill all enemies
-      // TODO Remove when unnecessary
-      for (int i = 1; i < (int)spriteQueue.size(); i++)
-         spriteQueue[i]->health = 0;
+   //if (kbState[SDL_SCANCODE_U] && !kbPrevState[SDL_SCANCODE_U])
+   //{
+   //   // End battle
+   //   battleCleanup(); // TODO Remove when unnecessary
+   //   while (spriteQueue.size() > 1)
+   //      spriteQueue.pop_back();
+   //}
+   //if (kbState[SDL_SCANCODE_I] && !kbPrevState[SDL_SCANCODE_I])
+   //{
+   //   // Kill all enemies
+   //   // TODO Remove when unnecessary
+   //   for (int i = 1; i < (int)spriteQueue.size(); i++)
+   //      spriteQueue[i]->health = 0;
 
-      dialogManager->battleResetDialog();
-   }
+   //   dialogManager->battleResetDialog();
+   //}
    //---------------------------------------------------------------//
 
 
@@ -446,12 +446,12 @@ void battleManager::checkBattle(BATTLE_TYPE battle)
       REMARKS:
       */
 
-   if (battle == battleManager::BATTLE_YES) // TODO Remove later
-   {
-      currentBattle = battleManager::BATTLE_BOSS;
-      initBattle();
-   }
-   else if (battle == BATTLE_BOSS)
+   //if (battle == battleManager::BATTLE_YES) // TODO Remove later
+   //{
+   //   currentBattle = battleManager::BATTLE_BOSS;
+   //   initBattle();
+   //}
+   if (battle == BATTLE_BOSS)
    {
       currentBattle = battle;
       initBattle();
@@ -501,7 +501,6 @@ void battleManager::initBattle()
    cam->y = 0;
 
    // Player setup
-   player->initStats(10, 10, 10, 10, 10); // TODO Remove
    battlePlayer.initStats(player->stats["STR"], player->stats["CON"],
       player->stats["DEX"], player->stats["INT"], player->stats["LCK"]);
    battlePlayer.items = player->items;
@@ -664,7 +663,7 @@ void battleManager::updateBattle(int ms)
       spriteQueue[i]->update(ms);
 
       // Remove enemy if dead
-      if (i != 0) // TODO This might cause an issue where enemy isn't destroyed till after player's turn
+      if (i != 0)
       {
          // Reduce rewards if enemy flees
          BattleSprite* enemy = spriteQueue[i];

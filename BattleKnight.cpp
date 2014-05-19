@@ -12,7 +12,7 @@ BattleKnight::BattleKnight()
    level = 10;
    maxSpeed = 100;
    healFactor = 0.15;
-   health = 125;
+   health = 200;
 
    // Setup animations
    float uSize = tex->uSize;

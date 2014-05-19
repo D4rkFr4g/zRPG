@@ -12,7 +12,7 @@ BattleGuard::BattleGuard()
    level = 5;
    maxSpeed = 100;
    healFactor = 0.10;
-   health = 70;
+   health = 100;
 
    // Setup animations
    float uSize = tex->uSize;
