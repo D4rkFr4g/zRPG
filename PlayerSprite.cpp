@@ -19,6 +19,8 @@ PlayerSprite::PlayerSprite(GLuint* texture, int x, int y, int width, int height,
 	isJumping = false;
    hasSword = false;
    isGanonDefeated = false;
+   startX = x;
+   startY = y;
 }
 /*-----------------------------------------------*/
 PlayerSprite::~PlayerSprite(void)

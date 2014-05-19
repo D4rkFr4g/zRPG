@@ -591,8 +591,12 @@ void battleManager::battleCleanup()
 
    //battlePlayer.health = battlePlayer.maxHealth;
    //battlePlayer.magic = battlePlayer.maxMagic;
+   
    player->isAlive = true;
-   eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", "overworld"));
+   
+   if (isPlayerAlive)
+      eventQueue->queueEvent(Event(Event::ET_LEVEL_LOAD, "level", previousLevel->name));
+
    isBattle = false;
    spriteQueue[0]->updatePosition(spriteQueue[0]->x, spriteQueue[0]->startY);
 
@@ -839,8 +843,8 @@ void battleManager::playerDeath()
       */
 
    battleCleanup();
-   player->posX = (*currentLevel)->startX;
-   player->posY = (*currentLevel)->startY - player->height;
+   eventQueue->queueEvent(Event(Event::ET_RESTART));
+   //player->updatePosition(player->startX, player->startY);
 }
 /*-----------------------------------------------*/
 void battleManager::battleWin()

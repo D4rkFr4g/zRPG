@@ -40,6 +40,8 @@ public:
 	bool isJumping;
    bool hasSword;
    bool isGanonDefeated;
+   int startX;
+   int startY;
    std::vector<int> xpToNextLevel;
    std::unordered_map<std::string, int> items;
    std::unordered_map<std::string, int> stats;

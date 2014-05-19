@@ -136,6 +136,13 @@ void Audio::notify(Event* event)
          fmodSystem->playSound(music[currentMusic], channelMusic, false, &currentChannel);
          currentChannel->setChannelGroup(channelMusic);
       }
+      else if (event->checkStrParam("level", "battle_boss"))
+      {
+         stopAllMusic();
+         currentMusic = "battle_ganon";
+         fmodSystem->playSound(music[currentMusic], channelMusic, false, &currentChannel);
+         currentChannel->setChannelGroup(channelMusic);
+      }
       else if (event->checkStrParam("level", "castle"))
       {
          stopAllMusic();

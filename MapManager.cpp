@@ -108,6 +108,44 @@ void MapManager::notify(Event* event)
       // Listen for messages to load music from Objects that don't know what level it is.
       eventQueue->queueEvent(Event(Event::ET_LEVEL_MUSIC, "level", (*currentLevel)->name));
    }
+
+   if (event->type == Event::ET_RESTART)
+   {
+      std::string name = (*currentLevel)->name;
+      
+      Vec pos;
+      pos.x = player->x;
+      pos.y = player->y;
+
+      // Save all sprites
+      spriteManager::saveLevelSprites(name);
+
+      // Set currentLevel
+      (*currentLevel) = &levels->find("overworld")->second;
+      name = (*currentLevel)->name;
+
+      pos.x = (*currentLevel)->startX;
+
+      int colliderNegativeYOffset = player->colliderYOffset + player->collider.h;
+      pos.y = (*currentLevel)->startY - colliderNegativeYOffset;
+         
+      // Set new map size
+      *windowMaxWidth = ((*currentLevel)->width * (*currentLevel)->tilesWidth);
+      *windowMaxHeight = ((*currentLevel)->height * (*currentLevel)->tilesHeight);
+
+      // Set position with a little bit extra to clear collider
+      player->updatePosition(pos.x, pos.y);
+
+      // Load sprites for the level
+      bucketManager::updateBucketSize();
+      spriteManager::loadLevelSprites(name);
+
+      // Update camera for new level
+      camera->maxX = *windowMaxWidth - *windowWidth;
+      camera->maxY = *windowMaxHeight - *windowHeight;
+
+      eventQueue->queueEvent(Event(Event::ET_LEVEL_MUSIC, "level", (*currentLevel)->name));
+   }
 }
 /*-----------------------------------------------*/
 void MapManager::registerListeners(EventQueue* eventQueue)
@@ -120,6 +158,7 @@ void MapManager::registerListeners(EventQueue* eventQueue)
 
    eventQueue->addEventListener(Event::ET_LEVEL_LOAD, this);
    eventQueue->addEventListener(Event::ET_LEVEL_MUSIC, this);
+   eventQueue->addEventListener(Event::ET_RESTART, this);
 
 }
 /*-----------------------------------------------*/
