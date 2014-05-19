@@ -166,6 +166,20 @@ void DialogManager::initDialogs()
    dialogs["ganon_finale"] = dBoxes;
    /*============================================================================*/
 
+   dBoxes.clear();
+
+   text = "Thank you, Link… Thanks to you, Ganondorf has been sealed inside the Evil Realm!"; 
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+
+   text = "Thus, peace will once again reign in this world… for a time.";
+   dBox = DialogContainer(stdX, stdY, stdRows, stdCols, text, true, true);
+   dBoxes.push_back(dBox);
+
+   dialogs["zelda"] = dBoxes;
+   /*============================================================================*/
+
+
    //dialogQueue->push_back(DialogContainer(x, y, rows, cols, "abcdedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n!\"~$&'(),-.^…0123456789:;<=>?@", true, false));
 
    /*dBoxes.clear();

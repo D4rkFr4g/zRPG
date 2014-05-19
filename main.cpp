@@ -575,12 +575,16 @@ static void onLoop()
    g_eventQueue.updateEventQueue();
    fmodSystem->update();
 
-   if (player::isGameOver)
+   static bool isTriggered = false;
+
+   if (player::isGameOver && !isTriggered)
    {
       g_titleScreen.texture = &textureLoader::getTexture("ending")->texture;
-      g_titleScreen.isVisible = true;
+      g_isTitleShowing = true;
 
       g_eventQueue.queueEvent(Event(Event::ET_SOUND, "music", "ending"));
+
+      isTriggered = true;
    }
 }
 /*-----------------------------------------------*/

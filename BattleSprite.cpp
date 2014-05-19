@@ -99,7 +99,14 @@ void BattleSprite::sendDamage(std::string uuid)
       damage += floor(damage * critMultiplier);
    }
    // Accuracy Check
-   if (rand() % max(targetLevel - stats["ACC"], 0) == 0)
+   int mod = max(targetLevel - stats["DEX"], 0);
+   bool accCheck = true;
+   if (mod > 0)
+   {
+      if (rand() % mod != 0)
+         accCheck = false;
+   }
+   if (accCheck)
    {
       Event ev = Event(Event::ET_DAMAGE, "subject", uuid);
       ev.strParams["name"] = targetName;
@@ -108,7 +115,7 @@ void BattleSprite::sendDamage(std::string uuid)
    }
    else
    {
-      eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "deflected"));
+      eventQueue->queueEvent(Event(Event::ET_SOUND, "soundFX", "deflect"));
    }
 }
 /*-----------------------------------------------*/

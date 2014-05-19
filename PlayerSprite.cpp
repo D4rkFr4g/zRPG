@@ -21,6 +21,7 @@ PlayerSprite::PlayerSprite(GLuint* texture, int x, int y, int width, int height,
    isGanonDefeated = false;
    startX = x;
    startY = y;
+   level = 1;
 }
 /*-----------------------------------------------*/
 PlayerSprite::~PlayerSprite(void)

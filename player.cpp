@@ -598,7 +598,7 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
          if (battleManager::isBattle)
             isBattleReady = false;
       }
-      
+
       if (!*isInputRequired && !isFinalBattle && sprite->type == enumLibrary::COLLISION::BATTLE_BOSS && !player->isGanonDefeated)
       {
          isFinalBattle = true;
@@ -607,7 +607,6 @@ void player::collisionResolution(PlayerSprite* player, Sprite* sprite, const uns
          eventQueue->queueEvent(ev);
          isDialogReady = false;
       }
-
       if (!*isInputRequired && !isGameOver && sprite->type == enumLibrary::COLLISION::ZELDA && player->isGanonDefeated)
       {
          Event ev = Event(Event::ET_COLLISION_START, "dialog", "zelda");

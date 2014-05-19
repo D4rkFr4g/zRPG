@@ -498,15 +498,17 @@ void battleManager::initBattle()
    cam->y = 0;
 
    // Player setup
+   player->initStats(10, 10, 10, 10, 10); // TODO Remove
    battlePlayer.initStats(player->stats["STR"], player->stats["CON"],
       player->stats["DEX"], player->stats["INT"], player->stats["LCK"]);
    battlePlayer.items = player->items;
    battlePlayer.name = player->name;
    battlePlayer.health = player->stats["CON"] * 100;
    battlePlayer.maxHealth = battlePlayer.health;//player->maxHealth;
-   battlePlayer.magic = player->magic;
-   battlePlayer.maxMagic = player->maxMagic;
+   battlePlayer.magic = player->stats["INT"] * 10;
+   battlePlayer.maxMagic = battlePlayer.magic;
    battlePlayer.xp = player->xp;
+   battlePlayer.level = player->level;
    battlePlayer.isDefending = false;
    battlePlayer.setAnimation("Idle");
    battlePlayer.isAlive = true;
