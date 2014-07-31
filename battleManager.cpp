@@ -505,7 +505,7 @@ void battleManager::initBattle()
       player->stats["DEX"], player->stats["INT"], player->stats["LCK"]);
    battlePlayer.items = player->items;
    battlePlayer.name = player->name;
-   battlePlayer.health = player->stats["CON"] * 50;
+   battlePlayer.health = player->stats["CON"] * 70;
    battlePlayer.maxHealth = battlePlayer.health;//player->maxHealth;
    battlePlayer.magic = player->stats["INT"] * 10;
    battlePlayer.maxMagic = battlePlayer.magic;
