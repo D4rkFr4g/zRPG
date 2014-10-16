@@ -215,7 +215,7 @@ pip-log.txt
 .mr.developer.cfg
 
 #Dll's
-*.dll
+#*.dll
 
 # Original Audio files
 Audio/Music/Original/*
