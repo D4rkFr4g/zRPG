@@ -921,7 +921,7 @@ void battleManager::battleWin()
    bPlayer->xp += xpGained;
 
    // Check for LevelUp
-   if (bPlayer->xp >= player->xpToNextLevel[bPlayer->level - 1])
+   if (bPlayer->level < 10 && bPlayer->xp >= player->xpToNextLevel[bPlayer->level - 1])
    {
       bPlayer->level++;
       bPlayer->stats["STR"]++; // TODO Remove once Stat Picker is done
